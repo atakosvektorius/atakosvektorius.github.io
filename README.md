@@ -1,1 +1,1 @@
-# Atakos vektorius - Asmens duomenų apsauga, pagal trys grėsmių modelius. IT sistemų pažeidžiamumų vertinimas ir įsibrovimas į sistemas.
+# Atakos vektorius - Pagal VDAI parengtas gaires atliekame programinės įrangos bei infrastruktūros pažeidžiamumų įvertinimą, atsparumo skverbimuisi ir atsitiktinių duomenų testavimą.
