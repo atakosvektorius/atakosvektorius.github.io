@@ -1,1 +1,1 @@
-# savenas.github.io
+# Atakos vektorius - Asmens duomenų apsauga, pagal trys grėsmių modelius. IT sistemų pažeidžiamumų vertinimas ir įsibrovimas į sistemas.
