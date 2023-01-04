@@ -7,7 +7,7 @@
     <meta name="description" content="Pažeidžiamumų įvertinimas su technologiškai vienu pažangiausiu DAST įrankiu rinkoje" />
     <meta name="keywords" content="Asmens duomenų apsauga, duomenų tvarkymo saugumas, pritaikytoji ir standartizuotoji duomenų apsauga, SDLC, pažeidžiamumu įvertinimas, įsiskverbimo į IT sistemas testavimas, etiškas įsilaužimas, kibernetinis saugumas" />
     <meta name="author" content="Tomas Savėnas" />
-    <title>Kas tai yra Cloudflare?</title>
+    <title>Kas tai yra atakos vektorius?</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/aos.css" />
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
@@ -40,7 +40,7 @@
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto me-lg-5"> 
-                                <li class="nav-item"><a class="btn btn-primary-soft text-primary fw-500" href="#Rekvizitai">Rekvizitai</a></li>
+                              <!--    <li class="nav-item"><a class="btn btn-primary-soft text-primary fw-500" href="#Rekvizitai">Rekvizitai</a></li>-->
                             </ul>
                             <a class="btn fw-500 ms-lg-4 btn-primary" href="mailto:saugu@atakosvektorius.lt">
                                 Susiekti  
@@ -55,14 +55,14 @@
                             <div class="row gx-5 justify-content-center">
                                 <div class="col-lg-10 col-xl-8">
                                     <div class="single-post">
-                                        <h1>Griežtesnė Cloudflare apsauga</h1>
-                                        <p class="lead">Kokius tris žingsnius reikia atlikti po domeno nukreipimo į Cloudflare?</p>
+                                        <h1>Informacinių sistemų saugumas</h1>
+                                        <p class="lead">Septyni pavojingiausi informacinių sistemų atakos vektoriai</p>
                                         <div class="d-flex align-items-center justify-content-between mb-5">
                                             <div class="single-post-meta me-4">
                                                 <img class="single-post-meta-img" src="assets/img/demo/savenas.jpg" />
                                                 <div class="single-post-meta-details">
                                                     <div class="single-post-meta-details-name">Tomas Savėnas</div>
-                                                    <div class="single-post-meta-details-date">Lapkričio 27 d. 5 min. skaityti</div>
+                                                    <div class="single-post-meta-details-date">Sausio 4 &middot; 7 min. skaityti</div>
                                                 </div>
                                             </div>
                                             <div class="single-post-meta-links">
@@ -71,115 +71,105 @@
                                                 <a href="https://www.linkedin.com/in/savenas/"><i class="fab fa-linkedin fa-fw"></i></a>
                                             </div>
                                         </div>
+                            
                                             <h2>Įvadas</h2>
-                                            <p>Cloudflare yra viena populiariausių interneto svetainių apsaugos priemonių rinkoje. Tai lyg skydas priešais svetainės serverį, kuris naudoja Reverse Proxy technologiją atlikti šias tris pagrindines funkcijas:</p>
-                                            <ul>
-                                                <li>Anti-DDoS apsaugą, kurios metu yra paslepiamas serverio IP adresas ir sulaikomas didelis kiekis kenksmingo srauto;</li>
-                                                <li>CDN, sparčiau aptarnauti nutolusius regionus;</li>
-                                                <li>WAF, skirta riboti prieigą prie aplikacijos ir apsaugoti nuo kenkėjiško kodo pvz.: SQLi, XSS, LFI ir kitų injekcijų.</li>
-                                            </ul>
-                                            <p>Žemiau pateikiama vaizdo iškarpa su Reverse Proxy srauto schema.</p></br>
+                                            <p>Pakalbėkime apie informacinių sistemų saugą,  konkrečiau –  apie jos silpnąsias vietas bei technines apsaugos priemones. Kokia yra oficiali Nacionalinio kibernetinio saugumo centro (toliau – NKSC) statistika ir kokios spragos buvo pastebėtos 2022-aisiais metais?</p>
+                                            <p>2021-aisiais metais NKSC atliko Lietuvos interneto svetainių vertinimą [1]. Tyrimo apimtis 200245 aktyvių aukščiausiojo lygio .lt domenų. Dažniausiai sutinkamos turinio valdymo sistemos (toliau – TVS) - Wordpress, retesnės – Prestashop ir Joomla, iš viso skaičiuojama 67514 TVS. Reikia pastebėti, kad dalis iš jų buvo ne naujausios versijos.</p> 
+                                            <p>NKSC informavo savininkus ir pateikė rekomendacijas, kaip mažinti dėl neatnaujintos programinės įrangos kylančias grėsmes. Šias rekomendacijas galite rasti čia [2]. Tačiau tai neišsamus vertinimas, išsamesniu turėtų pasirūpinti patys savininkai. NKSC siūlo patogų, automatinį, skenavimui skirtą įrankį – OWASP ZAP [3].</p>
+                                            <p>Buvo užfiksuoti tik 34 atvejai, kurie susiję su informacinių sistemų pažeidžiamumo paieška ir (ar) elektroninių duomenų grobimu. (NKSC ataskaita, 2021).</p>
+                                            <p>Kalbant apie viešojo sektoriaus pažeidžiamumo tyrimą, iš 1497 skenuotų svetainių 60 proc. buvo aptikta spragų (NKSC ataskaita, 2021). Pastebėta, kad daugėja viešųjų pirkimų, leidžiančių spręsti kibernetines problemas. Taigi, šių problemų sprendimui yra skiriamas tam tikras biudžetas ir problemos yra tvarkomos.</p>
+                                            <p>Sudėtinga kalbėti apie privatų sektorių. Mūsų patirtis yra subjektyvi, bet norime ja pasidalinti, aptardami, kokias silpnas vietas pastebėjome ir kaip jas vertiname. Vienos iš jų yra susijusios su verslo logika, kitos – su programavimo pažeidžiamumu bei konfigūravimo trūkumais. Apžvelkime septynis pavojingiausius informacinių sistemų atakos vektorius, aptiktus 2022–aisiais metais. Minimi atakos vektoriai turi OWASP 2021 atitiktį [4].</p>
 
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/CDN.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa koreguota: Cloudflare</div>
-                                            <div class="single-post-text my-5">
-                                            <p>Jeigu dar nesate nukreipė savo domeno į Cloudflare, padarykite tai dabar užsiregistruodami nemokamai: https://dash.cloudflare.com/sign-up</p>
-                                            <p>CDN ir Anti-DDoS apsauga pradeda veikti iškarto po nukreipimo, o kitas funkcijas reikia patiems įjungti.</p> 
-
-                                            <p>Taigi, srautas jau yra nukreiptas į Cloudflare infrastruktūrą ir žinome kaip tai veikia, toliau eikime prie trijų žingsnių konfigūracijos skirtos dar labiau sugriežtinti apsaugą.</p>
-
-                                            <h2>Pirmas žingsnis</h2>
-
-                                            <p>Reikia nustatyti ugniasienės saugančios Jūsų serverį taisykles white-list principu. Cloudflare serverio IP adresai: nuorodą https://www.cloudflare.com/ips-v4 leisti į prievadus 80, 443, o visą kitą srautą uždrausti. Žemiau pateikiamas pavyzdys Apache konfigūracija .htaccess faile.</p>
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/htaccess.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa: autoriaus</div>
-                                            <div class="single-post-text my-5">
-
-                                            <p>Šis žingsnis yra labai svarbus, nes patyrę programišiai gali surasti serverio IP adresą DNS istoriniuose įrašuose ir rankinių būdų nukreipti srautą. Žemiau pateikiamas srauto diagramos pavyzdys.</p>
-                                                                          
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/bypass.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa koreguota: Cloudflare</div>
-                                            <div class="single-post-text my-5">
-                                            <h2>Antras žingsnis</h2>
-                                            <p>Cloudflare saugumo savitarnoje reikia pakeisti iš TLS 1.0 į TLS 1.2 minimiai palaikomą versiją. Šį konfigūracija jau nėra laikoma saugią, nes piktavaliai vietiniame tinkle galėtų įsiterpti į šifruoto ryšio sesiją ir pavogti duomenis.</p>
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/tls.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa: autoriaus</div>
-                                            <div class="single-post-text my-5">
-                                           
-                                            <h2>Trečiasis žingsnis</h2>
-                                            <p>Cloudflare WAF savitarnoje reikia sukurti prieigos valdymo taisykles white-list principu. Savo IP adresus leisti, o kitiems drausti prie administratoriaus valdymo paneles ar kitų jautrių resursų.</p>
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/waf.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa: autoriaus</div>
-                                            <div class="single-post-text my-5">
-                                            <h2>Pabaigai</h2>
-
-                                            <p>Šiuo metu aktuali problema yra interneto robotai. Tai tampa iššūkiu internetinia verslui - kaip atskirti žalingus nuo naudingu? Cloudflare siūlo naudoti "Bot Fight Mode", tačiau ši priemonė kaip ir OWASP taisyklės yra sofistikuoti sprendimai. Tikėtina, kad kai kuriuos užklausos bus identifikuotos klaidingai.
-                                            </p>
-
-                                            <p>
-                                                Nors iš pirmo žvilgsnio skydas atrodo kaip greitesnis ir lengvesnis sprendimas, bet efektyviau yra pašalinti spragas iš programinio kodo.
-                                            <p>  
-
-                                                Paprastai tvarkyti sistemos neskubama, nes nėra šalia profesionalios pagalbos.
-                                            </p>
-
-
-
-                                            <h5>                                                  
-                                                Kviečiame registruotis pažeidžiamumų įvertinimui su technologiškai vienu pažangiausiu DAST įrankiu.
-
-                                            </h5>
-
-
-
-
+                                            <h2>1. Identifikavimo ir autentifikavimo spragos (OWASP A07:2021)</h2>
+                                            <p>Paskyrų kūrimas ar prisijungimas prie informacinės sistemos gali būti labai atviras procesas. Iš puslapyje teikiamo atsakymo galima suprasti ar toks vartotojas bei slaptažodis jau egzistuoja. Jeigu jungimosi bandymų skaičius nėra ribojamas, tai piktavalis gali išbandyti įvairius prisijungimo prie paskyrų rinkinius, norėdamas/bandydamas neteisėtai prisijungti prie sistemos. Tokių spragų pasitaiko ir didžiausiose Lietuvos įmonėse. Svarbu, kad jos būtų laiku pastebėtos ir apie jas pranešta. Nepaisant to, tai kelia labai didelį pavojų: pirma, tai santykinai nesudėtinga atlikti; antra, vartotojai prisijungimo duomenis dažniausiai vartotoja tokiu pačius arba panašius ir įvairiose kitose sistemose.</p>
+                                            <p>Trumpalaikis sprendimas: CAPTCHA ar panašūs užklausų ribojimai, vartojant WAF.</p>
+                                            <p>Ilgalaikis sprendimas: nesėkmingi autentifikacijos pranešimai turėtų būti bendriniai, neatskleidžiantys netinkamų kriterijų. Registracijai reikia naudoti patvirtinimą, gautą el. paštu ir tik tada atlikti likusius žingsnius.</p>
+                                            <h2>2. Silpnai apsaugoti jautrūs duomenys (OWASP A02:2021)</h2>
+                                            <p>Dauguma modernių TVS slaptažodžiams saugoti naudoja saugų Bcrypt algoritmą. Pastebėta, kad kai kurios specialiu užsakymu gamintos sistemos naudojo MD5 ar SHA1 algoritmus. Šie algoritmai jau nėra saugūs, nes duomenų nutekėjimo atveju per labai trumpą laiką būtų išsiaiškinti slaptažodžiai.</p>
+                                            <p>Sprendimas: modernizuoti slaptažodžių šifravimo funkcijos algoritmą.</p>
+                                            <p>Jautriu failų, tokių kaip išeities kodo ar duomenų bazių archyvai, yra palikti šakniniame kataloge. Piktavaliui tai yra bingo; jam nereikia traukti duomenų po vieną. Bandymo metu atrandami tokie failai ar direktorijos, kaip svetaine.sql.zip, domenas.lt.zip arba .git.</p>
+                                            <p>Sprendimas: atsarginių duomenų kopijas reikia saugoti ne tinklalapio serverio kataloge. Taip pat reikia riboti prieigą prie .git ir kitų jautrių direktorijų.</p>
+                                            <h2>3. SQLi, XSS ir kitos injekcijos (OWASP A03:2021)</h2>
+                                            <p>Injekcijos, tai dėl programavimo spragų kylantis atakos vektorius. Šis vektorius yra vienas iš pavojingesnių ir nepriklausomai nuo to ar sistemos komponentai yra atnaujinti, jis gali sistemoje ilgai egzistuoti. Piktavalis, naudodamas SQL injekcijas, gali pavogti visą duomenų bazę, tačiau tai atlikti jam reikėtų daugiau pastangų ir laiko. Naudodamas XSS injekciją, jis galėtų pavogti sistemos vartotojo sesiją, tačiau tam reikia įtikinti vartotoją paspausti nuorodą.</p>
+                                            <p>Sprendimas: iš vartotojo priimami duomenys neturi būti interpretuojami kaip kodas, reikia parametrizuoti arba nukenksminti specialiuosius simbolius.</p>
+                                            <h2>4. Nepakankama apsaugos konfigūracija (OWASP 05:2021)</h2>
+                                            <p>Informacinės sistemos saugumui užtikrinti galima naudoti WAF. Jis veikia kaip skydas, svetainės serveryje nereikia daryti keitimų, yra atliekamas tik DNS nukreipimas. Pastebėta, kad administratoriai palieka viešai prieinamus prievadus prie pirminio serverio IP adreso. Piktavalis gali apeiti WAF apsaugą, nukreipti srautą tiesiai į pirminį IP adresą, kuris buvo rastas DNS istorijoje.</p>
+                                            <p>Sprendimas: visiems apriboti prievadus, leisti tik WAF Edge serverio IP adresus.</p>
+                                            <p>Dažniausiai TVS, pagal nutylėjimą, palieką atvirą prieigą prie administratoriaus valdymo pulto</p>
+                                            <p>Sprendimas: reikėtų riboti prieigą prie administratoriaus valdymo pulto, leisti pasiekti tik iš tam tikrų IP adresų.</p>
+                                            <h2>5. Sugedusi prieigos kontrolė (OWASP A01:2021)</h2>
+                                            <p>Jautrūs failai pasiekiami per URL nuorodą, pvz.: failai, tokie kaip nuotraukos su metaduomenimis iš CDN talpyklos, ar operacinės sistemos failai, tokie kaip „/etc/passwd“.</p>
+                                            <p>Sprendimas: izoliuoti informacinės sistemos failus nuo operacinės sistemos failų; kitus failus pervardinti unikaliais vardais ir pritaikyti vartotojų failų prieigos kontrolę, įvedus sesijos slapukus.</p>
+                                            <h2>6. Pažeidžiami komponentai (OWASP 06:2021)</h2>
+                                            <p>Kaip anksčiau esame aptarę, TVS yra labai populiarios, o problema atsiranda tada, kai šių sistemų komponentai, tokie kaip įskiepiai, nėra atnaujinami. Pažeidžiamumai gali būti įvairūs nuo duomenų atskleidimo iki TVS užvaldymo.</p>
+                                            <p>Sprendimas: atsinaujinti įskiepius ir TVS, tačiau reikia turėti omenyje, kad gali sutrikti sistemos veikimas. Todėl visada yra rekomenduojama pasidaryti atsarginę kopiją, žinoma, ji taip pat turi būti apsaugota.</p>
+                                            <h2>7. Dizaino ir architektūros trūkumai (OWASP A04:2021)</h2>
+                                            <p>Tai pažeidžiamumas, kylantis dėl verslo logikos, aplikacijos architektūros ir kitų trūkumų. Duomenų gremžimas yra vienas iš pavyzdžių.  Automatizuoti robotai gali nuskaityti ir apdoroti viešą informaciją, esančią skelbimų portaluose, bei kitus laisvai internete prieinamus duomenis, tokius kaip el. pašto adresas, telefono numeris, miestas ir kiti.</p>
+                                            <p>Sprendimas: naudoti WAF ir „Bot Scraping Shield“ funkciją.</p>
+                                            <p>Ilgalaikis sprendimas: įdiegti tarpinius kontaktus, tokius kaip telefono numerį ar el. paštą, kurie užmaskuotų tikruosius duomenis.</p>
                                         
+                                           <h3>Išvados</h3>
+                                           <p>Pavojus nebuvo didelis, bet ar jis bus toks ir 2023-aisiais? Mūsų nuomone, šiais metais reikėtų daugiau dėmesio skirti el. parduotuvių saugai. Visų pirma šios sistemos turi daug asmens duomenų, antra, kuriamos naudojant TVS, kurioms būdingi minėti atakos vektoriai. Konkrečiu atveju, duomenų tvarkymo saugumas skirsis, dėl to į kai kuriuos klausimus, susijusius su numatomu atlikti asmens duomenų tvarkymu, padėtų atsakyti  asmens duomenų tvarkymo operacijų rizikos vertinimas. Rezultatai atskleistų, kokios rekomenduojamos techninės ir organizacinės asmens duomenų saugumo priemonės galėtų būti taikomos. </p>  
+                                           <p>Pvz.: el. parduotuvės, prekiaujančios batais ir kitu atveju vaistais, vertinimas gali skirtis ir dažnai, vaistais prekiaujančiai el. parduotuvei bus taikomi griežtesni reikalavimai prieigos kontrolei, programinės įrangos atnaujinimų įdiegimo laikui, naudojami šifravimo metodai ir panašiai. </p>
+                                           <p>Esant reikalui, duomenų valdytojas turi gebėti įrodyti, kad tinkamai laikosi BDAR nuostatų. Tai daug lengviau padaryti, kai galima įrodyti, kokia metodika, standartai ar gamintojo rekomendacijos yra taikomos, kuo remiantis konfigūruojamos sistemos ir panašiai.  </p>
+                                           <p>Jeigu norite sužinoti, ar Jūsų informacinės sistemos techninės saugumo priemonės atitinka nustatytą riziką, prašome kreipkitės, padėsime išsiaiškinti tai, pagal VDAI nustatytas gaires [5]. O gal norite ataskaitos pavyzdžio, ar komercinio pasiūlymo? Rašykite saugu@atakosvektorius.lt</p>
+                                            
+
+                                            <h3>Šaltiniai:</h3>
+                                            <pre>
+1) https://www.nksc.lt/doc/Nacionaline-kibernetinio-saugumo-ataskaita-2021.pdf
+2) https://www.nksc.lt/rekomendacijos/interneto_svetainiu_apsauga.html
+3) https://site-check.nksc.lt/
+4) https://owasp.org/www-project-top-ten/
+5) https://vdai.lrv.lt/uploads/vdai/documents/files/VDAI_saugumo_priemoniu_gaires-2020-06-18.pdf 
+                                            </pre>
+
+                                           
+
                                             <div class="text-center"><a class="btn fw-500 btn-primary" href="mailto:saugu@atakosvektorius.lt">Registruotis</a></div> 
                                             <hr class="my-5" />
-                                            <div class="text-center"><a class="btn btn-transparent-dark" href="https://atakosvektorius.lt/">Grįžti į pradinį</a></div>
+                                            <div class="text-center"><a class="btn btn-transparent-dark" href="index.html">Grįžti į pradinį</a></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </section>
-
                     
-
-                <section class="bg-white pb-10">
+       <section class="bg-white pb-10">
                     <div class="container px-5">
                         <div class="row gx-5 mb-5">
                             <div class="col-lg-6 mt-n10 mb-5 mb-lg-0 z-1">
                                 <a class="card text-decoration-none h-100 lift" href="slapukai.html">
                                     <div class="card-body py-5">
                                         <div class="d-flex align-items-center">
+
                                             <div class="ms-4">
                                                 <h5 class="text-primary">Google Analytics slapukai</h5>
-                                                <p class="card-text text-gray-600">Kaip pagal BDAR įdiegti Google Analytics įskiepį?    
-                                            </div>
-           
+                                                <p class="card-text text-gray-600">Kaip pagal BDAR įdiegti Google Analytics įskiepį?  
+                                               </div>
                                            </div>
                                        </div>
                                    </a>
                                </div>
 
                                <div class="col-lg-6 mt-0 mt-lg-n10 z-1">
-                                <a class="card text-decoration-none h-100 lift" href="daugiau.html">
+                                <a class="card text-decoration-none h-100 lift" href="cloudflare.html">
                                     <div class="card-body py-5">
                                         <div class="d-flex align-items-center">
 
-                                                <div class="ms-4">
-                                                    <h5 class="text-primary">Apie duomenų tvarkymo saugumą</h5>
-                                                    <p class="card-text text-gray-600">Kas tai yra pritaikytoji ir standartizuotoji duomenų apsauga?</p>
-                                                </div>
+                                            <div class="ms-4">
+                                                <h5 class="text-primary">Griežtesnė Cloudflare apsauga</h5>
+                                                <p class="card-text text-gray-600">Kokius tris žingsnius reikia atlikti po domeno nukreipimo į Cloudflare?
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                             </div>
                         </section>
-
-
                         <section class="bg-white py-10">
 
                             <div class="svg-border-waves text-dark">
@@ -210,7 +200,8 @@
                     </main>
                 </div>        
 
-   <a id="Rekvizitai"> 
+
+                            <a id="Rekvizitai"> 
                                 <div id="layoutDefault_footer">
                                     <footer class="footer pt-10 pb-5 mt-auto bg-dark footer-dark">
                                         <div class="container px-5">

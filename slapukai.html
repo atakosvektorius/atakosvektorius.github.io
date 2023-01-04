@@ -83,8 +83,16 @@
                                     <p>Šiai dienai populiariausia programavimo kalba interneto aplikacijoms kurti yra JavaScript. Jos programinis kodas yra perduodamas kartu su įprasta HTML struktūrą ir įvykdomas kliento pusėje. Naršyklė nepriklausomai nuo aplikacijos sesijos gali turėti sesijų su kitais serveriais, o dažniausiai sutinkamos yra Google paslaugos. Šios paslaugos prasideda nuo paskyros susietos su įrenginiais ir baigiasi interneto svetainėse įdiegtu Google Analytics.</p>
                                     
                                     <h2>Google Analytics</h2>
-                                    <p>Google Analytics yra populiariausias trečiosios šalies įskiepis skirtas marketingo tikslams pasiekti. Svetainės lankytojo elgesys yra registruojamas ir apdorojamas pardavimo kanalui tobulinti. Taigi įskiepis nėra būtinas svetainei veikti.</p>
-                                    <p>Valstybinė duomenų apsaugos inspekcija turi duomenų, kad informacinių sistemų savininkai netinkamai interpretuoja nebūtinųjų slapukų naudojimą. Manydami, kad šios paslaugos reikalingos jų ar jų partnerių teisėtiems veiksmams atlikti. Taigi Google Analytics įskiepio slapukai turi būti sukuriami tik po savanoriško sutikimo.</p>
+                                    <p>Google Analytics yra populiariausias trečiosios šalies įskiepis skirtas marketingo tikslams pasiekti. Svetainės lankytojo elgesys yra registruojamas ir apdorojamas pardavimo kanalui tobulinti. Taigi įskiepis, kuris sugeneruojama pirmosios šalies slapukų vardą "_ga" ir atsitiktinę reikšmę su esamos svetainės domenų.</p>
+                                    <p>Jeigu atsidarytume kelias atsitiktines el. parduotuves, ko gero pastebėtumėte, kad šios be naudotojo sutikimo sukurs ne būtinuosius slapukus. Nors mus pasitinka privatumo politikos reklamjuostė ir praneša apie sutikimą ir atsisakymą, tačiau sutikimas yra dėl trečios šalies slapukų.</p>
+                                    <p>Valstybinė duomenų apsaugos inspekcija pastebi, kad informacinių sistemų savininkai netinkamai interpretuoja nebūtinųjų slapukų naudojimą. Manydami, kad šios paslaugos reikalingos jų ar jų partnerių teisėtiems veiksmams atlikti.</p>
+                                    <p>Dėl šios priežasties buvo smalsu patikrinti prielaidas kiekybiniu metodu.</p>
+                                    <h3>Tyrimas</h3>
+                                    <p>Atlikta 2022-12-11 su populiariais domenais, kurie turi .lt galūnę. Rasta 5524 domenai iš šaltinio (Open PageRank, Top 10 mil., 2022-12-10). Imties santykis yra 2.5% palyginus su 226446 įregistruotais (DomReg.lt, 2022-12-10).</p>
+                                    <p>Rezultatai: beveik puse t.y. 45% neatitinka BDAR. Iš neatitikusių svetainių išsiskiria verslo subjektams priklausančios svetainės.</p>
+                                    <p>Atkartoti https://github.com/atakosvektorius/Slapuku-tikrinimas</p>
+                                    <p>Taigi Google Analytics įskiepio slapukai turi būti sukuriami tik po savanoriško sutikimo.</p>
+                                    <h4>Rekomendacijos</h4>
                                     <p>Tai padaryti galima pakoregavus JavaScript kodą iš allow į denied tiek skelbimu tiek analitikos talpyklos nustatymus.</p>
                                     <h5>Kodo pavyzdys</h5>
                                     <pre> 
@@ -167,14 +175,13 @@ function consentDenied() {
                                             </pre>
 
                                             <h3>Pabaigai</h3>
-                                            <p>Nors slapukai identifikuoja tik ryšio sesiją, tačiau Google Analytics įskiepį turi beveik visos svetainės. O prisiminus kaip naršyklės atsimena sesijas,  galima teikti, kad Google yra pagrindinė aplikacija ir ji žino mūsų atliekamus veiksmus nuo telefono paėmimo į rankas iki to ką perkame.</p>
+                                            <p>Nors slapukai identifikuoja tik ryšio sesiją, tačiau Google Analytics įskiepį turi beveik visos svetainės. O prisiminus kaip naršyklės atsimena sesijas, galima teikti, kad Google yra pagrindinė aplikacija ir ji žino mūsų atliekamus veiksmus nuo telefono paėmimo į rankas iki to ką perkame.</p>
 
                                             <p>Ar reikalinga pagalbą diegiant Google Analytics įskiepį?</p>
 
-
                                             <h5>Kviečiame registruotis į konsultaciją.</h5>
 
-                                               <div class="text-center"><a class="btn fw-500 btn-primary" href="https://calendly.com/atakosvektorius/registracija/">Registruotis</a></div> 
+                                               <div class="text-center"><a class="btn fw-500 btn-primary" href="mailto:saugu@atakosvektorius.lt">Registruotis</a></div> 
                                             <hr class="my-5" />
                                             <div class="text-center"><a class="btn btn-transparent-dark" href="https://atakosvektorius.lt/">Grįžti į pradinį</a></div>
                                              </br>
