@@ -487,10 +487,11 @@
 
 #c-bns button:first-child,
 #s-bns button:first-child {
-	color: #fff;
-	color: var(--cc-btn-primary-text);
-	background: #253b48;
-	background: var(--cc-btn-primary-bg)
+	/*	background: #253b48;*/
+	/*	color: #fff;*/
+	color: var(--cc-btn-secondary-text);
+	background: var(--cc-btn-secondary-bg)
+
 }
 
 .cc_div .b-tg .c-tgl:checked~.c-tg {
@@ -502,8 +503,8 @@
 #c-bns button:first-child:hover,
 #s-bns button:first-child:active,
 #s-bns button:first-child:hover {
-	background: #1d2e38;
-	background: var(--cc-btn-primary-hover-bg)
+/*	background: #1d2e38;*/
+	background: var(--cc-btn-secondary-hover-bg)
 }
 
 #s-hdr {
