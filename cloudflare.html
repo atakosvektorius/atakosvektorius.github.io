@@ -7,7 +7,7 @@
     <meta name="description" content="Pažeidžiamumų įvertinimas su technologiškai vienu pažangiausiu DAST įrankiu rinkoje" />
     <meta name="keywords" content="Asmens duomenų apsauga, duomenų tvarkymo saugumas, pritaikytoji ir standartizuotoji duomenų apsauga, SDLC, pažeidžiamumu įvertinimas, įsiskverbimo į IT sistemas testavimas, etiškas įsilaužimas, kibernetinis saugumas" />
     <meta name="author" content="Tomas Savėnas" />
-    <title>Kas tai yra Cloudflare?</title>
+    <title>Netinkama saugumo konfigūracija A05:2021</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/aos.css" />
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
@@ -55,14 +55,14 @@
                             <div class="row gx-5 justify-content-center">
                                 <div class="col-lg-10 col-xl-8">
                                     <div class="single-post">
-                                        <h1>Griežtesnė Cloudflare apsauga</h1>
+                                        <h1>Netinkama saugumo konfigūracija A05:2021</h1>
                                         <p class="lead">Kokius tris žingsnius reikia atlikti po domeno nukreipimo į Cloudflare?</p>
                                         <div class="d-flex align-items-center justify-content-between mb-5">
                                             <div class="single-post-meta me-4">
                                                 <img class="single-post-meta-img" src="assets/img/demo/savenas.jpg" />
                                                 <div class="single-post-meta-details">
                                                     <div class="single-post-meta-details-name">Tomas Savėnas</div>
-                                                    <div class="single-post-meta-details-date">Lapkričio 27 d. 5 min. skaityti</div>
+                                                    <div class="single-post-meta-details-date">Vasario 09 d. 4 min. skaityti</div>
                                                 </div>
                                             </div>
                                             <div class="single-post-meta-links">
@@ -71,66 +71,115 @@
                                                 <a href="https://www.linkedin.com/in/savenas/"><i class="fab fa-linkedin fa-fw"></i></a>
                                             </div>
                                         </div>
-                                            <h2>Įvadas</h2>
-                                            <p>Cloudflare yra viena populiariausių interneto svetainių apsaugos priemonių rinkoje. Tai lyg skydas priešais svetainės serverį, kuris naudoja Reverse Proxy technologiją atlikti šias tris pagrindines funkcijas:</p>
-                                            <ul>
-                                                <li>Anti-DDoS apsaugą, kurios metu yra paslepiamas serverio IP adresas ir sulaikomas didelis kiekis kenksmingo srauto;</li>
-                                                <li>CDN, sparčiau aptarnauti nutolusius regionus;</li>
-                                                <li>WAF, skirta riboti prieigą prie aplikacijos ir apsaugoti nuo kenkėjiško kodo pvz.: SQLi, XSS, LFI ir kitų injekcijų.</li>
-                                            </ul>
-                                            <p>Žemiau pateikiama vaizdo iškarpa su Reverse Proxy srauto schema.</p></br>
-
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/CDN.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa koreguota: Cloudflare</div>
+                                            <p>Pratęsime informacinių sistemų atakos vektorių temą, šį kartą kalbėsime detaliau apie netinkamos saugumo konfigūracijos atvejus pagal OWASP A05:2021.</p>
+                                            <h2>Problema</h2>
+                                            Iš visų Lietuvos interneto svetainių TVS yra 67514 ir beveik 70% šių sistemų turėjo atvirą administratoriaus prieigą tokia kaip "/wp-login.php" ar "/administrator" [1]. Tai nėra laikoma saugia konfigūracija, nes slaptažodžius per laiką gali atspėti.</p>
+                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/wordpress.png" />
                                             <div class="single-post-text my-5">
-                                            <p>Jeigu dar nesate nukreipė savo domeno į Cloudflare, padarykite tai dabar užsiregistruodami nemokamai: https://dash.cloudflare.com/sign-up</p>
-                                            <p>CDN ir Anti-DDoS apsauga pradeda veikti iškarto po nukreipimo, o kitas funkcijas reikia patiems įjungti.</p> 
-
-                                            <p>Taigi, srautas jau yra nukreiptas į Cloudflare infrastruktūrą ir žinome kaip tai veikia, toliau eikime prie trijų žingsnių konfigūracijos skirtos dar labiau sugriežtinti apsaugą.</p>
-
-                                            <h2>Pirmas žingsnis</h2>
-
-                                            <p>Reikia nustatyti ugniasienės saugančios Jūsų serverį taisykles white-list principu. Cloudflare serverio IP adresai: nuorodą https://www.cloudflare.com/ips-v4 leisti į prievadus 80, 443, o visą kitą srautą uždrausti. Žemiau pateikiamas pavyzdys Apache konfigūracija .htaccess faile.</p>
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/htaccess.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa: autoriaus</div>
-                                            <div class="single-post-text my-5">
-
-                                            <p>Šis žingsnis yra labai svarbus, nes patyrę programišiai gali surasti serverio IP adresą DNS istoriniuose įrašuose ir rankinių būdų nukreipti srautą. Žemiau pateikiamas srauto diagramos pavyzdys.</p>
-                                                                          
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/bypass.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa koreguota: Cloudflare</div>
-                                            <div class="single-post-text my-5">
-                                            <h2>Antras žingsnis</h2>
-                                            <p>Cloudflare saugumo savitarnoje reikia pakeisti iš TLS 1.0 į TLS 1.2 minimiai palaikomą versiją. Šį konfigūracija jau nėra laikoma saugią, nes piktavaliai vietiniame tinkle galėtų įsiterpti į šifruoto ryšio sesiją ir pavogti duomenis.</p>
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/tls.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa: autoriaus</div>
-                                            <div class="single-post-text my-5">
-                                           
-                                            <h2>Trečiasis žingsnis</h2>
-                                            <p>Cloudflare WAF savitarnoje reikia sukurti prieigos valdymo taisykles white-list principu. Savo IP adresus leisti, o kitiems drausti prie administratoriaus valdymo paneles ar kitų jautrių resursų.</p>
-                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/waf.png" />
-                                            <div class="small text-gray-500 text-center">Vaizdo iškarpa: autoriaus</div>
-                                            <div class="single-post-text my-5">
-                                            <h2>Pabaigai</h2>
-
-                                            <p>Šiuo metu aktuali problema yra interneto robotai. Tai tampa iššūkiu internetinia verslui - kaip atskirti žalingus nuo naudingu? Cloudflare siūlo naudoti "Bot Fight Mode", tačiau ši priemonė kaip ir OWASP taisyklės yra sofistikuoti sprendimai. Tikėtina, kad kai kuriuos užklausos bus identifikuotos klaidingai.
-                                            </p>
 
                                             <p>
-                                                Nors iš pirmo žvilgsnio skydas atrodo kaip greitesnis ir lengvesnis sprendimas, bet efektyviau yra pašalinti spragas iš programinio kodo.
-                                            <p>  
+                                            Nors administratoriaus slaptažodis ir bus sudėtingas, tačiau spėliojimas yra nereikalinga grėsmė, kurią galimą lengvai užkardanti. Tai galima padaryti paslaugų tiekėjo nustatymuose. Žinoma jie gali skirtis, o kai kurie tiekėjai turi papildomos apsaugos priemonių, taigi apžvelkime tiekėjus.</p>
+                                            <h2>Tyrimas
+                                            </h2>
+                                            <p>Norime pasiūlyti rekomendacijas, tam mes atlikome tyrimą suprasti kaip talpinamos Lietuvos interneto svetainės. Peržiūrėjome maždaug turimų 120,000 domenų su lt galūnę ir žemiau pateikiame dešimtuką paslaugų tiekėjų:</p>
+                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/asn.png" />
+                                            <div class="small text-gray-500 text-center">Tiekėjų autonominės sistemos</div>
+                                            <div class="single-post-text my-5">
+                                            <h2>Sprendimas</h2>
+                                            Kaip matome didžioji dalis yra prieglobos tiekėjai, o kito tyrimo metu sužinojome dažniausiai sutinkama Apache paslauga. Todėl apriboti prieigą galime per .htacces failą, čia rasite instrukcijas, kurias sudarė IV [2].</p>
+                                            <p>
+                                            Toliau sąraše matome Cloudflare, tai yra viena populiariausių interneto svetainių apsaugos priemonių rinkoje. Tai lyg skydas priešais svetainės serverį, kuris naudoja Reverse Proxy technologiją atlikti šias pagrindines funkcijas:
+                                            <ul>
+                                                <li>Anti-DDoS | paslepiamas pirminis serveris ir sulaikomi kenksmingi paketai;</li>
+                                                <li>CDN | sparčiau užkraunami statiniai failai;</li>
+                                                <li>WAF | kenksmingo kodo filtras ir prieigos kontrolė;</li>
+                                                <li>Bot fight | interneto robotų prevencija.</li>
+                                            </ul>
+                                            </p>
+                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/Cloudflare.png" />
+                                            <div class="small text-gray-500 text-center">Cloudflare topologija</div>
+                                            <div class="single-post-text my-5">
 
-                                                Paprastai tvarkyti sistemos neskubama, nes nėra šalia profesionalios pagalbos.
+                                            <p>Nors Cloudflare populiari, tačiau ne visi išnaudoja šios apsaugos potencialą. Toliau aptarsime plačiau neapankamos saugumo konfigūracijos sprendimus siejamus su šią paslauga.</p>
+
+                                            <h2>Trys žingsniai</h2>
+
+                                            <p>Nors DDoS L3/4 apsauga veikia automatiškai, tačiau dauguma kitų priemonių skirtų apsaugoti HTTP protokolo lygyje neįjungta, tai atlikti turime patys.
+                                            Žemiau pateikiami trys pagrindiniai žingsniai, kuriuos reikia atlikti po DNS nukreipimo į Cloudflare.</p> 
+
+                                            <h2>Prieinamas pirminis serveris</h2>
+                                            <p>Reikia apriboti pirminio serverio prieiga per ugniasienę ar paslaugos tiekėją. Leiskite Cloudflare edge serverių IP adresus: [3], o visą kitą srautą uždrauskite.</p>
+                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/htaccess.png" />
+                                            <div class="small text-gray-500 text-center">Apache .htaccess konfigūracija</div>
+                                            <div class="single-post-text my-5">
+
+                                            <p>Tai galioja nepriklausomai ar tai Cloudflare ar kitas "Reverse Proxy". To nepadarius paliekama galimybė apeiti apsaugą, o tai padaryti galima nesunkiai rankiniu būdu nukreipti HTTP srautą radus IP adresą DNS istorijoje.</p>
+                                                                          
+                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/dns.png" />
+                                            <div class="small text-gray-500 text-center">DNS istorija šaltinis virustotal.com</div>
+                                            <div class="single-post-text my-5">
+                                            
+                                            <p>Žemiau matome rezultatą HTTP 403, kai kreipiamas į administratoriaus nuorodą, o tada rankiniu būdu nukreipiama HTTP užklausą ir jį nėra blokuojama.</p>                               
+                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/403.png" />
+                                            <div class="single-post-text my-5">
+                                
+                                            <h2>Administratoriaus valdymo pultas</h2>
+                                    
+                                            <p>Kaip anksčiau aptarėme dėl prieigos iš tam tikrų IP adresų prie "/wp-login" ar "/administrator" reikia riboti. Taigi Cloudflare saugumo savitarnoje prie WAF reikia sukurti prieigos valdymo taisyklę iš dviejų sąlygų:</p>
+                                            <p>- Jeigu tai ne mūsų IP adresas ir URI turi administratoriaus nuorodą tuomet blokuoti.</p>
+                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/waf.png" />
+
+                                            <div class="single-post-text my-5">
+
+                                            <h2>Minimali TLS versija</h2>
+
+                                            <p>Nors TLS 1.0 ir 1.1 konfigūracija jau nėra laikoma saugia ir naršyklių palaikančių jau praktiškai nebeliko, tačiau Cloudflare vis dar palieka įjungta, Jeigu jūsų klientai pat pat nenaudoja minėtų versijų, tuomet Cloudflare saugumo savitarnoje reikia pakeisti minimalią iš TLS 1.0 į TLS 1.2. Reikėtų pastebėti tai, kad PCI-DSS atiktis reikalauja ne mažesnės negu TLS 1.2.
+                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/tls.png" />
+
+                                            <div class="single-post-text my-5">
+                                            </p>
+
+                                            <p> Taigi tai buvo trys pagrindinės netinkamos saugumo konfigūracijos problemos.
+                                            
+                                            <h2>Kita</h2>
+
+                                            <p>  Žemiau išvardintoms priemonėms naudoti reikalingas tinkamas pasiruošimas. Priešingu atveju priemones sukels nepatogumu ir užims laiko, dažnu atveju reikia tvarkyti "False Positive" pranešimus.
+                                            </p>
+                                            <p>
+                                                Jos gali padaryt žalos įprastų naudotojų užklausoms, pavyzdžiui klientui gali būti sutrukdyta apsipirkti. Po kelių bandymų jam gali dingti kantrybė, o jus prarasite dalį pajamų. 
+                                            </p>
+                                            <p>
+                                            Reikia įvertinti kylančių grėsmių lygį ir pritaikyti tik tam tikras taisykles ar funkcijas, būtų geriau jeigu galima užtaisyti spragas programiniame kode ar sistemos konfigūracijoje.
+                                            </p>
+
+                                            <h2>Interneto robotai </h2>
+
+                                            <p>                                                  
+                                              Daugiau nei pusė viso interneto srauto sudaro šie automatizuoti instrukcijų rinkiniai, kuriems nereikia intensyvių skaičiavimo resursų [4].  Robotai gal atlikti pažeidžiamumų skenavimus, spėlioti esamus prisijungimus, registruoti naujus vartotojus, ar tiesiog varginti informacinę sistemą. Įprastai interneto robotai nevykdo naršyklėms būdingų JavaScript funkcijų.
+                                          </p>
+                                          <p>
+                                            Cloudflare siūlo naudoti "Bot Fight Mode", tačiau ši technologija yra sudėtinga, "Reverse Proxy" infrastruktūra yra paskirstyta, o HTTP užklausos gali būti asinchroninės ir lygiagrečios. Šią funkciją geriau naudoti tik tam tikroms nuorodoms ar sąlygoms, o ne visai TVS.</p>
+                                            <p>
+                                            Reikėtų pastebėti tai, kad yra galimybė apeiti "Bot Fight Mode" apsaugą su "begalve" naršyklė, kuri įvykdys JS kodą ir atliks tolimesnius veiksmus.
                                             </p>
 
 
+                                            <h2>OWASP WAF taisyklės</h2>
 
-                                            <h5>                                                  
-                                                Kviečiame registruotis pažeidžiamumų įvertinimui su technologiškai vienu pažangiausiu DAST įrankiu.
+                                            <p>                                                  
+                                             WAF sprendimai taip pat yra komplikuoti, dėl "Look Behind" ir "Look Ahead" funkcijų, kurias leidžią sudaryti PCRE reguliariųjų užklausų variklis. Nors WAF gali padėti apsisaugoti nuo SQLi, XSS, LFI ir kitų injekcijų, tačiau reikia atsargumo dėl dviejų priežasčių:
+                                          </p>
+                                          <p>
+                                            <ul>
+                                                <li>Gali būti klaidingai užblokuos klientų užklausos. Sesijos duomenims perduoti tinklu aplikacija naudoja atsitiktinius simbolius, kurie kartais kaip žvaigždės susilygiuoja į reikšmingą seką, kuri identifikuojama kaip kenksminga. Siūlome pradėti nuo stebėjimo režimo: "Simulate" arba "Alert only", su sąlyga, kad jos tinka pagal grėsmės lygį. Taip lengviau bus suvaldyti situaciją, nes "Alert only" režimas gali sukelti kitą problemą.</li>
+                                                <li>Gali vėlinti užklausų atsakymo laiką. Nors tai nėra blokavimo režimas, tačiau srautas teka per WAF sluoksnį, todėl reikia įvertinti tai, kad užklausa užtruks apdoroti. Cloudflare dabar naudoja RE2 variklį, kuris yra labai greitas ir neturi rekursijų. Nors iki 2019 metų naudojo PCRE, po vieno nesėkmingo pakeitimo, kuris sukėlė DoS [6]. Kiti WAF sprendimai naudoja PCRE ir jiems galiotų šis pažeidžiamumas.
+                                            </li>
+                                        </ul>
+                                            <p>
+                                            Taigi prie WAF apsaugos reikės praleisti nemažai laiko, ir ko gero papildomas žmogus turėtų stebėti ir analizuoti srautą nuolat. Taip pat reikėtų turėti omenyje, kad reguliariąsias užklausas galima apeiti, taip pat ir taisykles. Žinant tai nereikia bandyti aprėpti kiek įmanoma platesnį scenarijų, nes taisyklės taps sudėtingos.</p>
+                                            <img class="img-fluid mb-2 rounded" src="assets/img/demo/regex.png" />
 
-                                            </h5>
-
-
+                                            <div class="single-post-text my-5">
 
 
                                         
