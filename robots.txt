@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://atakosvektorius.lt/sitemap.txt
