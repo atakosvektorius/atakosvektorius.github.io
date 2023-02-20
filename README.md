@@ -1,14 +1,13 @@
 # Atakos vektorius
 
-Pagal etitiško įsilaužimo metodika testuojame IT sistemas:
+## Informacinių sistemų saugumas
 
-* Žvalgyba 
-* Skenavimas
-* Išnaudojimas
-* Eskalavimas
-* Atsitraukimas
+įgyvendintų techninių saugumo priemonių tikrinimas DAST ir OWASP metodikomis:
 
-Galimi scenarijai iš išorės kas matosi ar informacinė sistema pažeidžiama, po to vidaus užkrėsto kompiuterio imitacija.  
+- Pažeidžiamumų tikrinimas;
 
-Skenavimo metu patikrinama informacinės sistemos pažeidžiamumai su DAST įrankiu.
+- Įsilaužimo testavimas.
 
+Klientai: pagal BDAR atitinkantis duomenų valdytojo ir tvarkytojo, bei programinės įrangos gamintojo apibrėžimą.
+
+elektroninių parduotuvių savininkai, interneto svetainių prieglobos ir gamybos paslaugas teikiančios bendrovės.
