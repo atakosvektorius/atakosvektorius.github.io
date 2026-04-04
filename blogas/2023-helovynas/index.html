@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVE-2023-46747: Kritinė F5 Big-IP spraga per HTTP smuggling — Atakos Vektorius</title>
+    <meta name="description"
+        content="Kaip HTTP request smuggling technika leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose ir kodėl svarbu tinkamai valdyti prieigą prie management interface.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/plain" data-cookiecategory="analytics" async
+        src="https://www.googletagmanager.com/gtag/js?id=G-MM3XFZX1JX"></script>
+    <script type="text/plain" data-cookiecategory="analytics">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MM3XFZX1JX');
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied'
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png"
+                    alt="Atakos Vektorius">atakos<span>vektorius</span></a>
+            <div class="nav-links">
+                <a href="/#paslaugos">Paslaugos</a>
+                <a href="/#procesas">Procesas</a>
+                <a href="/#apie">Apie mus</a>
+                <a href="/blogas" class="nav-cta">Blogas</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
+                aria-label="Menu">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M4 8h20M4 14h20M4 20h20" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mob-menu">
+            <a href="/#paslaugos">Paslaugos</a>
+            <a href="/#procesas">Procesas</a>
+            <a href="/#apie">Apie mus</a>
+            <a href="/blogas">Blogas</a>
+        </div>
+    </nav>
+
+    <!-- BLOG POST -->
+    <section>
+        <div class="container blog-content">
+            <a href="/blogas"
+                style="color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.9rem;">&larr; Grįžti
+                į blogą</a>
+
+            <h1 style="margin-top: 24px;">CVE-2023-46747: Kritinė F5 Big-IP spraga</h1>
+            <div class="blog-meta">2026-04-04 &middot; Saugumo tyrimai</div>
+
+            <!-- ===== 1. TRUMPAI APIE GRĖSMĘ ===== -->
+
+            <p>2023 m. spalio pradžioje saugumo tyrėjai iš <em>Praetorian Security</em> aptiko kritinę spragą F5 Big-IP
+                produktų linijoje. Pažeidžiamumui suteiktas numeris <strong>CVE-2023-46747</strong> ir įvertintas
+                <strong>CVSS 9.8 iš 10</strong> — beveik aukščiausias įmanomas pavojingumo balas. Paveiktos Big-IP
+                versijos nuo 13.x iki 17.x.
+            </p>
+
+            <p>F5 Networks spalio 26 d. išleido pataisymą, tačiau nepraėjus nei savaitei internete jau pasirodė
+                veikiantys exploit'ai, prieinami visiems. Tai reiškia, kad kiekvienas Big-IP, nepasiektas pataisymu,
+                tapo
+                potencialiu taikiniu.</p>
+            <p> Helovyno šventė buvo tikrąją to žodžio prasme šiurpą kelianti IT specialistams, kurie tą dieną turėjo
+                skubiai ieškoti sprendimų organizacijoms dirbusioms su šia įranga.
+            </p>
+
+            <!-- ===== 2. IŠ KO SUSIDEDA ŠI ATAKA ===== -->
+
+            <h2>Iš ko susideda ši ataka</h2>
+
+            <p>CVE-2023-46747 išnaudojimas susideda iš trijų etapų, kurie kartu sudaro pilną atakos grandinę — nuo
+                pirmosios užklausos iki visiškos sistemos kontrolės:</p>
+
+            <ol>
+                <li><strong>HTTP Request Smuggling</strong> — kenkėjiška užklausa „paslepiama" už teisėtos,
+                    manipuliuojant HTTP/1 antraštėmis. Tai pradinė technika, atverianti kelią tolesniam išnaudojimui.
+                </li>
+                <li><strong>Autentifikacijos apėjimas</strong> — paslėptoji užklausa patenka į vidinę Big-IP valdymo
+                    sąsają (TMUI) su suklastotu <code>X-Forwarded-For: 127.0.0.1</code> — serveris mano, kad kreipimasis
+                    ateina iš pačios sistemos ir leidžia prieigą be slaptažodžio.</li>
+                <li><strong>Nuotolinis kodo vykdymas (RCE)</strong> — gavęs administratoriaus prieigą, užpuolikas gali
+                    vykdyti komandas serveryje, perimti visą sistemą arba naudoti ją kaip atspirties tašką gilyn į
+                    tinklą.</li>
+            </ol>
+
+            <p>Toliau kiekvieną etapą aptarsime detaliau.</p>
+
+            <!-- ===== 3. HTTP REQUEST SMUGGLING ===== -->
+
+            <h2>1. HTTP Request Smuggling</h2>
+
+            <p>Big-IP sistemą sudaro keli sluoksniai: Apache proxy serveris priima HTTP užklausas, jas patikrina ir
+                perduoda vidiniam Tomcat serveriui vykdyti. Ataka išnaudoja šių dviejų sluoksnių skirtingą HTTP užklausų
+                interpretavimą.</p>
+
+            <p><strong>HTTP Request Smuggling</strong> — tai technika, kurios metu kenkėjiška užklausa „paslepiama" už
+                teisėtos, manipuliuojant HTTP/1 antraštėmis (<code>Content-Length</code> ir
+                <code>Transfer-Encoding</code>). Apache proxy mato vieną užklausą, o Tomcat — dvi. Antroji, paslėptoji
+                užklausa aplenkia visus saugumo patikrinimus.
+            </p>
+
+            <!-- Paveikslėlis: HTTP smuggling schema -->
+            <figure>
+                <img src="http-smuggling.png" alt="HTTP Request Smuggling schema">
+                <figcaption>HTTP Request Smuggling principas — kenkėjiška užklausa paslepiama už teisėtos</figcaption>
+            </figure>
+
+            <!-- Paveikslėlis: HTTP užklausa -->
+            <figure>
+                <img src="http-request.png" alt="HTTP užklausos pavyzdys">
+                <figcaption>Kenkėjiška HTTP užklausa su paslėptu turiniu</figcaption>
+            </figure>
+
+            <blockquote>
+                <p><strong>Svarbu:</strong> HTTP/2 protokolas yra atsparus šiam atakos tipui, tačiau jeigu yra
+                    naudojamas reverse proxy su HTTP/1, kuris bus netinkamai sukonfigūruotas, užpuolikas gali
+                    priversti serverį naudoti senesnį protokolą ir išnaudoti šią spragą.</p>
+            </blockquote>
+
+            <!-- ===== 4. AUTENTIFIKACIJOS APĖJIMAS ===== -->
+
+            <h2>2. Autentifikacijos apėjimas</h2>
+
+            <p>Kai paslėptoji užklausa pasiekia Tomcat, ji kreipiasi į vidines Big-IP valdymo funkcijas (TMUI). Raktas —
+                <code>X-Forwarded-For: 127.0.0.1</code> antraštė, kuri apgauna serverį manant, kad užklausa ateina iš
+                localhost. Dėl to sistema praleidžia autentifikacijos patikrinimą.
+            </p>
+
+            <p>Atakos grandinė atrodo taip:</p>
+            <ol>
+                <li>Užpuolikas siunčia specialiai suformuotą HTTP užklausą į Big-IP TMUI (valdymo sąsają)</li>
+                <li>Apache proxy priima užklausą kaip teisėtą ir perduoda Tomcat'ui</li>
+                <li>Tomcat interpretuoja paslėptą antrą užklausą, kuri kreipiasi į vidines valdymo funkcijas</li>
+                <li>Dėl suklastoto <code>X-Forwarded-For: 127.0.0.1</code> serveris mano, kad užklausa ateina
+                    iš localhost — autentifikacija praleidžiama</li>
+                <li>Sukuriamas naujas administratoriaus vartotojas — be jokio slaptažodžio</li>
+            </ol>
+
+            <!-- ===== 5. RCE ===== -->
+
+            <h2>3. Nuotolinis kodo vykdymas (RCE)</h2>
+
+            <p><strong>Nuotolinio kodo vykdymas (angl. <em>Remote Code Execution</em>, RCE)</strong> yra laikomas vienu
+                iš pačių pavojingiausių pažeidžiamumų, nes suteikia piktavaliui galimybę vykdyti komandas pažeidžiamame
+                serveryje per nuotolį, neturint jokių prisijungimo duomenų ar autorizacijos.</p>
+
+            <p>Šio Big-IP pažeidžiamumo atveju ataka yra ypač tiesmuka: išnaudojus spragą galima sukurti
+                sistemos vartotoją su administratoriaus teisėmis ir lengvai perimti sistemos valdymą per standartinę
+                web sąsają. Tačiau net jei valdymo sąsaja būtų kitaip apribota, užpuolikas galėtų panaudoti RCE
+                atgalinio kreipimosi į piktavalio serverį užmezgimui (angl. <em>reverse shell</em>).</p>
+
+            <p><strong>RCE ant Big-IP įrenginio yra ypač reikšmingas</strong>,
+                nes ši aparatūra dažnai stovi pačiame tinklo perimetre, valdydama ir šifruodama visą lankytojų srautą
+                (veikdama kaip WAF ir apkrovų balansatorius). Perėmus Big-IP kontrolę, galima
+                išjungti apsaugos priemones, išgauti SSL sertifikatus bei jautrius vartotojų prisijungimų duomenis iš
+                atminties ir panaudoti serverį kaip atspirties tašką (angl. <em>pivot</em>) tolesniam skverbimuisi gilyn
+                į vidinį organizacijos tinklą.</p>
+
+            <!-- Paveikslėlis: Reverse shell -->
+            <figure>
+                <img src="reverse-shell.png" alt="Reverse shell pavyzdys">
+                <figcaption>RCE scenarijus: komandų vykdymo galia ir atgalinio ryšio užmezgimas (reverse shell)
+                </figcaption>
+            </figure>
+
+            <!-- ===== 6. PRAKTINIS TESTAVIMAS ===== -->
+
+            <h2>Praktinis testavimas (PoC)</h2>
+
+            <p>Patikrinome Big-IP versiją <strong>17.1.0.2</strong> be pataisymo (Hotfix). Testavimo metu pavyko apgauti
+                Apache validaciją ir sukurti sisteminį vartotoją su administratoriaus teisėmis.</p>
+
+            <!-- Paveikslėlis: PoC Burp Suite -->
+            <figure>
+                <img src="poc-burp.png" alt="PoC Burp Suite ekrano nuotrauka">
+                <figcaption>Proof of Concept — sėkmingas pažeidžiamumo išnaudojimas per Burp Suite</figcaption>
+            </figure>
+
+            <p>Pastebėjome, kad kai kuriose versijose vartotojas nesukuriamas iškart — procesas užtrunka kelias
+                sekundes. Taip pat šio pažeidžiamumo išnaudojimas gali sukelti sistemos nestabilumą.</p>
+
+            <!-- Paveikslėlis: Big-IP administratoriaus vartotojas sukurtas -->
+            <figure>
+                <img src="big-ip.png" alt="F5 Big-IP administratoriaus vartotojas sukurtas">
+                <figcaption>F5 Big-IP administratoriaus vartotojas sukurtas</figcaption>
+            </figure>
+
+            <!-- ===== 4. KODĖL TAI PAVOJINGA ===== -->
+
+            <h2>Tolesnė grėsmė ir kodėl tai pavojinga apibendrinant</h2>
+
+            <p>Naudojant <em>Shodan</em> paieškos sistemą, pasaulyje aptikome daugiau nei <strong>42 000 viešai
+                    pasiekiamų Big-IP įrenginių</strong>. Kiekvienas iš jų, nepasiektas pataisymu, yra potencialus
+                taikinys.</p>
+
+            <!-- Paveikslėlis: Shodan rezultatai -->
+            <figure>
+                <img src="shodan.png" alt="Shodan paieškos rezultatai">
+                <figcaption>Shodan: viešai pasiekiami Big-IP įrenginiai pasaulyje (2023m. rezultatai)</figcaption>
+            </figure>
+
+            <p>Papildomi rizikos faktoriai:</p>
+            <ul>
+                <li><strong>Exploit'ai prieinami visiems</strong> — net be gilių IT saugumo žinių galima išnaudoti šią
+                    spragą</li>
+                <li><strong>Nesudėtinga išnaudoti pažeidžiamumą</strong> — vienos eilutės komanda leidžia
+                    sukurti naują vartotoją be jokios autentifikacijos ar panaudoti nutolusias komandas serveryje (RCE)
+                </li>
+                <li><strong>Lapkričio „freeze" periodas</strong> — įmonės vengia infrastruktūros pakeitimų prieš
+                    didžiausią apsipirkimo sezoną, todėl atnaujinimai atidedami</li>
+                <li><strong>Netinkama tinklo konfigūracija</strong> — jei pažeista vidinė svetainė ar sistema,
+                    užpuolikas
+                    gali per duomenų tinklą pasiekti Big-IP valdymo sąsają</li>
+            </ul>
+
+            <!-- ===== 5. KAIP APSISAUGOTI ===== -->
+
+            <h2>Kaip apsisaugoti</h2>
+
+            <h3>1. Atnaujinkite programinę įrangą</h3>
+            <p>Nedelsiant atnaujinkite Big-IP į naujausią versiją <strong>kartu su Hotfix pataisymu</strong>. Jei
+                naudojate HA (High Availability) konfigūraciją, atnaujinimą galima atlikti be paslaugos pertraukimo.</p>
+
+            <h3>2. Port Lockdown — <code>Allow None</code></h3>
+            <p>Ant <strong>visų Self-IP adresų</strong> nustatykite Port Lockdown režimą į <code>Allow None</code>.
+                Valdymo prieiga turi būti galima <strong>tik per dedikuotą Management Interface</strong>, o ne per data
+                plane Self-IP adresus.</p>
+
+            <blockquote>
+                <p><strong>Dažna klaida:</strong> organizacijos palieka TMUI (valdymo sąsają) pasiekiamą per Self-IP
+                    adresus duomenų srautų tinkle. Tai reiškia, kad užpuolikas, patekęs į vidinį tinklą (pvz., per
+                    pažeistą web serverį), gali pasiekti Big-IP valdymo sąsają ir išnaudoti šią spragą.</p>
+            </blockquote>
+
+            <h3>3. DMZ konfigūracija</h3>
+            <ul>
+                <li>Užtikrinkite, kad iš DMZ zonos <strong>negalima pasiekti</strong> Big-IP valdymo sąsajos</li>
+                <li>Patikrinkite, ar TMUI nepasiekiama iš išorinio tinklo</li>
+                <li>Atskirtas Management Interface turi būti prieinamas tik iš administravimo VLAN</li>
+            </ul>
+
+            <!-- Paveikslėlis: Portswigger / papildoma schema -->
+            <figure>
+                <img src="portswigger.png" alt="HTTP smuggling paaiškinimas">
+                <figcaption>HTTP Request Smuggling vizualizacija</figcaption>
+            </figure>
+
+            <!-- ===== ŠALTINIAI ===== -->
+
+            <h2>Šaltiniai</h2>
+            <ul>
+                <li><a href="https://www.praetorian.com/blog/refresh-compromising-f5-big-ip-with-request-smuggling-cve-2023-46747/"
+                        target="_blank" rel="noopener">Praetorian Security — Compromising F5 BIG-IP with Request
+                        Smuggling</a></li>
+                <li><a href="https://www.securityweek.com/attackers-exploiting-critical-f5-big-ip-vulnerability/"
+                        target="_blank" rel="noopener">SecurityWeek — Attackers Exploiting Critical F5 BIG-IP
+                        Vulnerability</a></li>
+                <li><a href="https://my.f5.com/manage/s/article/K000137353" target="_blank" rel="noopener">F5 — Security
+                        Advisory K000137353</a></li>
+                <li><a href="https://portswigger.net/web-security/request-smuggling" target="_blank"
+                        rel="noopener">Portswigger — HTTP Request Smuggling</a></li>
+            </ul>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container" style="text-align:center">Atakos vektorius &copy; <a href="javascript:void(0);"
+                aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a></div>
+    </footer>
+
+    <link href="/css/cookieconsent.css" rel="stylesheet" />
+    <script defer src="/js/cookieconsent.js"></script>
+
+    <script>
+        function consentGranted() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'granted'
+            });
+        }
+        function consentDenied() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied'
+            });
+        }
+    </script>
+
+    <script>
+        window.addEventListener('load', function () {
+            var cookieconsent = initCookieConsent();
+            cookieconsent.run({
+                delay: 3500,
+                autorun: true,
+                current_lang: 'en',
+                theme_css: '/css/cookieconsent.css',
+                autoclear_cookies: true,
+                page_scripts: true,
+                onAccept: function (cookie) {
+
+                },
+
+                onChange: function (cookie, changed_preferences) {
+                    consentDenied();
+                    cookieconsent.eraseCookies(['cc_cookie', '_ga', '_ga_MM3XFZX1JX']);
+
+                },
+
+                languages: {
+                    en: {
+                        consent_modal: {
+                            title: '<a href="javascript:void(0);" aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a> ',
+                            description: 'Sveiki, <br> ar sutinkate aktyvuoti Googe Analytics?',
+                            primary_btn: {
+                                text: 'Sutinku',
+                                role: 'accept_all'
+                            },
+                            secondary_btn: {
+                                text: 'Nesutinku',
+                                role: 'accept_necessary'
+                            }
+                        },
+                        settings_modal: {
+                            title: 'Privatumo politikos nustatymai',
+                            save_settings_btn: 'Užsaugoti pakeitimus',
+                            accept_all_btn: 'Priimti visus',
+                            reject_all_btn: 'Išvalyti',
+                            cookie_table_headers: [
+                                { col1: 'Name' },
+                                { col2: 'Domain' },
+                                { col3: 'Expiration' },
+                                { col5: 'Type' }
+                            ],
+                            blocks: [
+                                {
+                                    title: 'Slapukų naudojimas',
+                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę, ir tobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
+                                }, {
+                                    title: 'Būtini slapukai',
+                                    description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti, bei atpažinti ar lankytojas sutiko su Google Analytics įrankio prašymu. Taip užtikrinamas pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams',
+                                    toggle: {
+                                        value: 'necessary',
+                                        enabled: true,
+                                        readonly: true
+                                    }
+
+                                },
+                                {
+                                    title: 'Google Analytics slapukai',
+                                    description: 'Šie slapukai skirti Google identifikuoti naršyklės sesiją, kurios metu bus renkami duomenys apie lankytoju veiksmus susijusius su svetainės naršymu: kuriuose polapiuose lankomasi ir kurias nuorodas spaudžiamos. Visi duomenys yra anonimiški ir negali būti naudojami tapatybei nustatyti.',
+                                    toggle: {
+                                        value: 'analytics',
+                                        enabled: false,
+                                        readonly: false,
+                                        reload: 'on_disable'
+
+                                    },
+                                    cookie_table: [
+                                        {
+                                            col1: '_ga',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie',
+                                            is_regex: true
+                                        },
+                                        {
+                                            col1: '_ga_MM3XFZX1JX',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie'
+                                        }
+                                    ]
+                                }, {
+                                    title: 'Pašalinti slapukus',
+                                    description: 'Pašalinti Google Analytics sukurtus slapukus spauskite "Išvalyti".  Kiti klausimai elektroniniu paštu.</a>',
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "konsultacija", { origin: "https://app.cal.com" });
+        Cal.ns.konsultacija("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
+    </script>
+
+</body>
+
+</html>

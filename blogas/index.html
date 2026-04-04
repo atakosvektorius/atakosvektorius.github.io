@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogas — Atakos Vektorius</title>
+    <meta name="description"
+        content="Kibernetinio saugumo straipsniai, tyrimai ir naujienos iš Atakos Vektorius komandos.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/plain" data-cookiecategory="analytics" async
+        src="https://www.googletagmanager.com/gtag/js?id=G-MM3XFZX1JX"></script>
+    <script type="text/plain" data-cookiecategory="analytics">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MM3XFZX1JX');
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied'
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png"
+                    alt="Atakos Vektorius">atakos<span>vektorius</span></a>
+            <div class="nav-links">
+                <a href="/#paslaugos">Paslaugos</a>
+                <a href="/#procesas">Procesas</a>
+                <a href="/#apie">Apie mus</a>
+                <a href="/blogas" class="nav-cta">Blogas</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
+                aria-label="Menu">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M4 8h20M4 14h20M4 20h20" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mob-menu">
+            <a href="/#paslaugos" onclick="document.getElementById('mob-menu').classList.remove('active')">Paslaugos</a>
+            <a href="/#procesas" onclick="document.getElementById('mob-menu').classList.remove('active')">Procesas</a>
+            <a href="/#apie" onclick="document.getElementById('mob-menu').classList.remove('active')">Apie mus</a>
+            <a href="/blogas" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
+        </div>
+    </nav>
+
+    <!-- BLOG LIST -->
+    <section class="hero" style="padding-bottom: 40px;">
+        <div class="container">
+            <div class="section-label">Blogas</div>
+            <h1>Straipsniai ir <span class="accent">tyrimai</span></h1>
+            <p>Kibernetinio saugumo naujienos, atvejo analizės ir praktiniai patarimai.</p>
+        </div>
+    </section>
+
+    <section style="padding-top: 0;">
+        <div class="container">
+            <div class="blog-list">
+
+
+                <div class="card blog-card">
+                    <div>
+                        <div class="blog-meta">2025-04-04 &middot; Saugumo tyrimai</div>
+                        <h3><a href="/blogas/2023-helovynas/">2023 m. Helovyno istorija su F5 Big-IP</a></h3>
+                        <p>CVE-2023-46747: Kritinė F5 Big-IP spraga.
+                        </p>
+                    </div>
+                </div>
+
+                <!--
+                <div class="card" style="text-align: center; padding: 64px 32px;">
+                    <p style="color: var(--text-muted);">Straipsniai ruošiami. Grįžkite netrukus!</p>
+                </div>
+                -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container" style="text-align:center">Atakos vektorius &copy; <a href="javascript:void(0);"
+                aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a></div>
+    </footer>
+
+
+    <link href="/css/cookieconsent.css" rel="stylesheet" />
+    <script defer src="/js/cookieconsent.js"></script>
+
+    <script>
+        function consentGranted() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'granted'
+            });
+        }
+        function consentDenied() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied'
+            });
+        }
+    </script>
+
+    <script>
+        window.addEventListener('load', function () {
+            var cookieconsent = initCookieConsent();
+            cookieconsent.run({
+                delay: 3500,
+                autorun: true,
+                current_lang: 'en',
+                theme_css: '/css/cookieconsent.css',
+                autoclear_cookies: true,
+                page_scripts: true,
+                onAccept: function (cookie) {
+
+                },
+
+                onChange: function (cookie, changed_preferences) {
+                    consentDenied();
+                    cookieconsent.eraseCookies(['cc_cookie', '_ga', '_ga_MM3XFZX1JX']);
+
+                },
+
+                languages: {
+                    en: {
+                        consent_modal: {
+                            title: '<a href="javascript:void(0);" aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a> ',
+                            description: 'Sveiki, <br> ar sutinkate aktyvuoti Googe Analytics?',
+                            primary_btn: {
+                                text: 'Sutinku',
+                                role: 'accept_all'
+                            },
+                            secondary_btn: {
+                                text: 'Nesutinku',
+                                role: 'accept_necessary'
+                            }
+                        },
+                        settings_modal: {
+                            title: 'Privatumo politikos nustatymai',
+                            save_settings_btn: 'Užsaugoti pakeitimus',
+                            accept_all_btn: 'Priimti visus',
+                            reject_all_btn: 'Išvalyti',
+                            cookie_table_headers: [
+                                { col1: 'Name' },
+                                { col2: 'Domain' },
+                                { col3: 'Expiration' },
+                                { col5: 'Type' }
+                            ],
+                            blocks: [
+                                {
+                                    title: 'Slapukų naudojimas',
+                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę, ir tobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
+                                }, {
+                                    title: 'Būtini slapukai',
+                                    description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti, bei atpažinti ar lankytojas sutiko su Google Analytics įrankio prašymu. Taip užtikrinamas pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams',
+                                    toggle: {
+                                        value: 'necessary',
+                                        enabled: true,
+                                        readonly: true
+                                    }
+
+                                },
+                                {
+                                    title: 'Google Analytics slapukai',
+                                    description: 'Šie slapukai skirti Google identifikuoti naršyklės sesiją, kurios metu bus renkami duomenys apie lankytoju veiksmus susijusius su svetainės naršymu: kuriuose polapiuose lankomasi ir kurias nuorodas spaudžiamos. Visi duomenys yra anonimiški ir negali būti naudojami tapatybei nustatyti.',
+                                    toggle: {
+                                        value: 'analytics',
+                                        enabled: false,
+                                        readonly: false,
+                                        reload: 'on_disable'
+
+                                    },
+                                    cookie_table: [
+                                        {
+                                            col1: '_ga',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie',
+                                            is_regex: true
+                                        },
+                                        {
+                                            col1: '_ga_MM3XFZX1JX',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie'
+                                        }
+                                    ]
+                                }, {
+                                    title: 'Pašalinti slapukus',
+                                    description: 'Pašalinti Google Analytics sukurtus slapukus spauskite "Išvalyti".  Kiti klausimai elektroniniu paštu.</a>',
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "konsultacija", { origin: "https://app.cal.com" });
+        Cal.ns.konsultacija("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
+    </script>
+
+</body>
+
+</html>

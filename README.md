@@ -1,2 +1,5 @@
-# atakosvektorius.github.io
-Atakos vektorius interneto svetaine
+# Atakos vektorius
+
+## Informacinių sistemų saugumas
+
+Interneto svetainė https://atakosvektorius.lt repozitorija

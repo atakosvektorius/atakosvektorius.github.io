@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atakos Vektorius — Informacinių sistemų saugumo paslaugos</title>
+    <meta name="description"
+        content="Profesionalus įsilaužimo testavimas, DAST, socialinės inžinerijos simuliacijos ir kibernetinio saugumo mokymai. OSCP sertifikuoti specialistai.">
+    <meta name="keywords" content="pentesting, DAST, kibernetinis saugumas, OSCP, įsilaužimo testavimas, Lietuva">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Atakos Vektorius — Informacinių sistemų saugumas">
+    <meta property="og:description" content="Profesionalus įsilaužimo testavimas ir kibernetinio saugumo paslaugos.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script type="text/plain" data-cookiecategory="analytics" async
+        src="https://www.googletagmanager.com/gtag/js?id=G-MM3XFZX1JX"></script>
+    <script type="text/plain" data-cookiecategory="analytics">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MM3XFZX1JX');
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied'
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><img src="atakos_vektorius_logo.png"
+                    alt="Atakos Vektorius">atakos<span>vektorius</span></a>
+            <div class="nav-links">
+                <a href="#paslaugos">Paslaugos</a>
+                <a href="#procesas">Procesas</a>
+                <a href="#apie">Apie mus</a>
+                <a href="/blogas" class="nav-cta">Blogas</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
+                aria-label="Menu">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M4 8h20M4 14h20M4 20h20" />
+                </svg>
+            </button>
+
+
+
+        </div>
+        <div class="mobile-menu" id="mob-menu">
+            <a href="#paslaugos" onclick="document.getElementById('mob-menu').classList.remove('active')">Paslaugos</a>
+            <a href="#procesas" onclick="document.getElementById('mob-menu').classList.remove('active')">Procesas</a>
+            <a href="#apie" onclick="document.getElementById('mob-menu').classList.remove('active')">Apie mus</a>
+            <a href="/blogas" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">Dėmesio!</div>
+            <h1>Sužinokite apie savo sistemos <span class="accent">pažeidžiamumus</span> pirmiau nei piktavaliai</h1>
+            <p>Patikrinsime Jūsų sistemas pagal OWASP metodologiją ir pateiksime aiškias rekomendacijas saugumo
+                spragoms šalinti. Taip pat siūlome profesionalų WAF sprendimų diegimą, priežiūrą bei praktinius saugumo
+                mokymus Jūsų komandai.</p>
+            <div class="hero-buttons">
+
+                <a class="btn btn-primary fw-500 me-2" data-cal-link="atakosvektorius/konsultacija"
+                    data-cal-namespace="konsultacija" data-cal-config='{"layout":"month_view"}'>
+                    Pasirinkti laiką
+                    <i class="ms-2"></i>
+                </a>
+                <a href="#paslaugos" class="btn btn-secondary">Sužinoti daugiau</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services-section" id="paslaugos">
+        <div class="container">
+            <div class="section-label">Paslaugos</div>
+            <h2 class="section-title">Ką mes darome</h2>
+            <p class="section-subtitle">Padedame organizacijoms stiprinti interneto aplikacijų saugumą – nuo saugumo
+                testavimo
+                ir WAF apsaugos iki praktinių mokymų komandoms.
+            </p>
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="card service-card">
+                    <div class="service-icon" style="background: #FFF0EF;">
+                        <svg width="24" height="24" fill="none" stroke="#FF3B30" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                    </div>
+                    <h3>Saugumo patikrinimas</h3>
+                    <p>Atliekame interneto aplikacijų saugumo vertinimą taikydami OWASP metodologiją.</p>
+                    <ul>
+                        <li>Veikiančios aplikacijos DAST testavimas</li>
+                        <li>Išeities kodo SAST testavimas</li>
+                    </ul>
+                    <div class="hero-badge">Ataskaita</div>
+                </div>
+                <!-- Service 2 -->
+                <div class="card service-card">
+                    <div class="service-icon" style="background: #E8F0FE;">
+                        <svg width="24" height="24" fill="none" stroke="#007AFF" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 8v4l3 3" />
+                        </svg>
+                    </div>
+                    <h3>Apsaugos priemonės</h3>
+                    <p>Interneto aplikacijų apsaugos priemonių (WAF) konfigūracijos peržiūra ir testavimas.</p>
+                    <ul>
+                        <li>WAF konfigūracijos auditas</li>
+                        <li>WAF nustatymų stiprinimas</li>
+                    </ul>
+                    <div class="hero-badge">Dokumentacija</div>
+                </div>
+                <!-- Service 3 -->
+                <div class="card service-card">
+                    <div class="service-icon" style="background: #E8F9ED;">
+                        <svg width="24" height="24" fill="none" stroke="#34C759" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
+                            <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+                        </svg>
+                    </div>
+                    <h3>Mokymai</h3>
+                    <p>Praktiniai mokymai Jūsų komandai.</p>
+                    <ul>
+                        <li>Interneto aplikacijų pažeidžiamumai (programuotojams)</li>
+                        <li>F5 / Cloudflare WAF (IT administratoriams)</li>
+                    </ul>
+                    <div class="hero-badge">Pažymėjimas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY US -->
+    <section id="kodel-mes">
+        <div class="container">
+            <div class="section-label" style="text-align:center;">Kodėl mes</div>
+            <h2 class="section-title" style="text-align:center;">Specialistai turintys patirties</h2>
+            <div class="trust-grid">
+                <div class="card trust-item">
+                    <div class="trust-icon">
+                        <svg width="40" height="40" fill="none" stroke="#FF3B30" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            <path d="M9 12l2 2 4-4" />
+                        </svg>
+                    </div>
+                    <h3>Kvalifikacija</h3>
+                    <p>BSCP, OSCP, CompTIA, F5 sertifikatus turintys ekspertai</p>
+                </div>
+                <div class="card trust-item">
+                    <div class="trust-icon">
+                        <svg width="40" height="40" fill="none" stroke="#007AFF" stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                            <path d="M8 21h8M12 17v4" />
+                        </svg>
+                    </div>
+                    <h3>Tyrimai</h3>
+                    <p>Proaktyviai atliekame saugumo tyrimus atviro kodo aplikacijose ir dalijamės žiniomis ir patirtimi
+                        su
+                        bendruomene. Mokomės ir tobulėjame kartu su bendruomene.</p>
+                </div>
+                <div class="card trust-item">
+                    <div class="trust-icon">
+                        <svg width="40" height="40" fill="none" stroke="#34C759" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                        </svg>
+                    </div>
+                    <h3>Ataskaitos</h3>
+                    <p>Ataskaitos lietuvių ir anglų kalbomis su konkrečiais veiksmų planais. Turime įvarių ataskaitų
+                        pavyzdžių.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="procesas"
+        style="background: var(--bg-warm); border-top: 3px solid var(--border); border-bottom: 3px solid var(--border);">
+        <div class="container">
+            <div class="section-label" style="text-align:center;">Kaip tai veikia</div>
+            <h2 class="section-title" style="text-align:center;">Saugumo įvertinimo procesas</h2>
+            <div class="process-steps">
+                <div class="card step">
+                    <div class="step-number">1</div>
+                    <h3>Konsultavimas</h3>
+                    <p>Aptariame Jūsų poreikius, apimtį ir tikslus. 30 min. pokalbis be įsipareigojimų.</p>
+                </div>
+                <div class="card step">
+                    <div class="step-number">2</div>
+                    <h3>Planavimas</h3>
+                    <p>Parengiame individualų testavimo planą su aiškia apimtimi ir terminais.</p>
+                </div>
+                <div class="card step">
+                    <div class="step-number">3</div>
+                    <h3>Testavimas</h3>
+                    <p>Atliekame testavimą pagal suderintą planą ir OWASP metodologiją.</p>
+                </div>
+                <div class="card step">
+                    <div class="step-number">4</div>
+                    <h3>Pristatymas</h3>
+                    <p>Pristatome testavimo rezultatus ir ataskaitą su rekomendacijomis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / BOOKING -->
+    <section class="cta-section" id="kontaktai">
+        <div class="container">
+            <div class="section-label">Pradėkime</div>
+            <h2 class="section-title">Pasiruošę sužinoti savo sistemos būklę?</h2>
+            <p>Rezervuokite nemokamą 30 min. konsultaciją. Aptarsime Jūsų situaciją ir pasiūlysime geriausią sprendimą.
+            </p>
+
+            <a class="btn btn-primary fw-500 me-2" data-cal-link="atakosvektorius/konsultacija"
+                data-cal-namespace="konsultacija" data-cal-config='{"layout":"month_view"}'>
+                Pasirinkti laiką
+                <i class="ms-2"></i>
+            </a>
+
+
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="apie">
+        <div class="container">
+            <div class="section-label">Apie mus</div>
+            <h2 class="section-title">Atakos vektorius</h2>
+            <div class="about-grid">
+                <div class="about-info">
+                    <p>Esame kibernetinio saugumo įmonė, teikianti profesionalias įsilaužimo testavimo, saugumo audito
+                        ir mokymų paslaugas Lietuvos verslui.</p>
+                    <p>Mūsų komanda turi tarptautiniu mastu pripažintus sertifikatus ir praktinę patirtį dirbant su
+                        įvairaus dydžio organizacijomis.</p>
+                    <h3>Sertifikatai</h3>
+                    <div class="cert-badges">
+                        <span class="cert-badge">
+                            <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            OSCP
+                        </span>
+                        <span class="cert-badge">
+                            <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            BSCP
+                        </span>
+                        <span class="cert-badge">
+                            <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            CompTIA
+                        </span>
+                        <span class="cert-badge">
+                            <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            F5
+                        </span>
+                    </div>
+                </div>
+                <div class="contact-details">
+                    <h3>Kontaktinė informacija</h3>
+                    <div class="contact-row">
+                        <span class="label">Įmonė</span>
+                        <span>MB „Atakos vektorius"</span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">Adresas</span>
+                        <span>Europos pr. 34-47, Kaunas, LT-46370</span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">El. paštas</span>
+                        <a href="mailto:saugu@atakosvektorius.lt">saugu@atakosvektorius.lt</a>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">Telefonas</span>
+                        <a href="tel:+37062612345">+370 626 12345</a>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">Įm. kodas</span>
+                        <span>306126966</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container" style="text-align:center">Atakos vektorius &copy; <a href="javascript:void(0);"
+                aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a> </div>
+    </footer>
+
+
+    <link href="css/cookieconsent.css" rel="stylesheet" />
+    <script defer src="js/cookieconsent.js"></script>
+
+    <script>
+        function consentGranted() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'granted'
+            });
+        }
+        function consentDenied() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied'
+            });
+        }
+    </script>
+
+    <script>
+        window.addEventListener('load', function () {
+            var cookieconsent = initCookieConsent();
+            cookieconsent.run({
+                delay: 3500,
+                autorun: true,
+                current_lang: 'en',
+                theme_css: '/css/cookieconsent.css',
+                autoclear_cookies: true,
+                page_scripts: true,
+                onAccept: function (cookie) {
+
+                },
+
+                onChange: function (cookie, changed_preferences) {
+                    consentDenied();
+                    cookieconsent.eraseCookies(['cc_cookie', '_ga', '_ga_MM3XFZX1JX']);
+
+                },
+
+                languages: {
+                    en: {
+                        consent_modal: {
+                            title: '<a href="javascript:void(0);" aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a> ',
+                            description: 'Sveiki, <br> ar sutinkate aktyvuoti Googe Analytics?',
+                            primary_btn: {
+                                text: 'Sutinku',
+                                role: 'accept_all'
+                            },
+                            secondary_btn: {
+                                text: 'Nesutinku',
+                                role: 'accept_necessary'
+                            }
+                        },
+                        settings_modal: {
+                            title: 'Privatumo politikos nustatymai',
+                            save_settings_btn: 'Užsaugoti pakeitimus',
+                            accept_all_btn: 'Priimti visus',
+                            reject_all_btn: 'Išvalyti',
+                            cookie_table_headers: [
+                                { col1: 'Name' },
+                                { col2: 'Domain' },
+                                { col3: 'Expiration' },
+                                { col5: 'Type' }
+                            ],
+                            blocks: [
+                                {
+                                    title: 'Slapukų naudojimas',
+                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę, ir tobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
+                                }, {
+                                    title: 'Būtini slapukai',
+                                    description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti, bei atpažinti ar lankytojas sutiko su Google Analytics įrankio prašymu. Taip užtikrinamas pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams',
+                                    toggle: {
+                                        value: 'necessary',
+                                        enabled: true,
+                                        readonly: true
+                                    }
+
+                                },
+                                {
+                                    title: 'Google Analytics slapukai',
+                                    description: 'Šie slapukai skirti Google identifikuoti naršyklės sesiją, kurios metu bus renkami duomenys apie lankytoju veiksmus susijusius su svetainės naršymu: kuriuose polapiuose lankomasi ir kurias nuorodas spaudžiamos. Visi duomenys yra anonimiški ir negali būti naudojami tapatybei nustatyti.',
+                                    toggle: {
+                                        value: 'analytics',
+                                        enabled: false,
+                                        readonly: false,
+                                        reload: 'on_disable'
+
+                                    },
+                                    cookie_table: [
+                                        {
+                                            col1: '_ga',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie',
+                                            is_regex: true
+                                        },
+                                        {
+                                            col1: '_ga_MM3XFZX1JX',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie'
+                                        }
+                                    ]
+                                }, {
+                                    title: 'Pašalinti slapukus',
+                                    description: 'Pašalinti Google Analytics sukurtus slapukus spauskite "Išvalyti".  Kiti klausimai elektroniniu paštu.</a>',
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "konsultacija", { origin: "https://app.cal.com" });
+        Cal.ns.konsultacija("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
+    </script>
+
+</body>
+
+</html>
