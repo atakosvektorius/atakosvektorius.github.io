@@ -1,5 +1,3 @@
-# Atakos vektorius
+# Github Pages
 
-## Informacinių sistemų saugumas
-
-Interneto svetainė https://atakosvektorius.lt repozitorija
+Ši repozitorija skirta oficialios įmonės „Atakos vektorius“ interneto svetainės (https://atakosvektorius.lt) išeities kodui.
