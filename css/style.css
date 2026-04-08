@@ -188,10 +188,12 @@ section {
 }
 
 @keyframes pulse {
+
     0%,
     100% {
         opacity: 1;
     }
+
     50% {
         opacity: 0.4;
     }
@@ -294,6 +296,7 @@ section {
     text-transform: uppercase;
     color: var(--accent);
     margin-bottom: 12px;
+    align-self: center;
 }
 
 .section-title {
@@ -329,6 +332,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
+    align-self: center;
     font-size: 1.4rem;
     margin-bottom: 20px;
     box-shadow: 2px 2px 0 var(--shadow);
