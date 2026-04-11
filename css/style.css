@@ -539,7 +539,7 @@ section {
     gap: 12px;
     padding: 12px 0;
     border-bottom: 1px solid var(--border-light);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
 }
 
 .contact-row:last-child {
