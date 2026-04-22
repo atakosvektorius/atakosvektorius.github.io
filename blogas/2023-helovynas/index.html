@@ -7,6 +7,69 @@
     <title>CVE-2023-46747: Kritinė F5 Big-IP spraga per HTTP smuggling — Atakos Vektorius</title>
     <meta name="description"
         content="Kaip HTTP request smuggling technika leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose ir kodėl svarbu tinkamai valdyti prieigą prie management interface.">
+    <meta name="keywords" content="CVE-2023-46747, F5 Big-IP, HTTP request smuggling, RCE, kibernetinis saugumas, pentesting">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Atakos Vektorius">
+    <link rel="canonical" href="https://atakosvektorius.lt/blogas/2023-helovynas/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <meta property="og:title" content="CVE-2023-46747: Kritinė F5 Big-IP spraga per HTTP smuggling">
+    <meta property="og:description" content="Kaip HTTP request smuggling leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://atakosvektorius.lt/blogas/2023-helovynas/">
+    <meta property="og:site_name" content="Atakos Vektorius">
+    <meta property="og:locale" content="lt_LT">
+    <meta property="og:image" content="https://atakosvektorius.lt/blogas/2023-helovynas/big-ip.png">
+    <meta property="article:published_time" content="2026-04-04">
+    <meta property="article:author" content="Atakos Vektorius">
+    <meta property="article:section" content="Saugumo tyrimai">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CVE-2023-46747: Kritinė F5 Big-IP spraga per HTTP smuggling">
+    <meta name="twitter:description" content="Kaip HTTP request smuggling leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose.">
+    <meta name="twitter:image" content="https://atakosvektorius.lt/blogas/2023-helovynas/big-ip.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "CVE-2023-46747: Kritinė F5 Big-IP spraga per HTTP smuggling",
+      "description": "Kaip HTTP request smuggling technika leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose ir kodėl svarbu tinkamai valdyti prieigą prie management interface.",
+      "image": "https://atakosvektorius.lt/blogas/2023-helovynas/big-ip.png",
+      "datePublished": "2026-04-04",
+      "dateModified": "2026-04-04",
+      "inLanguage": "lt-LT",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://atakosvektorius.lt/blogas/2023-helovynas/"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "MB „Atakos vektorius“",
+        "url": "https://atakosvektorius.lt/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MB „Atakos vektorius“",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://atakosvektorius.lt/atakos_vektorius_logo.png"
+        }
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "CVE-2023-46747"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Pradžia", "item": "https://atakosvektorius.lt/"},
+        {"@type": "ListItem", "position": 2, "name": "Blogas", "item": "https://atakosvektorius.lt/blogas/"},
+        {"@type": "ListItem", "position": 3, "name": "CVE-2023-46747: Kritinė F5 Big-IP spraga"}
+      ]
+    }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -31,8 +94,7 @@
     <!-- NAV -->
     <nav>
         <div class="nav-inner">
-            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png"
-                    alt="Atakos Vektorius">atakos<span>vektorius</span></a>
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos Vektorius logotipas" width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
             <div class="nav-links">
                 <a href="/#paslaugos">Paslaugos</a>
                 <a href="/#procesas">Procesas</a>
@@ -117,13 +179,13 @@
 
             <!-- Paveikslėlis: HTTP smuggling schema -->
             <figure>
-                <img src="http-smuggling.png" alt="HTTP Request Smuggling schema">
+                <img src="http-smuggling.png" alt="HTTP Request Smuggling schema" loading="lazy" decoding="async">
                 <figcaption>HTTP Request Smuggling principas — kenkėjiška užklausa paslepiama už teisėtos</figcaption>
             </figure>
 
             <!-- Paveikslėlis: HTTP užklausa -->
             <figure>
-                <img src="http-request.png" alt="HTTP užklausos pavyzdys">
+                <img src="http-request.png" alt="HTTP užklausos pavyzdys" loading="lazy" decoding="async">
                 <figcaption>Kenkėjiška HTTP užklausa su paslėptu turiniu</figcaption>
             </figure>
 
@@ -174,7 +236,7 @@
 
             <!-- Paveikslėlis: Reverse shell -->
             <figure>
-                <img src="reverse-shell.png" alt="Reverse shell pavyzdys">
+                <img src="reverse-shell.png" alt="Reverse shell pavyzdys" loading="lazy" decoding="async">
                 <figcaption>RCE scenarijus: komandų vykdymo galia ir atgalinio ryšio užmezgimas (reverse shell)
                 </figcaption>
             </figure>
@@ -188,7 +250,7 @@
 
             <!-- Paveikslėlis: PoC Burp Suite -->
             <figure>
-                <img src="poc-burp.png" alt="PoC Burp Suite ekrano nuotrauka">
+                <img src="poc-burp.png" alt="PoC Burp Suite ekrano nuotrauka" loading="lazy" decoding="async">
                 <figcaption>Proof of Concept — sėkmingas pažeidžiamumo išnaudojimas per Burp Suite</figcaption>
             </figure>
 
@@ -197,7 +259,7 @@
 
             <!-- Paveikslėlis: Big-IP administratoriaus vartotojas sukurtas -->
             <figure>
-                <img src="big-ip.png" alt="F5 Big-IP administratoriaus vartotojas sukurtas">
+                <img src="big-ip.png" alt="F5 Big-IP administratoriaus vartotojas sukurtas" loading="lazy" decoding="async">
                 <figcaption>F5 Big-IP administratoriaus vartotojas sukurtas</figcaption>
             </figure>
 
@@ -211,7 +273,7 @@
 
             <!-- Paveikslėlis: Shodan rezultatai -->
             <figure>
-                <img src="shodan.png" alt="Shodan paieškos rezultatai">
+                <img src="shodan.png" alt="Shodan paieškos rezultatai" loading="lazy" decoding="async">
                 <figcaption>Shodan: viešai pasiekiami Big-IP įrenginiai pasaulyje (2023m. rezultatai)</figcaption>
             </figure>
 
@@ -257,7 +319,7 @@
 
             <!-- Paveikslėlis: Portswigger / papildoma schema -->
             <figure>
-                <img src="portswigger.png" alt="HTTP smuggling paaiškinimas">
+                <img src="portswigger.png" alt="HTTP smuggling paaiškinimas" loading="lazy" decoding="async">
                 <figcaption>HTTP Request Smuggling vizualizacija</figcaption>
             </figure>
 
