@@ -11,7 +11,8 @@
     <link rel="canonical" href="https://atakosvektorius.lt/blogas/">
     <link rel="icon" href="/favicon.ico" sizes="any">
     <meta property="og:title" content="Blogas — kibernetinio saugumo straipsniai | Atakos Vektorius">
-    <meta property="og:description" content="Kibernetinio saugumo straipsniai, pažeidžiamumų tyrimai ir praktiniai patarimai.">
+    <meta property="og:description"
+        content="Kibernetinio saugumo straipsniai, pažeidžiamumų tyrimai ir praktiniai patarimai.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://atakosvektorius.lt/blogas/">
     <meta property="og:site_name" content="Atakos Vektorius">
@@ -19,7 +20,8 @@
     <meta property="og:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Blogas — kibernetinio saugumo straipsniai | Atakos Vektorius">
-    <meta name="twitter:description" content="Kibernetinio saugumo straipsniai, pažeidžiamumų tyrimai ir praktiniai patarimai.">
+    <meta name="twitter:description"
+        content="Kibernetinio saugumo straipsniai, pažeidžiamumų tyrimai ir praktiniai patarimai.">
     <meta name="twitter:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
     <script type="application/ld+json">
     {
@@ -37,6 +39,11 @@
         }
       },
       "blogPost": [{
+        "@type": "BlogPosting",
+        "headline": "DI kodas ir kibernetinis saugumas 2026",
+        "url": "https://atakosvektorius.lt/blogas/di-ir-kibernetinis-saugumas-2026/",
+        "datePublished": "2026-04-23"
+      },{
         "@type": "BlogPosting",
         "headline": "2023 m. Helovyno istorija su F5 Big-IP",
         "url": "https://atakosvektorius.lt/blogas/2023-helovynas/",
@@ -68,12 +75,13 @@
     <!-- NAV -->
     <nav>
         <div class="nav-inner">
-            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos Vektorius logotipas" width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos Vektorius logotipas"
+                    width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
             <div class="nav-links">
                 <a href="/#paslaugos">Paslaugos</a>
                 <a href="/#procesas">Procesas</a>
                 <a href="/#apie">Apie mus</a>
-                <a href="/blogas" class="nav-cta">Blogas</a>
+                <a href="/blogas/" class="nav-cta">Blogas</a>
             </div>
             <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
                 aria-label="Menu">
@@ -86,7 +94,7 @@
             <a href="/#paslaugos" onclick="document.getElementById('mob-menu').classList.remove('active')">Paslaugos</a>
             <a href="/#procesas" onclick="document.getElementById('mob-menu').classList.remove('active')">Procesas</a>
             <a href="/#apie" onclick="document.getElementById('mob-menu').classList.remove('active')">Apie mus</a>
-            <a href="/blogas" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
+            <a href="/blogas/" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
         </div>
     </nav>
 
@@ -106,7 +114,17 @@
 
                 <div class="card blog-card">
                     <div>
-                        <div class="blog-meta">2025-04-04 &middot; Saugumo tyrimai</div>
+                        <div class="blog-meta">2026-04-23 &middot; Saugumo tyrimai</div>
+                        <h3><a href="/blogas/di-ir-kibernetinis-saugumas-2026/">DI kodas ir kibernetinis saugumas
+                                2026</a></h3>
+                        <p>Kodėl net gerai parašytas DI kodas dar nereiškia saugaus produkto.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card blog-card">
+                    <div>
+                        <div class="blog-meta">2026-04-04 &middot; Saugumo tyrimai</div>
                         <h3><a href="/blogas/2023-helovynas/">2023 m. Helovyno istorija su F5 Big-IP</a></h3>
                         <p>CVE-2023-46747: Kritinė F5 Big-IP spraga.
                         </p>
@@ -196,7 +214,7 @@
                             blocks: [
                                 {
                                     title: 'Slapukų naudojimas',
-                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę, ir tobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
+                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę irtobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
                                 }, {
                                     title: 'Būtini slapukai',
                                     description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti, bei atpažinti ar lankytojas sutiko su Google Analytics įrankio prašymu. Taip užtikrinamas pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams',

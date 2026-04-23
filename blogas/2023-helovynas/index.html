@@ -7,13 +7,15 @@
     <title>CVE-2023-46747: Kritinė F5 Big-IP spraga per HTTP smuggling — Atakos Vektorius</title>
     <meta name="description"
         content="Kaip HTTP request smuggling technika leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose ir kodėl svarbu tinkamai valdyti prieigą prie management interface.">
-    <meta name="keywords" content="CVE-2023-46747, F5 Big-IP, HTTP request smuggling, RCE, kibernetinis saugumas, pentesting">
+    <meta name="keywords"
+        content="CVE-2023-46747, F5 Big-IP, HTTP request smuggling, RCE, kibernetinis saugumas, pentesting">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Atakos Vektorius">
     <link rel="canonical" href="https://atakosvektorius.lt/blogas/2023-helovynas/">
     <link rel="icon" href="/favicon.ico" sizes="any">
     <meta property="og:title" content="CVE-2023-46747: Kritinė F5 Big-IP spraga per HTTP smuggling">
-    <meta property="og:description" content="Kaip HTTP request smuggling leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose.">
+    <meta property="og:description"
+        content="Kaip HTTP request smuggling leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://atakosvektorius.lt/blogas/2023-helovynas/">
     <meta property="og:site_name" content="Atakos Vektorius">
@@ -24,7 +26,8 @@
     <meta property="article:section" content="Saugumo tyrimai">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="CVE-2023-46747: Kritinė F5 Big-IP spraga per HTTP smuggling">
-    <meta name="twitter:description" content="Kaip HTTP request smuggling leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose.">
+    <meta name="twitter:description"
+        content="Kaip HTTP request smuggling leidžia apeiti autentifikaciją F5 Big-IP įrenginiuose.">
     <meta name="twitter:image" content="https://atakosvektorius.lt/blogas/2023-helovynas/big-ip.png">
     <script type="application/ld+json">
     {
@@ -94,7 +97,8 @@
     <!-- NAV -->
     <nav>
         <div class="nav-inner">
-            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos Vektorius logotipas" width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos Vektorius logotipas"
+                    width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
             <div class="nav-links">
                 <a href="/#paslaugos">Paslaugos</a>
                 <a href="/#procesas">Procesas</a>
@@ -259,7 +263,8 @@
 
             <!-- Paveikslėlis: Big-IP administratoriaus vartotojas sukurtas -->
             <figure>
-                <img src="big-ip.png" alt="F5 Big-IP administratoriaus vartotojas sukurtas" loading="lazy" decoding="async">
+                <img src="big-ip.png" alt="F5 Big-IP administratoriaus vartotojas sukurtas" loading="lazy"
+                    decoding="async">
                 <figcaption>F5 Big-IP administratoriaus vartotojas sukurtas</figcaption>
             </figure>
 
@@ -414,7 +419,7 @@
                             blocks: [
                                 {
                                     title: 'Slapukų naudojimas',
-                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę, ir tobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
+                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę irtobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
                                 }, {
                                     title: 'Būtini slapukai',
                                     description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti, bei atpažinti ar lankytojas sutiko su Google Analytics įrankio prašymu. Taip užtikrinamas pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams',

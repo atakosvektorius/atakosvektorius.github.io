@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DI kodas ir kibernetinis saugumas 2026 — Atakos Vektorius</title>
+    <meta name="description"
+        content="Kodėl net gerai parašytas DI kodas dar nereiškia saugaus produkto: kodo ir infrastruktūros sluoksniai, „vibe coding"
+        rizikos ir gilumos gynyba.">
+    <meta name="keywords"
+        content="DI saugumas, vibe coding, Claude, DI kodas, kibernetinis saugumas, gilumos gynyba, defense in depth">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Atakos Vektorius">
+    <link rel="canonical" href="https://atakosvektorius.lt/blogas/di-ir-kibernetinis-saugumas-2026/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <meta property="og:title" content="DI kodas ir kibernetinis saugumas 2026">
+    <meta property="og:description" content="Kodėl net gerai parašytas DI kodas dar nereiškia saugaus produkto.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://atakosvektorius.lt/blogas/di-ir-kibernetinis-saugumas-2026/">
+    <meta property="og:site_name" content="Atakos Vektorius">
+    <meta property="og:locale" content="lt_LT">
+    <meta property="og:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
+    <meta property="article:published_time" content="2026-04-23">
+    <meta property="article:author" content="Atakos Vektorius">
+    <meta property="article:section" content="Saugumo tyrimai">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DI kodas ir kibernetinis saugumas 2026">
+    <meta name="twitter:description" content="Kodėl net gerai parašytas DI kodas dar nereiškia saugaus produkto.">
+    <meta name="twitter:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "DI kodas ir kibernetinis saugumas 2026",
+      "description": "Kodėl net gerai parašytas DI kodas dar nereiškia saugaus produkto: kodo ir infrastruktūros sluoksniai, „vibe coding\" rizikos ir gilumos gynyba.",
+      "image": "https://atakosvektorius.lt/atakos_vektorius_logo.png",
+      "datePublished": "2026-04-23",
+      "dateModified": "2026-04-23",
+      "inLanguage": "lt-LT",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://atakosvektorius.lt/blogas/di-ir-kibernetinis-saugumas-2026/"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "MB „Atakos vektorius“",
+        "url": "https://atakosvektorius.lt/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MB „Atakos vektorius“",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://atakosvektorius.lt/atakos_vektorius_logo.png"
+        }
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "DI generuotas kodas ir kibernetinis saugumas"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Pradžia", "item": "https://atakosvektorius.lt/"},
+        {"@type": "ListItem", "position": 2, "name": "Blogas", "item": "https://atakosvektorius.lt/blogas/"},
+        {"@type": "ListItem", "position": 3, "name": "DI kodas ir kibernetinis saugumas 2026"}
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/plain" data-cookiecategory="analytics" async
+        src="https://www.googletagmanager.com/gtag/js?id=G-MM3XFZX1JX"></script>
+    <script type="text/plain" data-cookiecategory="analytics">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MM3XFZX1JX');
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied'
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos Vektorius logotipas"
+                    width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
+            <div class="nav-links">
+                <a href="/#paslaugos">Paslaugos</a>
+                <a href="/#procesas">Procesas</a>
+                <a href="/#apie">Apie mus</a>
+                <a href="/blogas/" class="nav-cta">Blogas</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
+                aria-label="Menu">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M4 8h20M4 14h20M4 20h20" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mob-menu">
+            <a href="/#paslaugos">Paslaugos</a>
+            <a href="/#procesas">Procesas</a>
+            <a href="/#apie">Apie mus</a>
+            <a href="/blogas/">Blogas</a>
+        </div>
+    </nav>
+
+    <!-- BLOG POST -->
+    <section>
+        <div class="container blog-content">
+            <a href="/blogas/"
+                style="color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.9rem;">&larr; Grįžti
+                į blogą</a>
+
+            <h1 style="margin-top: 24px;">DI kodas ir kibernetinis saugumas 2026</h1>
+            <div class="blog-meta">2026-04-23 &middot; Saugumo tyrimai</div>
+
+            <!-- ===== KAI DI ĮSIBĖGĖJA ===== -->
+
+            <h2>Kai DI įsibėgėja</h2>
+
+            <p>Vien tik nuo šių metų pradžios į rinką išėjo tiek daug technologinių, su dirbtinio intelekto taikymu
+                susijusių patobulinimų, kad nustebinti vis sunkiau: lūkesčiai tik auga.</p>
+
+            <p>Sunku pasivyti „Anthropic" komandą su savo „Claude Code", kuris, anot rinkodarinių pareiškimų, „skaito
+                dokumentaciją, rašo keliomis kalbomis, pats vykdo testus ir kartoja, kol produktas paruošiamas
+                gamybai" <a
+                    href="https://startupfortune.com/anthropics-claude-code-turns-the-ai-coding-assistant-into-a-fully-autonomous-software-engineer/"
+                    target="_blank" rel="noopener">[1]</a>.</p>
+
+            <p>Šalia to, sparčiai gerėjantys modeliai. Balandį pristatytas „Opus 4.7" „SWE-Bench Pro" teste pasiekė
+                64,3 % (beveik 11 punktų daugiau nei pirmtakas) <a
+                    href="https://siliconangle.com/2026/04/16/anthropic-launches-claude-opus-4-7-coding-visual-reasoning-improvements/"
+                    target="_blank" rel="noopener">[2]</a>. Dar labiau dėmesį patraukė ribotai pristatytas „Claude
+                Mythos". Laboratorijoje jis pasirodė gabus ne tik kodui rašyti, bet savarankiškai aptiko ir išnaudojo
+                nulinių dienų pažeidžiamumus visose didžiosiose operacinėse sistemose bei naršyklėse, tarp jų - 17
+                metų nepastebėtą „FreeBSD" klaidą (CVE-2026-4747), leidžiančią gauti root teises per NFS <a
+                    href="https://red.anthropic.com/2026/mythos-preview/" target="_blank" rel="noopener">[3]</a>. Pati
+                įmonė šį modelį pavadino žymiai pajėgesniu už „Opus 4.7"
+                programavimo srityje ir <strong>plačiai jo neišleido</strong> bijodama, kad juo naudosis
+                piktavaliai. Tai buvo ženklas, kad DI darosi vis pajėgesnis ne tik rašyti kodą, bet ir tikrinti,
+                apsaugoti bei išnaudoti pažeidžiamumus.</p>
+
+            <p>„Fortune 500" sąraše jau 87 % įmonių pritaikiusios bent vieną „vibe coding" platformą <a
+                    href="https://beyondscale.tech/blog/vibe-coding-security-risks-enterprise" target="_blank"
+                    rel="noopener">[4]</a>, o „App Store" pateikimų skaičius per ketvirtį šoktelėjo 84 % <a
+                    href="https://thenextweb.com/news/vibe-coding-apple-app-store-surge-crackdown" target="_blank"
+                    rel="noopener">[5]</a>.</p>
+
+            <!-- ===== APPLE NUBRĖŽIA RIBĄ ===== -->
+
+            <h2>Apple nubrėžia ribą</h2>
+
+            <p>„Apple" atrodo atsilieka DI lenktynėse: „Apple Intelligence" nebekonkuruoja su
+                pagrindiniais DI modeliais funkcionalumu. Tačiau kompanija nusprendė kalbėti kita kalba: ne apie
+                gebėjimus, o apie kokybę.</p>
+
+            <p>2026 m. kovą „Apple" tyliai <strong>užblokavo atnaujinimus</strong> keliems „vibe coding" produktams:
+                tarp jų „Replit" ir „Vibecode", o programą „Anything" tiesiog išėmė iš „App Store" <a
+                    href="https://www.macrumors.com/2026/03/30/apple-pulls-vibe-coding-app/" target="_blank"
+                    rel="noopener">[6]</a>.</p>
+
+            <p>Formali priežastis: 2.5.2 gairė, draudžianti aplikacijoms vykdyti kodą, kuris keičia jų pačių
+                funkcionalumą. Techniškai tos platformos rodo DI sugeneruotas aplikacijas per įdėtus „web view"
+                komponentus ir „Apple" tai vertina kaip dinaminio kodo vykdymą <a
+                    href="https://appleinsider.com/articles/26/03/18/bad-vibes-apple-blocks-updates-for-some-ai-coding-apps-in-the-app-store"
+                    target="_blank" rel="noopener">[7]</a>.</p>
+
+            <p>Tikroji žinutė platesnė: „Apple" nepasakė „ne DI", ji pasakė „ne prastos kokybės
+                produktui", nesvarbu, kas jį parašė. Atnaujintose 2026 m. taisyklėse sustiprinti privatumo ir
+                dinaminio kodo reikalavimai: <strong>daug DI aplikacijų nebepasiekia net vartotojo</strong> <a
+                    href="https://www.adalo.com/posts/apple-app-store-vibe-coding-guideline-2-5-2/" target="_blank"
+                    rel="noopener">[8]</a>. Tai pirmasis didelis platformos savininkas, aiškiai pasakęs: atsakomybė
+                už pasekmes tebegula ant gamintojo, ne ant modelio.</p>
+
+            <!-- ===== KIEK DI KODO YRA NESAUGUS ===== -->
+
+            <h2>Kiek DI kodo yra nesaugus</h2>
+
+            <p>Kai „Veracode" 2025 m. išbandė 100+ didelių kalbos modelių ir patikrino jų sugeneruotą kodą keturiomis
+                programavimo kalbomis, rezultatas buvo negailestingas: <strong>45 % kodo pavyzdžių neišlaikė saugumo
+                    testų ir turėjo OWASP Top 10 pažeidžiamumų</strong>. DI sugeneruotame kode pažeidžiamumų aptikta
+                2,74 karto daugiau nei žmogaus rašytame. „Java" buvo rizikingiausia kalba: 72 % užduočių nepavyko
+                saugiai išspręsti <a
+                    href="https://www.veracode.com/resources/analyst-reports/2025-genai-code-security-report/"
+                    target="_blank" rel="noopener">[9]</a>.</p>
+
+            <p>„Apiiro" įmonių tyrimas parodė dar dramatiškesnę tendenciją: iki 2025 m. birželio DI sugeneruotas
+                kodas kas mėnesį generuodavo per 10 000 naujų saugumo problemų, dešimt kartų daugiau nei prieš
+                pusmetį. Privilegijų eskalavimo kelių padaugėjo 322 %, architektūros klaidų: 153 % <a
+                    href="https://apiiro.com/blog/4x-velocity-10x-vulnerabilities-ai-coding-assistants-are-shipping-more-risks/"
+                    target="_blank" rel="noopener">[10]</a>.</p>
+
+            <p>Stanfordo universiteto tyrimas (vadovaujamas Dan Boneh) pridėjo nemalonų niuansą: programuotojai,
+                dirbę su DI asistentu, rašė <strong>mažiau saugų kodą</strong> nei tie, kurie dirbo be jo, bet
+                <strong>jautėsi rašantys saugesnį</strong>. Klasikinis klaidų sustiprinimo ciklas: pasitikėjimas
+                auga greičiau nei kompetencija <a
+                    href="https://ee.stanford.edu/dan-boneh-and-team-find-relying-ai-more-likely-make-your-code-buggier"
+                    target="_blank" rel="noopener">[11]</a>.
+            </p>
+
+            <p>2026 m. pirmąjį ketvirtį nepriklausomas skenavimas parodė, kad 91,5 % „vibe coded" aplikacijų turėjo
+                bent vieną su DI haliucinacija susijusią klaidą. XSS pažeidžiamumų aptikta 86 % DI kodo pavyzdžių, o
+                paslaptys (API raktai, prisijungimai) nutekinami 3,2 % DI commitų (dvigubai dažniau nei žmogaus
+                rašytuose) <a href="https://sqmagazine.co.uk/ai-coding-vulnerability-statistics/" target="_blank"
+                    rel="noopener">[12]</a>.</p>
+
+            <!-- ===== KAI PROBLEMOS PASIEKIA VARTOTOJUS ===== -->
+
+            <h2>Kai problemos pasiekia vartotojus</h2>
+
+            <p>Du šių metų incidentai gerai iliustruoja, kas nutinka, kai šios problemos peržengia testavimo
+                aplinką.</p>
+
+            <p><strong>„Lovable"</strong>, „vibe coding" platforma, įvertinta 6,6 mlrd. dolerių, aštuoni milijonai
+                naudotojų. Per trumpą laiką trys dokumentuoti saugumo incidentai atskleidė išeities kodą, duomenų
+                bazių prisijungimo duomenis ir tūkstančius naudotojų įrašų. Viena BOLA (Broken Object Level
+                Authorization) klaida išbuvo atvira <strong>48 dienas</strong> po to, kai saugumo tyrėjas apie ją
+                pranešė: įmonė tiesiog uždarė pranešimą be tinkamo nagrinėjimo <a
+                    href="https://thenextweb.com/news/lovable-vibe-coding-security-crisis-exposed" target="_blank"
+                    rel="noopener">[13]</a>.</p>
+
+            <p><strong>„Moltbook"</strong>, DI agentams skirtas socialinis tinklas, pastatytas pilnai per „vibe
+                coding". 2026 m. vasarį saugumo bendrovė „Wiz" rado netinkamai sukonfigūruotą „Supabase" duomenų
+                bazę, atvirą internete: <strong>1,5 milijono API autentikacijos žetonų, 35 000 el. pašto adresų ir
+                    privačių agentų susirašinėjimų</strong>, pasiekiamų bet kam <a
+                    href="https://www.wiz.io/blog/exposed-moltbook-database-reveals-millions-of-api-keys"
+                    target="_blank" rel="noopener">[14]</a>. Pagrindinė klaida: „Supabase" API raktas paliktas
+                kliento pusės „JavaScript" kode be RLS („Row Level Security") politikos. Penkių minučių
+                konfigūracijos nustatymas būtų užkirtęs kelią visam incidentui.</p>
+
+            <blockquote>
+                <p><strong>Svarbu:</strong> abiejuose incidentuose problema buvo <strong>ne kodo logika</strong>, o
+                    <strong>konfigūracija, infrastruktūra ir procesai</strong>, sritys, kurių DI modelio niekas iš
+                    tikrųjų neišmokė.
+                </p>
+            </blockquote>
+
+            <!-- ===== SAUGUS KODAS DAR NĖRA SAUGUS PRODUKTAS ===== -->
+
+            <h2>Saugus kodas dar nėra saugus produktas</h2>
+
+            <p>Pirmas dalykas, kurį verta priimti atvirai: <strong>DI parašytas kodas retai būna idealus</strong>.
+                Net tada, kai jis atrodo tvarkingas, lieka subtilios klaidos, nepatikrinti kraštiniai atvejai ir
+                sprendimai, kurie tinka bendram atvejui, bet ne jūsų aplinkai.</p>
+
+            <p>Antras, kartais dar svarbesnis dalykas: <strong>DI apskritai nepagalvoja apie kitus sluoksnius</strong>,
+                kuriuose tas kodas veiks. Tinklo segmentavimas, paslapčių valdymas, tapatybės politika, stebėsena,
+                atitikties reikalavimai - visa tai lieka už modelio regėjimo ribų. Jis rašo funkciją, bet
+                neklausia, kaip ji integruosis į visą sistemą.</p>
+
+            <p>O jei DI vis dėlto bandoma pasitelkti ir šiems sluoksniams spręsti, rezultatas dažnai <strong>neparodo
+                    realios būklės arba tiesiog suklaidina</strong>: modelis pateikia vadovėlinę gerąją praktiką,
+                kuri jūsų konkrečioje aplinkoje gali būti dalinai klaidinga, nereikalinga ar net prieštaraujanti jau
+                veikiančioms kontrolėms. Kontekstas skiriasi - tinklo topologija, paveldėtos sistemos, esami
+                apsaugos sluoksniai, - o DI to nemato.</p>
+
+            <p>Būtent čia atsiskleidžia <strong>saugumo ekspertų vaidmuo</strong>: jie turi platesnį matymą - jungia
+                kodą su infrastruktūra, įvertina, kurie sluoksniai jau kompensuoja kodo trūkumus, o kur iš tiesų
+                slypi rizika. Tai klausimas, apie kurį, mūsų nuomone, šiandien turėtų galvoti kiekvienas,
+                priimantis sprendimus dėl DI sugeneruoto kodo gamyboje.</p>
+
+            <!-- ===== KODAS IR INFRASTRUKTŪRA ===== -->
+
+            <h2>Kaip ekspertai vertina realų sistemos saugumą</h2>
+
+            <p>Kadangi DI pilno paveikslo nemato, sistemą tenka vertinti <strong>iš šono</strong> - stebint, kaip ji
+                elgiasi iš tikrųjų, o ne ką byloja kodas. Tam saugumo ekspertai taiko du vienas kitą papildančius
+                žingsnius.</p>
+
+            <p><strong>1. DAST testavimas gamybinėje aplinkoje.</strong> Veikiančiai aplikacijai siunčiamos
+                netikėtos, iškreiptos ir piktavališkos užklausos: manipuliuoti parametrai, neautorizuotos prieigos
+                bandymai, kraštiniai įvesties atvejai. Stebima, kaip sistema reaguoja, ką grąžina, ar neatskleidžia
+                vidinės informacijos per klaidų pranešimus, ar tinkamai autorizuoja prieigą prie gilesnių objektų.
+                Taip išryškėja pažeidžiamumai, kurie kode atrodo nekalti, bet realioje aplikacijoje tampa atakos
+                vektoriumi.</p>
+
+            <p><strong>2. Infrastruktūros būklės patikra.</strong> Tuo pačiu vertinama ir aplinka, kurioje kodas
+                veikia: tinklo segmentavimas, WAF taisyklės, tapatybės valdymas, paslapčių saugojimas, audito
+                žurnalai, atsarginės kopijos, atnaujinimų būklė. Ne todėl, kad DI šiose srityse klysta, o todėl, kad
+                būtent šie sluoksniai arba <strong>kompensuoja kodo trūkumus</strong>, arba palieka juos atvirus
+                atakai.</p>
+
+            <p>Sujungus abu pjūvius - realų sistemos elgesį ir infrastruktūros būklę - galima parengti ataskaitą su
+                <strong>konkrečiomis, kontekstą atitinkančiomis rekomendacijomis</strong>: ką taisyti kode, ką
+                keisti konfigūracijoje, ką sustiprinti ugniasienėje, kur reikia papildomo stebėjimo. Tai medžiaga,
+                su kuria komanda gali veikti toliau, o ne bendros vadovėlinės gairės, kurias grąžintų DI.
+            </p>
+
+            <!-- ===== KAIP INFRASTRUKTŪRA PADEDA SUVALDYTI RIZIKĄ ===== -->
+
+            <h2>Kaip infrastruktūra padeda suvaldyti riziką</h2>
+
+            <p>Iš karto svarbu pasakyti, ko infrastruktūra <strong>nedaro</strong>: ji nepaverčia nesaugaus kodo
+                saugiu ir neatleidžia nuo pareigos tą kodą taisyti. Jos vaidmuo kitoks - tai <strong>sluoksnis iš
+                    daugybės komponentų, kiekvienas skirtas valdyti tam tikrą grėsmių kategoriją</strong>: vieni
+                atremia tinklines atakas, kiti stabdo automatinius skenerius, treti riboja žalą, jei kažkas vis
+                tiek pateko vidun, dar kiti fiksuoja anomalijas.</p>
+
+            <p>O kalbant konkrečiai apie per patikrinimą atrastas spragas - tokios priemonės kaip
+                <strong>WAF</strong> leidžia jas <strong>greitai užkardyti kaip laikiną pataisymą</strong>, kol
+                komanda išleidžia galutinį sprendimą kode. Kartu audito žurnalai ir SIEM parodo, ar kas nors nebando
+                tos spragos išnaudoti ir leidžia reaguoti <strong>proaktyviai</strong>, dar nespėjus žalai
+                išplisti.
+            </p>
+
+            <p>Iš kokių priemonių dažniausiai susideda šis apsaugos sluoksnis:</p>
+
+            <ul>
+                <li><strong>Web Application Firewall (WAF).</strong> L7 sluoksnyje filtruoja nepageidaujamas ir
+                    kenkėjiškas užklausas - SQL injekcijas, XSS ir kitus žinomus šablonus - net tada, kai pačiame
+                    kode tos klaidos dar yra.</li>
+                <li><strong>Bot apsauga.</strong> Stabdo automatinius skenerius, ieškančius pažeidžiamumų, ir
+                    užkerta kelią turinio pasisavinimui (angl. <em>scraping</em>).</li>
+                <li><strong>Tinklo segmentavimas.</strong> Net kompromitavus vieną mazgą DMZ zonoje, užpuolikas
+                    negali lengvai peršokti į vidinį tinklą ir pasiekti jautresnių sistemų (angl.
+                    <em>pivoting</em>).
+                </li>
+                <li><strong>Mažiausių privilegijų principas.</strong> Pažeista paslauga gali pasiekti tik tai, ko
+                    jai realiai reikia - ne visą duomenų bazę ir ne visus API raktus.</li>
+                <li><strong>Audito žurnalai ir SIEM.</strong> Fiksuoja įvykius, leidžia pastebėti anomaliją ir
+                    reaguoti dar nespėjus įvykti rimtai žalai.</li>
+                <li><strong>Atsarginės kopijos ir nekeičiami infrastruktūros šablonai.</strong> Leidžia per minutes
+                    atkurti sistemą po kompromitacijos ar klaidos.</li>
+            </ul>
+
+            <p>Tai ir yra <strong>gilumos gynyba</strong> (angl. <em>defense in depth</em>): jei vienas sluoksnis
+                nepavyksta, kiti stabdo ataką. Infrastruktūros komponentų visuma <strong>tinkamai parinkti ir
+                    sukonfigūruoti sluoksniai, kurie sumažina riziką taip, kad vartotojui tai liktų praktiškai
+                    nepastebima</strong> - be papildomų trukdžių, lėtumo ar sudėtingesnio prisijungimo. Tiesiog
+                mažiau galimybių įvykti tam, ko nenorime.</p>
+
+            <!-- ===== Išvados ===== -->
+
+            <h2>Išvados</h2>
+
+            <p>Mitas apie DI kaip visa ko sprendimą pavojingas ne todėl, kad modeliai blogi, „Claude Opus 4.7",
+                „Mythos" ar GPT šeimos modeliai tikrai pagreitina patyrusio programuotojo darbą. Mitas pavojingas todėl,
+                kad
+                <strong>nėra matomas pilnas kontekstas tarp sluoksnių</strong>.
+            </p>
+
+            <p>„Apple" tipo reguliacinių veiksmų tik daugės. NIS2, DORA ir atsirandantys DI reglamentai vis labiau
+                reikalaus, kad organizacijos <strong>gebėtų parodyti</strong> savo kontrolės sluoksnius, o ne tik
+                pasitikėti kodu.</p>
+
+            <p>Praktiškai tai reiškia, kad šalia statinės kodo analizės (SAST) vis svarbesnis tampa ir
+                <strong>DAST</strong> (angl. <em>Dynamic Application Security Testing</em>): veikiančios
+                aplikacijos testavimas su netikėtomis užklausomis, apie kurias DI nepagalvojo. DAST nevertina kodo
+                eilutės po eilutės, o stebi, kaip sistema iš tikrųjų elgiasi ataku metu, ką grąžina gavusi iškreiptą
+                įvestį, ar neatskleidžia vidinės informacijos per klaidų pranešimus, ar tinkamai autorizuoja
+                užklausas į gilesnius objektus. Būtent čia dažniausiai išryškėja tie pažeidžiamumai, kurių nei DI
+                asistentas, nei programuotojas, rašydami kodą, nenumatė.
+            </p>
+
+            <blockquote>
+                <p><strong>„Atakos vektoriaus"</strong> komanda padeda organizacijoms paruošti kelis šio konteksto
+                    sluoksnius vienu metu:</p>
+                <ul>
+                    <li><strong>DAST pažeidžiamumų vertinimas</strong>: dinaminis veikiančios aplikacijos
+                        testavimas su netikėtomis užklausomis, atskleidžiantis tai, ko kode nesimato.</li>
+                    <li><strong>WAF konfigūracija ir valdymas</strong>: apsaugos sluoksnis, stabdantis atakas ir
+                        automatinius skenerius net tada, kai pačiame kode pažeidžiamumų lieka.</li>
+                    <li><strong>Mokymai IT inžinieriams ir programuotojams</strong>: praktinis saugumo testavimas ir web
+                        aplikacijų įsilaužimo metodai.</li>
+                </ul>
+                <p>Jei svarstote apie DI sugeneruotą kodą savo sistemoje, turite klausimų, kurie kelia nerimą, ar
+                    kažkas tiesiog neveikia kaip turi - pasikalbėkime.</p>
+            </blockquote>
+
+            <!-- ===== ŠALTINIAI ===== -->
+
+            <h2>Šaltiniai</h2>
+            <ol>
+                <li><a href="https://startupfortune.com/anthropics-claude-code-turns-the-ai-coding-assistant-into-a-fully-autonomous-software-engineer/"
+                        target="_blank" rel="noopener">Claude Code as autonomous software engineer — Startup
+                        Fortune</a></li>
+                <li><a href="https://siliconangle.com/2026/04/16/anthropic-launches-claude-opus-4-7-coding-visual-reasoning-improvements/"
+                        target="_blank" rel="noopener">Anthropic launches Claude Opus 4.7 — SiliconANGLE</a></li>
+                <li><a href="https://red.anthropic.com/2026/mythos-preview/" target="_blank" rel="noopener">Claude
+                        Mythos Preview — Anthropic</a></li>
+                <li><a href="https://beyondscale.tech/blog/vibe-coding-security-risks-enterprise" target="_blank"
+                        rel="noopener">Vibe Coding Security Risks: Enterprise Guide 2026 — BeyondScale</a></li>
+                <li><a href="https://thenextweb.com/news/vibe-coding-apple-app-store-surge-crackdown" target="_blank"
+                        rel="noopener">Vibe coding drove an 84% jump in App Store submissions — TNW</a></li>
+                <li><a href="https://www.macrumors.com/2026/03/30/apple-pulls-vibe-coding-app/" target="_blank"
+                        rel="noopener">Apple Pulls Vibe Coding App 'Anything' — MacRumors</a></li>
+                <li><a href="https://appleinsider.com/articles/26/03/18/bad-vibes-apple-blocks-updates-for-some-ai-coding-apps-in-the-app-store"
+                        target="_blank" rel="noopener">Apple blocks updates for AI coding apps — AppleInsider</a>
+                </li>
+                <li><a href="https://www.adalo.com/posts/apple-app-store-vibe-coding-guideline-2-5-2/" target="_blank"
+                        rel="noopener">Apple Tightens App Store Rules for AI-Built Apps — Adalo</a></li>
+                <li><a href="https://www.veracode.com/resources/analyst-reports/2025-genai-code-security-report/"
+                        target="_blank" rel="noopener">2025 GenAI Code Security Report — Veracode</a></li>
+                <li><a href="https://apiiro.com/blog/4x-velocity-10x-vulnerabilities-ai-coding-assistants-are-shipping-more-risks/"
+                        target="_blank" rel="noopener">4x Velocity, 10x Vulnerabilities — Apiiro</a></li>
+                <li><a href="https://ee.stanford.edu/dan-boneh-and-team-find-relying-ai-more-likely-make-your-code-buggier"
+                        target="_blank" rel="noopener">Dan Boneh on AI making code buggier — Stanford EE</a></li>
+                <li><a href="https://sqmagazine.co.uk/ai-coding-vulnerability-statistics/" target="_blank"
+                        rel="noopener">AI Coding Security Vulnerability Statistics 2026 — SQ Magazine</a></li>
+                <li><a href="https://thenextweb.com/news/lovable-vibe-coding-security-crisis-exposed" target="_blank"
+                        rel="noopener">Lovable security crisis — TNW</a></li>
+                <li><a href="https://www.wiz.io/blog/exposed-moltbook-database-reveals-millions-of-api-keys"
+                        target="_blank" rel="noopener">Hacking Moltbook: AI Social Network Reveals 1.5M API Keys —
+                        Wiz</a></li>
+            </ol>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container" style="text-align:center">Atakos vektorius &copy; <a href="javascript:void(0);"
+                aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a></div>
+    </footer>
+
+    <link href="/css/cookieconsent.css" rel="stylesheet" />
+    <script defer src="/js/cookieconsent.js"></script>
+
+    <script>
+        function consentGranted() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'granted'
+            });
+        }
+        function consentDenied() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied'
+            });
+        }
+    </script>
+
+    <script>
+        window.addEventListener('load', function () {
+            var cookieconsent = initCookieConsent();
+            cookieconsent.run({
+                delay: 3500,
+                autorun: true,
+                current_lang: 'en',
+                theme_css: '/css/cookieconsent.css',
+                autoclear_cookies: true,
+                page_scripts: true,
+                onAccept: function (cookie) {
+
+                },
+
+                onChange: function (cookie, changed_preferences) {
+                    consentDenied();
+                    cookieconsent.eraseCookies(['cc_cookie', '_ga', '_ga_MM3XFZX1JX']);
+
+                },
+
+                languages: {
+                    en: {
+                        consent_modal: {
+                            title: '<a href="javascript:void(0);" aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a> ',
+                            description: 'Sveiki, <br> ar sutinkate aktyvuoti Googe Analytics?',
+                            primary_btn: {
+                                text: 'Sutinku',
+                                role: 'accept_all'
+                            },
+                            secondary_btn: {
+                                text: 'Nesutinku',
+                                role: 'accept_necessary'
+                            }
+                        },
+                        settings_modal: {
+                            title: 'Privatumo politikos nustatymai',
+                            save_settings_btn: 'Užsaugoti pakeitimus',
+                            accept_all_btn: 'Priimti visus',
+                            reject_all_btn: 'Išvalyti',
+                            cookie_table_headers: [
+                                { col1: 'Name' },
+                                { col2: 'Domain' },
+                                { col3: 'Expiration' },
+                                { col5: 'Type' }
+                            ],
+                            blocks: [
+                                {
+                                    title: 'Slapukų naudojimas',
+                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę ir tobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
+                                }, {
+                                    title: 'Būtini slapukai',
+                                    description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti, bei atpažinti ar lankytojas sutiko su Google Analytics įrankio prašymu. Taip užtikrinamas pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams',
+                                    toggle: {
+                                        value: 'necessary',
+                                        enabled: true,
+                                        readonly: true
+                                    }
+
+                                },
+                                {
+                                    title: 'Google Analytics slapukai',
+                                    description: 'Šie slapukai skirti Google identifikuoti naršyklės sesiją, kurios metu bus renkami duomenys apie lankytoju veiksmus susijusius su svetainės naršymu: kuriuose polapiuose lankomasi ir kurias nuorodas spaudžiamos. Visi duomenys yra anonimiški ir negali būti naudojami tapatybei nustatyti.',
+                                    toggle: {
+                                        value: 'analytics',
+                                        enabled: false,
+                                        readonly: false,
+                                        reload: 'on_disable'
+
+                                    },
+                                    cookie_table: [
+                                        {
+                                            col1: '_ga',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie',
+                                            is_regex: true
+                                        },
+                                        {
+                                            col1: '_ga_MM3XFZX1JX',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie'
+                                        }
+                                    ]
+                                }, {
+                                    title: 'Pašalinti slapukus',
+                                    description: 'Pašalinti Google Analytics sukurtus slapukus spauskite "Išvalyti".  Kiti klausimai elektroniniu paštu.</a>',
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "konsultacija", { origin: "https://app.cal.com" });
+        Cal.ns.konsultacija("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
+    </script>
+
+</body>
+
+</html>
