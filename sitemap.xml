@@ -24,4 +24,10 @@
         <changefreq>yearly</changefreq>
         <priority>0.7</priority>
     </url>
+    <url>
+        <loc>https://atakosvektorius.lt/blogas/kiek-kainuoja-pentest-lietuvoje-2026/</loc>
+        <lastmod>2026-04-25</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
 </urlset>
