@@ -628,8 +628,8 @@ footer a:hover {
 }
 
 .blog-content .table-full {
-    margin-left: min(0px, calc(360px - 50vw));
-    margin-right: min(0px, calc(360px - 50vw));
+    margin-left: min(0px, calc(180px - 25vw));
+    margin-right: min(0px, calc(180px - 25vw));
 }
 
 .blog-content h1 {
