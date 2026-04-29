@@ -4,56 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogas — kibernetinio saugumo straipsniai | Atakos vektorius</title>
+    <title>WAF Diegimo ir Priežiūros Paslaugos — Atakos vektorius</title>
     <meta name="description"
-        content="Kibernetinio saugumo straipsniai, pažeidžiamumų tyrimai ir praktiniai patarimai iš Atakos vektorius komandos.">
+        content="Profesionali WAF apsaugos nuo botų, gremžimo ir DDoS diegimo bei priežiūros paslauga įmonėms. Dirbame su Cloudflare ir F5 sprendimais.">
+    <meta name="keywords"
+        content="WAF, Cloudflare, F5 BIG-IP, F5 XC, apsauga nuo botų, DDoS apsauga, web aplikacijų saugumas">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://atakosvektorius.lt/blogas/">
+    <meta name="author" content="Atakos vektorius">
+    <link rel="canonical" href="https://atakosvektorius.lt/paslaugos/waf/">
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <meta property="og:title" content="Blogas — kibernetinio saugumo straipsniai | Atakos vektorius">
+    <meta property="og:title" content="WAF Diegimo ir Priežiūros Paslaugos">
     <meta property="og:description"
-        content="Kibernetinio saugumo straipsniai, pažeidžiamumų tyrimai ir praktiniai patarimai.">
+        content="Profesionali WAF apsaugos nuo botų, gremžimo ir DDoS diegimo bei priežiūros paslauga įmonėms. Dirbame su Cloudflare ir F5 sprendimais.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://atakosvektorius.lt/blogas/">
+    <meta property="og:url" content="https://atakosvektorius.lt/paslaugos/waf/">
     <meta property="og:site_name" content="Atakos vektorius">
     <meta property="og:locale" content="lt_LT">
     <meta property="og:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Blogas — kibernetinio saugumo straipsniai | Atakos vektorius">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WAF Diegimo ir Priežiūros Paslaugos">
     <meta name="twitter:description"
-        content="Kibernetinio saugumo straipsniai, pažeidžiamumų tyrimai ir praktiniai patarimai.">
+        content="Profesionali WAF apsaugos nuo botų, gremžimo ir DDoS diegimo bei priežiūros paslauga įmonėms. Dirbame su Cloudflare ir F5 sprendimais.">
     <meta name="twitter:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Blog",
-      "url": "https://atakosvektorius.lt/blogas/",
-      "name": "Atakos vektorius blogas",
-      "inLanguage": "lt-LT",
-      "publisher": {
+      "@type": "Service",
+      "name": "WAF Diegimo ir Priežiūros Paslaugos",
+      "description": "Mes padedame organizacijoms suvaldyti sudėtingą web aplikacijų apsaugą ten, kur neužtenka vien įjungti WAF ir tikėtis, kad viskas veiks. Dirbdami su Cloudflare, debesijos F5 XC (Distributed Cloud) ir on-prem F5 BIG-IP sprendimais, mes projektuojame, diegiame, migruojame ir tobuliname apsaugą.",
+      "provider": {
         "@type": "Organization",
         "name": "MB „Atakos vektorius“",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://atakosvektorius.lt/atakos_vektorius_logo.png"
-        }
-      },
-      "blogPost": [{
-        "@type": "BlogPosting",
-        "headline": "Kiek kainuoja pentest Lietuvoje 2026",
-        "url": "https://atakosvektorius.lt/blogas/kiek-kainuoja-pentest-lietuvoje-2026/",
-        "datePublished": "2026-04-25"
-      },{
-        "@type": "BlogPosting",
-        "headline": "DI kodas ir kibernetinis saugumas 2026",
-        "url": "https://atakosvektorius.lt/blogas/di-ir-kibernetinis-saugumas-2026/",
-        "datePublished": "2026-04-23"
-      },{
-        "@type": "BlogPosting",
-        "headline": "2023 m. Helovyno istorija su F5 Big-IP",
-        "url": "https://atakosvektorius.lt/blogas/2023-helovynas/",
-        "datePublished": "2026-04-04"
-      }]
+        "url": "https://atakosvektorius.lt/",
+        "sameAs": "https://atakosvektorius.lt/"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Pradžia", "item": "https://atakosvektorius.lt/"},
+        {"@type": "ListItem", "position": 2, "name": "Paslaugos", "item": "https://atakosvektorius.lt/#paslaugos"},
+        {"@type": "ListItem", "position": 3, "name": "Apsaugos priemonės"}
+      ]
     }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,64 +91,76 @@
             </button>
         </div>
         <div class="mobile-menu" id="mob-menu">
-            <a href="/#paslaugos" onclick="document.getElementById('mob-menu').classList.remove('active')">Paslaugos</a>
-            <a href="/#procesas" onclick="document.getElementById('mob-menu').classList.remove('active')">Procesas</a>
-            <a href="/#apie" onclick="document.getElementById('mob-menu').classList.remove('active')">Apie mus</a>
-            <a href="/blogas/" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
+            <a href="/#paslaugos">Paslaugos</a>
+            <a href="/#procesas">Procesas</a>
+            <a href="/#apie">Apie mus</a>
+            <a href="/blogas/">Blogas</a>
         </div>
     </nav>
 
-    <!-- BLOG LIST -->
-    <section class="hero" style="padding-bottom: 40px;">
-        <div class="container">
-            <div class="section-label">Blogas</div>
-            <h1>Straipsniai ir <span class="accent">tyrimai</span></h1>
-            <p>Kibernetinio saugumo naujienos, atvejo analizės ir praktiniai patarimai.</p>
-        </div>
-    </section>
+    <!-- WAF PAGE -->
+    <section>
+        <div class="container blog-content">
+            <a href="/#paslaugos"
+                style="color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.9rem;">&larr; Grįžti
+                į paslaugas</a>
 
-    <section style="padding-top: 0;">
-        <div class="container">
-            <div class="blog-list">
+            <h1 style="margin-top: 24px;">WAF Diegimo ir Priežiūros Paslaugos</h1>
+            <div class="blog-meta">Cloudflare &middot; F5 BIG-IP &middot; F5 XC</div>
 
+            <!-- ===== APIE PASLAUGĄ ===== -->
 
-                <div class="card blog-card">
-                    <div>
-                        <div class="blog-meta">2026-04-25 &middot; Rinkos analizė</div>
-                        <h3><a href="/blogas/kiek-kainuoja-pentest-lietuvoje-2026/">Kiek kainuoja pentest Lietuvoje
-                                2026</a></h3>
-                        <p>Viešojo sektoriaus pirkimų analizė, privati rinka ir palyginimas su Vokietija, Lenkija bei
-                            JAV.
-                        </p>
-                    </div>
-                </div>
+            <p>Mes padedame organizacijoms suvaldyti sudėtingą web aplikacijų apsaugą ten, kur neužtenka vien įjungti
+                WAF ir tikėtis, kad viskas veiks. Dirbdami su „Cloudflare“, debesijos „F5 XC“ (Distributed Cloud) ir
+                on-prem „F5 BIG-IP“ sprendimais, mes projektuojame, diegiame, migruojame ir tobuliname apsaugą taip, kad
+                ji realiai stabdytų grėsmes, bet netrukdytų verslui. Tai apima ne tik techninį sistemų įdiegimą, bet ir
+                praktinį jų suderinimą su jūsų aplikacijos logika, srauto pobūdžiu ir veiklos prioritetais.</p>
 
-                <div class="card blog-card">
-                    <div>
-                        <div class="blog-meta">2026-04-23 &middot; Saugumo tyrimai</div>
-                        <h3><a href="/blogas/di-ir-kibernetinis-saugumas-2026/">DI kodas ir kibernetinis saugumas
-                                2026</a></h3>
-                        <p>Kodėl net gerai parašytas DI kodas dar nereiškia saugaus produkto.
-                        </p>
-                    </div>
-                </div>
+            <p>Mūsų komandos darbas prasideda ten, kur organizacijai reikia ne „dar vienos saugumo dėžutės“, o tiksliai
+                sukalibruotos apsaugos. Vienu atveju tai gali būti sudėtinga migracija iš senų sistemų į „F5 XC“ ar
+                „Cloudflare“, kitu – jau veikiančios „F5 BIG-IP“ infrastruktūros auditas ir taisyklių optimizavimas, kai
+                esama konfigūracija blokuoja teisėtus vartotojus (angl. false positives) arba praleidžia nepageidaujamą
+                srautą. Dalyvaujame tiek ilgalaikiuose diegimo projektuose, tiek teikdami skubias konsultacijas,
+                kai reikia operatyviai išspręsti incidentus ir atkurti sistemos stabilumą.</p>
 
-                <div class="card blog-card">
-                    <div>
-                        <div class="blog-meta">2026-04-04 &middot; Saugumo tyrimai</div>
-                        <h3><a href="/blogas/2023-helovynas/">2023 m. Helovyno istorija su F5 Big-IP</a></h3>
-                        <p>CVE-2023-46747: Kritinė F5 Big-IP spraga.
-                        </p>
-                    </div>
-                </div>
+            <!-- ===== APSAUGA NUO BOTŲ ===== -->
 
-                <!--
-                <div class="card" style="text-align: center; padding: 64px 32px;">
-                    <p style="color: var(--text-muted);">Straipsniai ruošiami. Grįžkite netrukus!</p>
-                </div>
-                -->
+            <h2>Apsauga nuo botų, gremžimo ir DDoS</h2>
+            <p>Atskira mūsų specializacijos kryptis – pažangi apsauga nuo automatizuoto kenkėjiško srauto. Kai
+                konkurentai, turinio gremžėjai (angl. scrapers) ar botų tinklai pradeda sistemingai gremžti unikalų turinį, skenuoti
+                pažeidžiamumus, piktnaudžiauti API užklausomis ar bando trikdyti paslaugos prieinamumą (DDoS), mes
+                sukuriame daugiasluoksnę gynybos liniją. Nuo bazinių WAF taisyklių iki pažangaus botų valdymo, užklausų
+                ribojimo (angl. rate limiting) ir iššūkių (angl. challenge) logikos – mūsų tikslas yra chirurgiškai
+                atskirti teisėtą srautą nuo priešiško ir užtikrinti, kad apsauga būtų tiksli ir nekurtų nereikalingo
+                triukšmo žurnaluose.</p>
 
-            </div>
+            <!-- ===== KAIP TAI ATRODO ===== -->
+
+            <h2>Kaip tai atrodo praktikoje?</h2>
+            <p>Pavyzdžiui, jei jūsų e. komercijos platforma po sėkmingos marketingo kampanijos susiduria su srauto
+                šuoliu, o kartu atakuojama botų, kurie masiškai gremžia kainas ar testuoja nutekintus prisijungimo
+                duomenis, mes neapsiribojame vienos „blokuoti viską“ taisyklės įjungimu. Mūsų inžinieriai analizuoja
+                srauto modelius, identifikuoja rizikingus elgsenos požymius ir sukalibruoja „Cloudflare“ ar „F5“ apsaugą
+                taip, kad tikri pirkėjai nepatirtų jokių trikdžių, o kenkėjiškas srautas būtų neutralizuotas dar
+                nepasiekęs jūsų aplikacijos serverių. Būtent čia atsiskleidžia skirtumas tarp „standartinės“ ir realiai
+                veikiančios apsaugos.</p>
+
+            <!-- ===== KODĖL VERTA RINKTIS MUS ===== -->
+
+            <h2>Kodėl verta rinktis mus?</h2>
+            <p>Turime daugiau nei dešimtmečio darbo su WAF sprendimais patirtį. Sėkmingai įgyvendinome sudėtingus
+                migracijų projektus didelėms įmonėms ir kritinės infrastruktūros organizacijoms, kurių sistemoms būtina
+                aukšto lygio F5 kvalifikacija. Kuriame apsaugos architektūrą, kuri ne tik stabdo grėsmes, bet ir
+                užtikrina maksimalų našumą.
+            </p>
+
+            <!-- ===== CTA ===== -->
+
+            <h2>Kaip užsisakyti</h2>
+            <p>Jei svarstote apie WAF sprendimo diegimą, norite audituoti esamą infrastruktūrą arba susiduriate su botų
+                bei DDoS atakomis, <a href="/#apie">pasikalbėkime</a>. Mes išnagrinėsime jūsų situaciją ir pasiūlysime
+                geriausią apsaugos strategiją.</p>
+
         </div>
     </section>
 
@@ -162,7 +169,6 @@
         <div class="container" style="text-align:center">Atakos vektorius &copy; <a href="javascript:void(0);"
                 aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a></div>
     </footer>
-
 
     <link href="/css/cookieconsent.css" rel="stylesheet" />
     <script defer src="/js/cookieconsent.js"></script>
@@ -230,7 +236,7 @@
                             blocks: [
                                 {
                                     title: 'Slapukų naudojimas',
-                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę irtobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
+                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę ir tobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
                                 }, {
                                     title: 'Būtini slapukai',
                                     description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti, bei atpažinti ar lankytojas sutiko su Google Analytics įrankio prašymu. Taip užtikrinamas pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams',

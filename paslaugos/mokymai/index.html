@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktiniai pentest mokymai (2 dienos) — Atakos vektorius</title>
+    <meta name="description"
+        content="Dviejų dienų intensyvūs ir praktiniai pentest mokymai programuotojams, DevOps, WAF inžinieriams ir SOC analitikams. Wi-Fi, IoT, web aplikacijų DAST testavimas pagal OWASP metodologiją.">
+    <meta name="keywords"
+        content="pentest mokymai, kibernetinio saugumo mokymai, DAST mokymai, OWASP mokymai, web aplikacijų saugumas, Burp Suite mokymai, įsilaužimo testavimas, ethical hacking kursai Lietuvoje">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Atakos vektorius">
+    <link rel="canonical" href="https://atakosvektorius.lt/paslaugos/mokymai/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <meta property="og:title" content="Praktiniai pentest mokymai (2 dienos)">
+    <meta property="og:description"
+        content="Dviejų dienų intensyvūs pentest mokymai: Wi-Fi, IoT, socialinė inžinerija ir gilusis web aplikacijų testavimas pagal OWASP metodologiją.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://atakosvektorius.lt/paslaugos/mokymai/">
+    <meta property="og:site_name" content="Atakos vektorius">
+    <meta property="og:locale" content="lt_LT">
+    <meta property="og:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Praktiniai pentest mokymai (2 dienos)">
+    <meta name="twitter:description"
+        content="Dviejų dienų intensyvūs pentest mokymai: Wi-Fi, IoT, socialinė inžinerija ir gilusis web aplikacijų testavimas pagal OWASP metodologiją.">
+    <meta name="twitter:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Praktiniai pentest mokymai (2 dienos)",
+      "description": "Dviejų dienų intensyvūs ir praktiniai įsilaužimo testavimo mokymai programuotojams, svetainių administratoriams, DevOps, WAF inžinieriams ir SOC analitikams. Apima Wi-Fi, IoT, socialinę inžineriją bei gilųjį web aplikacijų testavimą pagal OWASP metodologiją.",
+      "inLanguage": "lt-LT",
+      "provider": {
+        "@type": "Organization",
+        "name": "MB „Atakos vektorius“",
+        "url": "https://atakosvektorius.lt/",
+        "sameAs": "https://atakosvektorius.lt/"
+      },
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "onsite",
+        "courseWorkload": "PT16H",
+        "inLanguage": "lt-LT"
+      },
+      "about": [
+        "OWASP Top 10",
+        "DAST testavimas",
+        "Burp Suite",
+        "Wi-Fi WPA2 atakos",
+        "IoT saugumas",
+        "Socialinė inžinerija",
+        "SQL injekcijos",
+        "XSS pažeidžiamumai",
+        "CSRF, CORS, CSP",
+        "SSRF ir XXE",
+        "JWT, OAuth 2.0, MFA"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Pradžia", "item": "https://atakosvektorius.lt/"},
+        {"@type": "ListItem", "position": 2, "name": "Paslaugos", "item": "https://atakosvektorius.lt/#paslaugos"},
+        {"@type": "ListItem", "position": 3, "name": "Mokymai"}
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/plain" data-cookiecategory="analytics" async
+        src="https://www.googletagmanager.com/gtag/js?id=G-MM3XFZX1JX"></script>
+    <script type="text/plain" data-cookiecategory="analytics">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MM3XFZX1JX');
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied'
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos vektorius logotipas"
+                    width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
+            <div class="nav-links">
+                <a href="/#paslaugos">Paslaugos</a>
+                <a href="/#procesas">Procesas</a>
+                <a href="/#apie">Apie mus</a>
+                <a href="/blogas/" class="nav-cta">Blogas</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
+                aria-label="Menu">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M4 8h20M4 14h20M4 20h20" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mob-menu">
+            <a href="/#paslaugos">Paslaugos</a>
+            <a href="/#procesas">Procesas</a>
+            <a href="/#apie">Apie mus</a>
+            <a href="/blogas/">Blogas</a>
+        </div>
+    </nav>
+
+    <!-- TRAINING PAGE -->
+    <section>
+        <div class="container blog-content">
+            <a href="/#paslaugos"
+                style="color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.9rem;">&larr; Grįžti
+                į paslaugas</a>
+
+            <h1 style="margin-top: 24px;">Praktiniai pentest mokymai</h1>
+            <div class="blog-meta">2 dienų intensyvus kursas &middot; Interneto aplikacijos, Wi-Fi, IoT</div>
+
+            <!-- ===== APIE KURSĄ ===== -->
+
+            <h2>Apie kursą</h2>
+
+            <p>Dviejų dienų intensyvūs ir praktiniai įsilaužimo testavimo mokymai, skirti programuotojams,
+                svetainių administratoriams, DevOps ir WAF inžinieriams bei SOC analitikams, dirbantiems su
+                interneto aplikacijų ir organizacijos perimetro saugumu. Mokymų metu dalyviai praktiškai išbandys
+                šiuolaikinius atakų metodus, kuriuos kenkėjiški veikėjai naudoja prieš web aplikacijas, belaidžius
+                tinklus ir prie perimetro prijungtus įrenginius.</p>
+
+            <p>Pagrindinis tikslas: ne tik atpažinti pažeidžiamumus, bet ir suprasti jų realų poveikį. Atrodytų,
+                nereikšminga spraga (pvz., paliktas administracinis kameros prisijungimas ar nesaugus Wi-Fi
+                konfigūracijos parametras) gali tapti pirmuoju žingsniu į visišką vidaus tinklo perėmimą.
+                Tokios pratybos sustiprina gebėjimą laiku atpažinti grėsmes ir veiksmingai užkirsti kelią atakoms,
+                panašiai kaip socialinės inžinerijos pratybos, tik orientuotos į techninį organizacijos paviršių.</p>
+
+            <!-- ===== METODIKA ===== -->
+
+            <h2>Metodika: automatinis, rankinis ir mišrus DAST</h2>
+
+            <p>Mokymuose DAST (angl. <em>Dynamic Application Security Testing</em>) metodas taikomas
+                trimis formomis: atliekamas automatinis, rankinis ir mišrusis testavimas. Dalyviai pažeidžiamumus atras
+                veikiančiose sistemose, neturėdami prieigos prie išeities kodo („black box" požiūris).</p>
+
+            <p>Kodėl vien automatinių įrankių neužtenka? Skeneriai dirba pagal iš anksto numatytus šablonus ir
+                patikrų taisykles: jie greitai apeina aplikaciją, bet neišsaugo ir neanalizuoja viso HTTP užklausų
+                bei atsakymų konteksto. Dėl to praleidžiama didelė dalis realių rizikų:</p>
+
+            <ul>
+                <li>loginės klaidos (pvz., kai pirkimo proceso žingsnį galima praleisti pakeitus parametrą);</li>
+                <li>autorizacijos ir prieigos kontrolės trūkumai (IDOR, vertikalus ir horizontalus eskalavimas);</li>
+                <li>lenktynių sąlygos (angl. <em>race conditions</em>) ir kelių užklausų sekomis išnaudojami
+                    pažeidžiamumai;</li>
+                <li>verslo logikos spragos, kurių skeneriui „nematyti", nes techniškai atsakymas yra HTTP 200;</li>
+                <li>autentifikacijos srautų (MFA, OAuth 2.0, JWT) niuansai, reikalaujantys konteksto tarp žingsnių.
+                </li>
+            </ul>
+
+            <p>Rankinis testavimas šias spragas suranda, nes testuotojas mato kiekvieną užklausą, ją modifikuoja,
+                kartoja ir analizuoja atsakymo elgseną. Mišrus požiūris (kai automatinis skeneris naudojamas
+                plačiai atakos paviršiaus analizei, o rankinis darbas su Burp Suite Repeater, Intruder ir Logger
+                modulais skirtas gilesniam ištyrimui) duoda geriausią rezultatą. Mokymuose dalyviai praktiškai patirs visas
+                tris pakopas ir išmoks, kada kiekvieną iš jų rinktis.</p>
+
+            <p>Dalyviai taip pat susipažins su:</p>
+
+            <ul>
+                <li>etiško įsilaužimo principais ir penkių fazių metodologija (žvalgyba, skenavimas, prieigos
+                    įgijimas, įsitvirtinimas, pėdsakų paslėpimas);</li>
+                <li>OWASP Top 10 rizikomis ir realiais pavyzdžiais iš atliktų įsibrovimo testų;</li>
+                <li>atsakingo saugumo spragų atskleidimo (angl. <em>responsible disclosure</em>) praktika,
+                    įskaitant bendradarbiavimą su nacionalinėmis institucijomis (NKSC, CERT-LT).</li>
+            </ul>
+
+            <!-- ===== 1 DIENA ===== -->
+
+            <h2>1 diena: nuo perimetro iki vidaus tinklo</h2>
+
+            <p>Pirmoji diena pradedama nuo to, kas dalyviams paprastai įdomiausia: realaus įsibrovimo į
+                organizacijos perimetrą scenarijaus. Naudodami specialiai paruoštus pažeidžiamus įrenginius,
+                parodysime, kaip auditoriaus akimis atrodo pirmieji atakos žingsniai, o po pietų pereisime prie
+                web aplikacijų testavimo įrankių ir injekcijų praktikos.</p>
+
+            <table style="border-collapse:collapse; font-size:0.85em;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--accent);">
+                        <th style="text-align:left; padding:6px 10px; white-space:nowrap;">Laikas</th>
+                        <th style="text-align:left; padding:6px 10px;">Tema</th>
+                        <th style="text-align:left; padding:6px 10px;">Turinys</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">09:00–09:30</td>
+                        <td style="padding:6px 10px;">Įžanga ir metodologija</td>
+                        <td style="padding:6px 10px;">Etiško įsilaužimo principai, penkių fazių metodologija
+                            (žvalgyba, skenavimas, prieigos įgijimas, įsitvirtinimas, pėdsakų paslėpimas),
+                            OWASP Top 10 apžvalga.</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">09:30–10:45</td>
+                        <td style="padding:6px 10px;">Wi-Fi atakos prieš WPA2</td>
+                        <td style="padding:6px 10px;">„Handshake" perėmimas ir slaptažodžio atspėjimas (angl.
+                            <em>offline cracking</em>), evil twin ir rogue AP scenarijai, captive portal
+                            apėjimas, korporatyvinio WPA2-Enterprise (EAP) klaidingos konfigūracijos.
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">10:45–11:00</td>
+                        <td style="padding:6px 10px;">Pertrauka</td>
+                        <td style="padding:6px 10px;">Kava, pasidalinimas pirmais radiniais.</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">11:00–12:15</td>
+                        <td style="padding:6px 10px;">IoT ir vaizdo stebėjimo įrenginiai</td>
+                        <td style="padding:6px 10px;">Palikti numatytieji prisijungimo duomenys (kredencialai),
+                            atviri RTSP ir ONVIF servisai, neatnaujinta kameros bei DVR programinė įranga,
+                            atskleisti administracinio valdymo skydelio endpoint'ai.</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">12:15–13:15</td>
+                        <td style="padding:6px 10px;">Pietūs</td>
+                        <td style="padding:6px 10px;">&nbsp;</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">13:15–14:30</td>
+                        <td style="padding:6px 10px;">Socialinė inžinerija ir pivoting</td>
+                        <td style="padding:6px 10px;">Tikslinių phishing kampanijų paruošimas su GoPhish,
+                            kredencialų rinkimas ir payload pristatymas; peršokimas į vidaus tinklą,
+                            kai vienas pažeistas komponentas tampa atsparos tašku tolesniems veiksmams.</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">14:30–14:45</td>
+                        <td style="padding:6px 10px;">Pertrauka</td>
+                        <td style="padding:6px 10px;">&nbsp;</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">14:45–16:00</td>
+                        <td style="padding:6px 10px;">Web aplikacijų testavimo įrankiai</td>
+                        <td style="padding:6px 10px;">HTTP protokolo versijų skirtumai, Proxy ir WAF veikimas,
+                            Burp Suite ir Acunetix taikymas, automatinio bei rankinio testavimo derinimas.</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:6px 10px; white-space:nowrap;">16:00–17:00</td>
+                        <td style="padding:6px 10px;">Injekcijos: praktika</td>
+                        <td style="padding:6px 10px;">OS komandų injekcijos, SQL injekcijos (klasikinės,
+                            aklosios, laiku grįstos) ir XSS pažeidžiamumai (Reflected, DOM-Based, Stored),
+                            įvesties duomenų validacijos trūkumai.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ===== 2 DIENA ===== -->
+
+            <h2>2 diena: web aplikacijų gilusis testavimas</h2>
+
+            <p>Antroji diena skirta išsamiam web aplikacijų pažeidžiamumų nagrinėjimui. Pradedame nuo kliento pusės
+                atakų ir CORS bei CSP konfigūracijų, einame į serverio pusės atakas (SSRF, XXE), gilinamės į
+                prieigos kontrolės trūkumus ir užbaigiame autentifikacijos srautų testavimu bei prevencijos
+                priemonių analize.</p>
+
+            <table style="border-collapse:collapse; font-size:0.85em;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--accent);">
+                        <th style="text-align:left; padding:6px 10px; white-space:nowrap;">Laikas</th>
+                        <th style="text-align:left; padding:6px 10px;">Tema</th>
+                        <th style="text-align:left; padding:6px 10px;">Turinys</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">09:00–10:30</td>
+                        <td style="padding:6px 10px;">CSRF, CORS ir CSP</td>
+                        <td style="padding:6px 10px;">CSRF (angl. <em>cross-site request forgery</em>) atakos,
+                            netinkamos CORS politikos ir CSP (angl. <em>content security policy</em>)
+                            konfigūracijos klaidos bei jų išnaudojimas.</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">10:30–10:45</td>
+                        <td style="padding:6px 10px;">Pertrauka</td>
+                        <td style="padding:6px 10px;">&nbsp;</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">10:45–12:15</td>
+                        <td style="padding:6px 10px;">SSRF ir XXE</td>
+                        <td style="padding:6px 10px;">SSRF (angl. <em>server-side request forgery</em>)
+                            pažeidžiamumai, vidinių metaduomenų endpoint'ų pasiekimas, XXE (angl.
+                            <em>XML external entity</em>) atakos prieš XML procesorius.
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">12:15–13:15</td>
+                        <td style="padding:6px 10px;">Pietūs</td>
+                        <td style="padding:6px 10px;">&nbsp;</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">13:15–14:30</td>
+                        <td style="padding:6px 10px;">Prieigos kontrolės trūkumai</td>
+                        <td style="padding:6px 10px;">Failų įkėlimo pažeidžiamumai, nuotolinis kodo vykdymas
+                            (RCE), katalogų perėjimas (angl. <em>path traversal</em>), nesaugi objektų
+                            deserializacija.</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">14:30–14:45</td>
+                        <td style="padding:6px 10px;">Pertrauka</td>
+                        <td style="padding:6px 10px;">&nbsp;</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding:6px 10px; white-space:nowrap;">14:45–16:00</td>
+                        <td style="padding:6px 10px;">Sesijų valdymas ir autentifikacija</td>
+                        <td style="padding:6px 10px;">MFA apėjimo scenarijai, JWT silpnybės (algoritmo
+                            pakeitimas, parašo apėjimas), OAuth 2.0 tipinės klaidos, sesijų fiksavimas
+                            ir sesijų užvaldymas.</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:6px 10px; white-space:nowrap;">16:00–17:00</td>
+                        <td style="padding:6px 10px;">Prevencijos priemonės</td>
+                        <td style="padding:6px 10px;">Ką konkrečiai keisti konfigūracijoje, segmentavime,
+                            monitoringe ir SDLC procesuose, kad parodyti scenarijai netaptų realybe jūsų
+                            organizacijoje.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ===== REZULTATAS ===== -->
+
+            <h2>Rezultatas</h2>
+
+            <p>Mokymų pabaigoje dalyviai gebės:</p>
+
+            <ul>
+                <li>savarankiškai atlikti web aplikacijos saugumo auditą, derindami automatinį, rankinį ir mišrųjį
+                    DAST metodus;</li>
+                <li>atpažinti ir įvertinti pagrindinių OWASP Top 10 kategorijų pažeidžiamumus;</li>
+                <li>suprasti, kaip atakų grandinė vystosi nuo perimetro (Wi-Fi, IoT, žmogaus) iki vidinių sistemų;
+                </li>
+                <li>parengti rekomendacijas tiek programuotojams (kodo lygmuo), tiek infrastruktūros komandoms
+                    (tinklo lygmuo);</li>
+                <li>bendrauti su saugumo komandomis ir institucijomis pagal atsakingo atskleidimo praktiką.</li>
+            </ul>
+
+            <blockquote>
+                <p><strong>Pažymėjimas:</strong> mokymų pabaigoje kiekvienas dalyvis gauna „Atakos vektoriaus"
+                    pažymėjimą, patvirtinantį dalyvavimą 16 ak. val. praktiniame DAST kurse pagal OWASP Web
+                    Security Testing Guide metodologiją.</p>
+            </blockquote>
+
+            <!-- ===== CTA ===== -->
+
+            <h2>Kaip užsisakyti</h2>
+
+            <p>Mokymai vyksta pagal individualų grafiką ir gali būti pritaikyti konkrečios organizacijos
+                kontekstui (pvz., dėmesį skiriant tik web ir API srautams arba pridedant papildomą modulį apie
+                F5 / Cloudflare WAF konfigūraciją). Rekomenduojama grupė: 6–12 dalyvių, kad kiekvienas spėtų
+                atlikti praktines užduotis su trenerio pagalba.</p>
+
+            <p>Jei svarstote pirmąjį pentest savo organizacijoje arba norite, kad jūsų programuotojų ir DevOps
+                komanda atpažintų pažeidžiamumus dar prieš juos pamatant auditoriui, <a href="/#apie">pasikalbėkime</a>.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container" style="text-align:center">Atakos vektorius &copy; <a href="javascript:void(0);"
+                aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a></div>
+    </footer>
+
+    <link href="/css/cookieconsent.css" rel="stylesheet" />
+    <script defer src="/js/cookieconsent.js"></script>
+
+    <script>
+        function consentGranted() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'granted'
+            });
+        }
+        function consentDenied() {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied'
+            });
+        }
+    </script>
+
+    <script>
+        window.addEventListener('load', function () {
+            var cookieconsent = initCookieConsent();
+            cookieconsent.run({
+                delay: 3500,
+                autorun: true,
+                current_lang: 'en',
+                theme_css: '/css/cookieconsent.css',
+                autoclear_cookies: true,
+                page_scripts: true,
+                onAccept: function (cookie) {
+
+                },
+
+                onChange: function (cookie, changed_preferences) {
+                    consentDenied();
+                    cookieconsent.eraseCookies(['cc_cookie', '_ga', '_ga_MM3XFZX1JX']);
+
+                },
+
+                languages: {
+                    en: {
+                        consent_modal: {
+                            title: '<a href="javascript:void(0);" aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a> ',
+                            description: 'Sveiki, <br> ar sutinkate aktyvuoti Google Analytics?',
+                            primary_btn: {
+                                text: 'Sutinku',
+                                role: 'accept_all'
+                            },
+                            secondary_btn: {
+                                text: 'Nesutinku',
+                                role: 'accept_necessary'
+                            }
+                        },
+                        settings_modal: {
+                            title: 'Privatumo politikos nustatymai',
+                            save_settings_btn: 'Užsaugoti pakeitimus',
+                            accept_all_btn: 'Priimti visus',
+                            reject_all_btn: 'Išvalyti',
+                            cookie_table_headers: [
+                                { col1: 'Name' },
+                                { col2: 'Domain' },
+                                { col3: 'Expiration' },
+                                { col5: 'Type' }
+                            ],
+                            blocks: [
+                                {
+                                    title: 'Slapukų naudojimas',
+                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę ir tobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
+                                }, {
+                                    title: 'Būtini slapukai',
+                                    description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti, bei atpažinti ar lankytojas sutiko su Google Analytics įrankio prašymu. Taip užtikrinamas pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams',
+                                    toggle: {
+                                        value: 'necessary',
+                                        enabled: true,
+                                        readonly: true
+                                    }
+
+                                },
+                                {
+                                    title: 'Google Analytics slapukai',
+                                    description: 'Šie slapukai skirti Google identifikuoti naršyklės sesiją, kurios metu bus renkami duomenys apie lankytojų veiksmus, susijusius su svetainės naršymu: kuriuose polapiuose lankomasi ir kurios nuorodos spaudžiamos. Visi duomenys yra anonimiški ir negali būti naudojami tapatybei nustatyti.',
+                                    toggle: {
+                                        value: 'analytics',
+                                        enabled: false,
+                                        readonly: false,
+                                        reload: 'on_disable'
+
+                                    },
+                                    cookie_table: [
+                                        {
+                                            col1: '_ga',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie',
+                                            is_regex: true
+                                        },
+                                        {
+                                            col1: '_ga_MM3XFZX1JX',
+                                            col2: 'google.com',
+                                            col3: '6 months',
+                                            col5: 'Permanent cookie'
+                                        }
+                                    ]
+                                }, {
+                                    title: 'Pašalinti slapukus',
+                                    description: 'Pašalinti Google Analytics sukurtus slapukus spauskite "Išvalyti".  Kiti klausimai elektroniniu paštu.</a>',
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "konsultacija", { origin: "https://app.cal.com" });
+        Cal.ns.konsultacija("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
+    </script>
+
+</body>
+
+</html>
