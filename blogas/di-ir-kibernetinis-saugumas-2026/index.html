@@ -76,17 +76,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <!-- Pre-consent: dataLayer + gtag stub + consent defaults (Consent Mode v2) -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'wait_for_update': 500
+        });
+        gtag('js', new Date());
+    </script>
+
+    <!-- Užkraunama tik po analytics sutikimo (text/plain blokuoja cookieconsent) -->
     <script type="text/plain" data-cookiecategory="analytics" async
         src="https://www.googletagmanager.com/gtag/js?id=G-MM3XFZX1JX"></script>
     <script type="text/plain" data-cookiecategory="analytics">
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){window.dataLayer.push(arguments);}
-        gtag('js', new Date());
         gtag('config', 'G-MM3XFZX1JX');
-        gtag('consent', 'default', {
-            'ad_storage': 'denied',
-            'analytics_storage': 'denied'
-        });
     </script>
 </head>
 
@@ -436,12 +444,30 @@
                 'ad_storage': 'denied',
                 'analytics_storage': 'granted'
             });
+            // Microsoft Clarity — pirmas užkrovimas po sutikimo
+            if (!window.clarity) {
+                (function(c,l,a,r,i,t,y){
+                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                })(window, document, "clarity", "script", "wsit95fqbp");
+            }
+            clarity('consentv2', {
+                ad_Storage: 'denied',
+                analytics_Storage: 'granted'
+            });
         }
         function consentDenied() {
             gtag('consent', 'update', {
                 'ad_storage': 'denied',
                 'analytics_storage': 'denied'
             });
+            if (window.clarity) {
+                clarity('consentv2', {
+                    ad_Storage: 'denied',
+                    analytics_Storage: 'denied'
+                });
+            }
         }
     </script>
 
@@ -456,13 +482,18 @@
                 autoclear_cookies: true,
                 page_scripts: true,
                 onAccept: function (cookie) {
-
+                    if (cookieconsent.allowedCategory('analytics')) {
+                        consentGranted();
+                    }
                 },
 
                 onChange: function (cookie, changed_preferences) {
-                    consentDenied();
-                    cookieconsent.eraseCookies(['cc_cookie', '_ga', '_ga_MM3XFZX1JX']);
-
+                    if (cookieconsent.allowedCategory('analytics')) {
+                        consentGranted();
+                    } else {
+                        consentDenied();
+                        cookieconsent.eraseCookies(['cc_cookie', '_ga', '_ga_MM3XFZX1JX', '_clck', '_clsk', 'CLID', 'ANONCHK', 'MR', 'MUID', 'SM']);
+                    }
                 },
 
                 languages: {
