@@ -500,7 +500,7 @@
                     en: {
                         consent_modal: {
                             title: '<a href="javascript:void(0);" aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a> ',
-                            description: 'Sveiki, <br> ar sutinkate aktyvuoti Google Analytics?',
+                            description: 'Sveiki atvykę,<br>norime paprašyti Jūsų sutikimo aktyvuoti Google ir Microsoft analitikos įrankius.',
                             primary_btn: {
                                 text: 'Sutinku',
                                 role: 'accept_all'
@@ -524,10 +524,10 @@
                             blocks: [
                                 {
                                     title: 'Slapukų naudojimas',
-                                    description: 'Ši svetainė naudoja Google Analytics įskiepį, skirtą svetainės lankomumo analizei. Slapukai („cookies“) bus naudojami tik gavus Jūsų aiškų sutikimą. Jie padeda mums geriau suprasti, kaip lankytojai naudoja svetainę ir tobulinti jos funkcionalumą. Slapukai bus saugomi Jūsų naršyklėje, o statistiniai duomenys – Google sistemoje. Daugiau informacijos rasite jų privatumo politikoje https://www.google.com/privacypolicy.html. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
+                                    description: 'Ši svetainė naudoja Google Analytics ir Microsoft Clarity įrankius svetainės lankomumo bei naudotojų sąveikos analizei. Google Analytics renka anoniminius statistinius duomenis apie apsilankymus ir naršymo srautą, o Microsoft Clarity papildomai užfiksuoja anonimines sesijų atkartojimo įžvalgas (šilumos žemėlapius, paspaudimų ir slinkimo duomenis) — tai padeda mums tobulinti svetainės naudotojo patirtį. Slapukai („cookies“) naudojami tik gavus Jūsų aiškų sutikimą ir saugomi Jūsų naršyklėje; statistiniai duomenys saugomi atitinkamai Google bei Microsoft sistemose. Daugiau informacijos: Google privatumo politika https://policies.google.com/privacy ir Microsoft privatumo pareiškimas https://privacy.microsoft.com/lt-lt/privacystatement. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
                                 }, {
                                     title: 'Būtini slapukai',
-                                    description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti, bei atpažinti ar lankytojas sutiko su Google Analytics įrankio prašymu. Taip užtikrinamas pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams',
+                                    description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti bei atpažinti, ar lankytojas sutiko su analitikos įrankių (Google Analytics, Microsoft Clarity) prašymu. Taip užtikrinamas banerio pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams.',
                                     toggle: {
                                         value: 'necessary',
                                         enabled: true,
@@ -536,8 +536,8 @@
 
                                 },
                                 {
-                                    title: 'Google Analytics slapukai',
-                                    description: 'Šie slapukai skirti Google identifikuoti naršyklės sesiją, kurios metu bus renkami duomenys apie lankytojų veiksmus, susijusius su svetainės naršymu: kuriuose polapiuose lankomasi ir kurios nuorodos spaudžiamos. Visi duomenys yra anonimiški ir negali būti naudojami tapatybei nustatyti.',
+                                    title: 'Analitikos slapukai (Google + Microsoft)',
+                                    description: 'Šie slapukai skirti analitikos paslaugoms. Google Analytics identifikuoja naršyklės sesiją ir renka statistiką apie lankytojų veiksmus — kuriuose polapiuose lankomasi ir kurios nuorodos spaudžiamos. Microsoft Clarity anonimiškai fiksuoja sesijų sąveiką (šilumos žemėlapius, paspaudimus, slinkimą), kad galėtume tobulinti svetainės naudotojo patirtį. Visi duomenys yra anonimiški ir negali būti naudojami tapatybei nustatyti.',
                                     toggle: {
                                         value: 'analytics',
                                         enabled: false,
@@ -548,26 +548,50 @@
                                     cookie_table: [
                                         {
                                             col1: '_ga',
-                                            col2: 'google.com',
-                                            col3: '6 months',
+                                            col2: 'atakosvektorius.lt',
+                                            col3: '2 metai',
                                             col5: 'Permanent cookie',
                                             is_regex: true
                                         },
                                         {
                                             col1: '_ga_MM3XFZX1JX',
-                                            col2: 'google.com',
-                                            col3: '6 months',
+                                            col2: 'atakosvektorius.lt',
+                                            col3: '2 metai',
+                                            col5: 'Permanent cookie'
+                                        },
+                                        {
+                                            col1: '_clck',
+                                            col2: 'atakosvektorius.lt',
+                                            col3: '1 metai',
+                                            col5: 'Permanent cookie'
+                                        },
+                                        {
+                                            col1: '_clsk',
+                                            col2: 'atakosvektorius.lt',
+                                            col3: '1 diena',
                                             col5: 'Permanent cookie'
                                         }
                                     ]
                                 }, {
                                     title: 'Pašalinti slapukus',
-                                    description: 'Pašalinti Google Analytics sukurtus slapukus spauskite "Išvalyti".  Kiti klausimai elektroniniu paštu.</a>',
+                                    description: 'Pašalinti analitikos įrankių (Google Analytics, Microsoft Clarity) sukurtus slapukus spauskite „Išvalyti“. Kiti klausimai elektroniniu paštu.',
                                 }
                             ]
                         }
                     }
                 }
+            });
+
+            // „Išvalyti" mygtuko fix: bibliotekos onChange nešaudo, kai būsena nepasikeičia
+            // (pvz., vartotojas jau buvo nesutikęs ir vėl spaudžia „Išvalyti"). Garantuojam, kad
+            // cc_cookie + visi analitikos slapukai būtų ištrinti ir banneris atsirastų iš naujo.
+            document.addEventListener('click', function (e) {
+                var btn = e.target.closest('button');
+                if (!btn || btn.textContent.trim() !== 'Išvalyti') return;
+                setTimeout(function () {
+                    cookieconsent.eraseCookies(['cc_cookie', '_ga', '_ga_MM3XFZX1JX', '_clck', '_clsk', 'CLID', 'ANONCHK', 'MR', 'MUID', 'SM']);
+                    location.reload();
+                }, 200);
             });
         });
 
