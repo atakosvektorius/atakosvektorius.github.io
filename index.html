@@ -92,11 +92,14 @@
         gtag('js', new Date());
     </script>
 
-    <!-- Užkraunama tik po analytics sutikimo (text/plain blokuoja cookieconsent) -->
+    <!-- Užkraunama tik po analytics sutikimo iš PIRMOSIOS ŠALIES domain'o (per Google Tag Gateway) -->
     <script type="text/plain" data-cookiecategory="analytics" async
-        src="https://www.googletagmanager.com/gtag/js?id=G-MM3XFZX1JX"></script>
+        src="https://atakosvektorius.lt/okp0/gtag/js?id=G-MM3XFZX1JX"></script>
     <script type="text/plain" data-cookiecategory="analytics">
-        gtag('config', 'G-MM3XFZX1JX');
+        gtag('config', 'G-MM3XFZX1JX', {
+            transport_url: 'https://atakosvektorius.lt/okp0',
+            first_party_collection: true
+        });
     </script>
 </head>
 
