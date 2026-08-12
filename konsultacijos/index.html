@@ -8,7 +8,7 @@
     <meta name="description"
         content="Užsiregistruokite kibernetinio saugumo bei DAST skenavimo rezultatų konsultacijai. Aptarkite saugumo problemas su ekspertu.">
     <meta name="robots" content="index, follow">
-    <meta name="author" content="MB „Atakos vektorius“">
+    <meta name="author" content="Atakos vektorius">
     <link rel="canonical" href="https://atakosvektorius.lt/konsultacijos/">
     <link rel="icon" href="/favicon.ico" sizes="any">
     <meta property="og:title" content="Saugumo konsultacija — Atakos vektorius">
@@ -25,10 +25,25 @@
         rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css?v=2">
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Kibernetinio saugumo konsultacija",
+      "provider": {
+        "@type": "ProfessionalService",
+        "@id": "https://atakosvektorius.lt/#organization",
+        "name": "MB „Atakos vektorius“"
+      },
+      "serviceType": "Cybersecurity Consultation",
+      "description": "Kibernetinio saugumo bei DAST skenavimo rezultatų konsultacija su ekspertais.",
+      "url": "https://atakosvektorius.lt/konsultacijos/"
+    }
+    </script>
     <!-- Pre-consent: dataLayer + gtag stub + consent defaults (Consent Mode v2) -->
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){window.dataLayer.push(arguments);}
+        function gtag() { window.dataLayer.push(arguments); }
         gtag('consent', 'default', {
             'ad_storage': 'denied',
             'analytics_storage': 'denied',
@@ -75,7 +90,8 @@
             <a href="/#paslaugos" onclick="document.getElementById('mob-menu').classList.remove('active')">Paslaugos</a>
             <a href="/#procesas" onclick="document.getElementById('mob-menu').classList.remove('active')">Procesas</a>
             <a href="/#apie" onclick="document.getElementById('mob-menu').classList.remove('active')">Apie mus</a>
-            <a href="/dast/" onclick="document.getElementById('mob-menu').classList.remove('active')">DAST skenavimas</a>
+            <a href="/dast/" onclick="document.getElementById('mob-menu').classList.remove('active')">DAST
+                skenavimas</a>
             <a href="/blogas/" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
         </div>
     </nav>
@@ -88,34 +104,43 @@
                     <div class="section-label">Registracijos forma</div>
                     <h1 class="section-title">Saugumo konsultacija</h1>
                     <p class="form-subtitle">Užsiregistruokite kibernetinio saugumo konsultacijai su mūsų ekspertais.
-                        Galime išsamiai aptarti DAST skenavimo rezultatus, svetainės spragas ar kitus Jūsų organizacijos saugumo klausimus.
+                        Galime išsamiai aptarti DAST skenavimo rezultatus, svetainės spragas ar kitus Jūsų organizacijos
+                        saugumo klausimus.
                     </p>
 
                     <form id="consult-form" novalidate>
                         <div class="form-group">
                             <label for="consult-email">El. pašto adresas <span class="required">*</span></label>
                             <input type="email" id="consult-email" name="email" placeholder="jus@jusuimone.lt" required
-                                autocomplete="email" maxlength="254" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
-                            <div class="input-hint">Į šį el. pašto adresą atsiųsime susitikimo patvirtinimą ir nuorodą.</div>
+                                autocomplete="email" maxlength="254"
+                                pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
+                            <div class="input-hint">Į šį el. pašto adresą atsiųsime susitikimo patvirtinimą ir nuorodą.
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="consult-date">Pageidaujama data <span class="required">*</span></label>
                             <input type="date" id="consult-date" name="date" required>
-                            <div class="input-hint">Pasirinkite norimą konsultacijos datą. Ši data turėtų būti ne anksčiau nei po 24h.</div>
+                            <div class="input-hint">Pasirinkite norimą konsultacijos datą. Ši data turėtų būti ne
+                                anksčiau nei po 24h.</div>
                         </div>
 
                         <div class="form-group">
-                            <label for="consult-fqdn">Domeno vardas (FQDN) <span class="optional-label">(neprivaloma)</span></label>
+                            <label for="consult-fqdn">Domeno vardas (FQDN) <span
+                                    class="optional-label">(neprivaloma)</span></label>
                             <input type="text" id="consult-fqdn" name="fqdn" placeholder="app.jusuimone.lt"
                                 autocomplete="off" maxlength="253">
-                            <div class="input-hint">Jei konsultacija susijusi su konkrečiu domenu (pvz. <strong>www.example.com</strong>).</div>
+                            <div class="input-hint">Jei konsultacija susijusi su konkrečiu domenu (pvz.
+                                <strong>www.example.com</strong>).</div>
                         </div>
 
                         <div class="form-group">
-                            <label for="consult-message">Konsultacijos tema / Pastabos <span class="optional-label">(neprivaloma)</span></label>
-                            <textarea id="consult-message" name="message" maxlength="2000" placeholder="Nurodykite rūpimus klausimus, DAST rezultatus ar temas, kurias norėtumėte aptarti..."></textarea>
-                            <div class="input-hint">Papildoma informacija padės mums geriau pasiruošti susitikimui.</div>
+                            <label for="consult-message">Konsultacijos tema / Pastabos <span
+                                    class="optional-label">(neprivaloma)</span></label>
+                            <textarea id="consult-message" name="message" maxlength="2000"
+                                placeholder="Nurodykite rūpimus klausimus, DAST rezultatus ar temas, kurias norėtumėte aptarti..."></textarea>
+                            <div class="input-hint">Papildoma informacija padės mums geriau pasiruošti susitikimui.
+                            </div>
                         </div>
 
                         <div class="form-submit-wrapper">
