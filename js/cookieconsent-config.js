@@ -143,6 +143,9 @@ window.addEventListener('load', function () {
                                 }
                             ]
                         }, {
+                            title: 'Registracijos duomenų saugojimas',
+                            description: 'Užpildžius DAST skenavimo arba konsultacijos registracijos formą, pateikti duomenys (domeno vardas, el. pašto adresas, pasirinkta data ir laikas) yra saugomi saugioje laikinoje saugykloje iki 48 valandų. Jei per šį laikotarpį nepridedama DNS TXT patvirtinimo reikšmė prie domeno arba neatliekamas skenavimas, duomenys laikomi neaktualiais ir visi susiję failai bei informacija yra visam laikui ištrinami automatiškai.'
+                        }, {
                             title: 'Pašalinti slapukus',
                             description: 'Pašalinti analitikos įrankių (Google Analytics, Microsoft Clarity) sukurtus slapukus spauskite „Išvalyti“. Kiti klausimai elektroniniu paštu.',
                         }
