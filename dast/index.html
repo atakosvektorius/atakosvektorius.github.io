@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css?v=6">
+    <link rel="stylesheet" href="/css/style.css?v=5">
 
     <script type="application/ld+json">
     {
@@ -132,7 +132,7 @@
                             <div class="form-group">
                                 <label for="dast-time">Pageidaujamas laikas <span class="required">*</span></label>
                                 <input type="time" id="dast-time" name="time" required value="02:00">
-                                <div class="input-hint">Skenavimo pradžia (pvz., naktį 02:00).</div>
+                                <div class="input-hint">(24 valandos formato pvz: 02:00).</div>
                             </div>
                         </div>
 
@@ -281,7 +281,7 @@
             };
 
             try {
-                var response = await fetch('https://atakosvektorius.lt/api/dast', {
+                var response = await fetch('/api/dast', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
