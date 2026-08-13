@@ -838,7 +838,7 @@ footer a:hover {
     min-width: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;
         gap: 0;
@@ -877,9 +877,10 @@ footer a:hover {
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
-    padding: 14px 16px;
+    height: 52px;
+    padding: 0 16px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 0.95rem;
+    font-size: 16px; /* 16px prevents iOS Safari auto-zoom on input focus */
     color: var(--text);
     background: var(--bg);
     border: 2px solid var(--border);
@@ -887,31 +888,47 @@ footer a:hover {
     outline: none;
     transition: all 0.2s;
     box-shadow: 2px 2px 0 var(--shadow);
-}
-
-/* iOS Safari WebKit date/time fixes */
-.form-group input[type="date"],
-.form-group input[type="time"] {
-    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    display: block;
-    max-width: 100%;
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
-    min-height: 50px;
+    appearance: none;
+}
+
+/* iOS Safari WebKit date/time consistency fixes */
+.form-group input[type="date"],
+.form-group input[type="time"] {
+    display: flex;
+    align-items: center;
+    line-height: 48px;
+    height: 52px;
+    padding: 0 16px;
+    background-color: var(--bg);
 }
 
 .form-group input[type="date"]::-webkit-date-and-time-value,
 .form-group input[type="time"]::-webkit-date-and-time-value {
     text-align: left;
-    min-height: 1.2em;
+    font-size: 16px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text);
+    line-height: 48px;
+    min-height: 48px;
+    margin: 0;
+    padding: 0;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator,
+.form-group input[type="time"]::-webkit-calendar-picker-indicator {
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
 }
 
 .form-group textarea {
-    resize: vertical;
+    height: auto;
     min-height: 110px;
+    padding: 14px 16px;
+    resize: vertical;
     line-height: 1.5;
 }
 
