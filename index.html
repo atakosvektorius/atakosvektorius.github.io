@@ -144,12 +144,7 @@
                 spragoms šalinti. Taip pat siūlome profesionalų WAF sprendimų diegimą, priežiūrą bei praktinius saugumo
                 mokymus Jūsų komandai.</p>
             <div class="hero-buttons">
-
-                <a class="btn btn-primary fw-500 me-2" data-cal-link="atakosvektorius/konsultacija"
-                    data-cal-namespace="konsultacija" data-cal-config='{"layout":"month_view"}'>
-                    Pasirinkti laiką
-                    <i class="ms-2"></i>
-                </a>
+                <a href="/konsultacijos/" class="btn btn-primary">Registruotis konsultacijai</a>
                 <a href="#paslaugos" class="btn btn-secondary">Sužinoti daugiau</a>
             </div>
         </div>
@@ -289,15 +284,12 @@
     <section class="cta-section" id="kontaktai">
         <div class="container">
             <div class="section-label">Pradėkime</div>
-            <h2 class="section-title">Pasiruošę sužinoti savo sistemos būklę?</h2>
-            <p>Rezervuokite nemokamą 30 min. konsultaciją. Aptarsime Jūsų situaciją ir pasiūlysime geriausią sprendimą.
+            <h2 class="section-title">Norite sužinoti savo sistemos būklę?</h2>
+            <p>Siūlome nemokamai patikrinti Jūsų interneto svetainę, kurioje galimai yra
+                pažeidžiamumų ar kitų saugumo spragų.
             </p>
 
-            <a class="btn btn-primary fw-500 me-2" data-cal-link="atakosvektorius/konsultacija"
-                data-cal-namespace="konsultacija" data-cal-config='{"layout":"month_view"}'>
-                Pasirinkti laiką
-                <i class="ms-2"></i>
-            </a>
+            <a href="/dast/" class="btn btn-primary">Registruotis nemokamam skenavimui</a>
 
 
         </div>
@@ -387,13 +379,6 @@
     <link href="/css/cookieconsent.css" rel="stylesheet" />
     <script defer src="/js/cookieconsent.js"></script>
     <script defer src="/js/cookieconsent-config.js"></script>
-
-    <script type="text/javascript">
-        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-        Cal("init", "konsultacija", { origin: "https://app.cal.com" });
-        Cal.ns.konsultacija("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
-    </script>
-
 </body>
 
 </html>

@@ -97,7 +97,7 @@ window.addEventListener('load', function () {
                             description: 'Ši svetainė naudoja Google Analytics ir Microsoft Clarity įrankius svetainės lankomumo bei naudotojų sąveikos analizei. Google Analytics renka anoniminius statistinius duomenis apie apsilankymus ir naršymo srautą, o Microsoft Clarity papildomai užfiksuoja anonimines sesijų atkartojimo įžvalgas (šilumos žemėlapius, paspaudimų ir slinkimo duomenis) — tai padeda mums tobulinti svetainės naudotojo patirtį. Slapukai („cookies“) naudojami tik gavus Jūsų aiškų sutikimą ir saugomi Jūsų naršyklėje; statistiniai duomenys saugomi atitinkamai Google bei Microsoft sistemose. Daugiau informacijos: Google privatumo politika https://policies.google.com/privacy ir Microsoft privatumo pareiškimas https://privacy.microsoft.com/lt-lt/privacystatement. Galite bet kada valdyti slapukų nustatymus arba atšaukti savo sutikimą naršyklės nustatymuose.'
                         }, {
                             title: 'Būtini slapukai',
-                            description: 'Šie slapukai skirti rezervacijos sistemai Cal.com veikti bei atpažinti, ar lankytojas sutiko su analitikos įrankių (Google Analytics, Microsoft Clarity) prašymu. Taip užtikrinamas banerio pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams.',
+                            description: 'Šie slapukai skirti atpažinti, ar lankytojas sutiko su analitikos įrankių (Google Analytics, Microsoft Clarity) prašymu. Taip užtikrinamas banerio pasirodymas naujiems arba nerodymas sugrįžtantiems lankytojams.',
                             toggle: {
                                 value: 'necessary',
                                 enabled: true,
