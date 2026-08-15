@@ -59,7 +59,7 @@
     <!-- Pre-consent: dataLayer + gtag stub + consent defaults (Consent Mode v2) -->
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){window.dataLayer.push(arguments);}
+        function gtag() { window.dataLayer.push(arguments); }
         gtag('consent', 'default', {
             'ad_storage': 'denied',
             'analytics_storage': 'denied',
@@ -138,7 +138,8 @@
 
             <h2>Apsauga nuo botų, gremžimo ir DDoS</h2>
             <p>Atskira mūsų specializacijos kryptis – pažangi apsauga nuo automatizuoto kenkėjiško srauto. Kai
-                konkurentai, turinio gremžėjai (angl. scrapers) ar botų tinklai pradeda sistemingai gremžti unikalų turinį, skenuoti
+                konkurentai, turinio gremžėjai (angl. scrapers) ar botų tinklai pradeda sistemingai gremžti unikalų
+                turinį, skenuoti
                 pažeidžiamumus, piktnaudžiauti API užklausomis ar bando trikdyti paslaugos prieinamumą (DDoS), mes
                 sukuriame daugiasluoksnę gynybos liniją. Nuo bazinių WAF taisyklių iki pažangaus botų valdymo, užklausų
                 ribojimo (angl. rate limiting) ir iššūkių (angl. challenge) logikos – mūsų tikslas yra chirurgiškai
@@ -169,7 +170,8 @@
 
             <h2>Kaip užsisakyti</h2>
             <p>Jei svarstote apie WAF sprendimo diegimą, norite audituoti esamą infrastruktūrą arba susiduriate su botų
-                bei DDoS atakomis, <a href="/#apie">pasikalbėkime</a>. Mes išnagrinėsime jūsų situaciją ir pasiūlysime
+                bei DDoS atakomis, <a href="/konsultacijos/">pasikalbėkime</a>. Mes išnagrinėsime jūsų situaciją ir
+                pasiūlysime
                 geriausią apsaugos strategiją.</p>
 
         </div>
@@ -184,12 +186,6 @@
     <link href="/css/cookieconsent.css" rel="stylesheet" />
     <script defer src="/js/cookieconsent.js"></script>
     <script defer src="/js/cookieconsent-config.js"></script>
-
-    <script type="text/javascript">
-        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-        Cal("init", "konsultacija", { origin: "https://app.cal.com" });
-        Cal.ns.konsultacija("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
-    </script>
 
 </body>
 
