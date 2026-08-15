@@ -23,7 +23,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css?v=6">
+    <!-- Cloudflare Turnstile Script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     <script type="application/ld+json">
     {
@@ -148,6 +149,7 @@
                             <textarea id="consult-message" name="message" maxlength="2000"
                                 placeholder="Nurodykite rūpimus klausimus, DAST rezultatus ar temas, kurias norėtumėte aptarti..."></textarea>
                             <div class="input-hint">Papildoma informacija padės mums geriau pasiruošti susitikimui.
+                                <div class="cf-turnstile" data-sitekey="0x4AAAAAAEQdbnN-6CSBat6ddKwoYFvd2v0" data-theme="dark" style="margin-bottom: 1rem;"></div>
                             </div>
                         </div>
 
@@ -295,12 +297,17 @@
                 document.head.appendChild(styleEl);
             }
 
+            var turnstileToken = (window.turnstile && typeof turnstile.getResponse === 'function')
+                    ? turnstile.getResponse()
+                    : (document.querySelector('[name="cf-turnstile-response"]') ? document.querySelector('[name="cf-turnstile-response"]').value : '');
+
             var payload = {
                 email: email,
                 date: date,
                 time: time,
                 fqdn: fqdn || null,
-                message: message || null
+                message: message || null,
+                cfTurnstileToken: turnstileToken
             };
 
             try {

@@ -23,7 +23,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css?v=5">
+    <!-- Cloudflare Turnstile Script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     <script type="application/ld+json">
     {
@@ -134,6 +135,7 @@
                                 <label for="dast-time">Pageidaujamas laikas <span class="required">*</span></label>
                                 <input type="time" id="dast-time" name="time" required value="22:00">
                                 <div class="input-hint">(24 valandos formato pvz: 22:00).</div>
+                                <div class="cf-turnstile" data-sitekey="0x4AAAAAAEQdbnN-6CSBat6ddKwoYFvd2v0" data-theme="dark" style="margin-bottom: 1rem;"></div>
                             </div>
                         </div>
 
@@ -274,11 +276,16 @@
                 document.head.appendChild(styleEl);
             }
 
+            var turnstileToken = (window.turnstile && typeof turnstile.getResponse === 'function')
+                ? turnstile.getResponse()
+                : (document.querySelector('[name="cf-turnstile-response"]') ? document.querySelector('[name="cf-turnstile-response"]').value : '');
+
             var payload = {
                 email: email,
                 fqdn: fqdn,
                 date: date,
-                time: time
+                time: time,
+                cfTurnstileToken: turnstileToken
             };
 
             try {
