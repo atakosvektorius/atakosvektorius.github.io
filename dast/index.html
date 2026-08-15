@@ -21,8 +21,7 @@
     <meta property="og:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css?v=7">
     <!-- Cloudflare Turnstile Script -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
@@ -135,9 +134,11 @@
                                 <label for="dast-time">Pageidaujamas laikas <span class="required">*</span></label>
                                 <input type="time" id="dast-time" name="time" required value="22:00">
                                 <div class="input-hint">(24 valandos formato pvz: 22:00).</div>
-                                <div class="cf-turnstile" data-sitekey="0x4AAAAAAEQdbkHIbl8cMJQY" data-theme="dark"
-                                    style="margin-bottom: 1rem;"></div>
                             </div>
+                        </div>
+
+                        <div class="turnstile-wrapper">
+                            <div class="cf-turnstile" data-sitekey="0x4AAAAAAEQdbkHIbl8cMJQY" data-theme="light"></div>
                         </div>
 
                         <div class="form-submit-wrapper">
