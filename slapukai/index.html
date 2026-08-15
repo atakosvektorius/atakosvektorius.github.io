@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slapukų atitikties tikrinimas | Atakos vektorius</title>
+    <meta name="description"
+        content="Nemokamas slapukų atitikties tikrinimas. Pateikite savo domeno vardą ir patikrinkite slapukus bei jų atitiktį BDAR.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="MB „Atakos vektorius“">
+    <link rel="canonical" href="https://atakosvektorius.lt/slapukai/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <meta property="og:title" content="Slapukų atitikties tikrinimas — Atakos vektorius">
+    <meta property="og:description"
+        content="Nemokamas slapukų atitikties tikrinimas. Pateikite savo domeno vardą ir patikrinkite slapukus.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://atakosvektorius.lt/slapukai/">
+    <meta property="og:site_name" content="Atakos vektorius">
+    <meta property="og:locale" content="lt_LT">
+    <meta property="og:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/css/style.css?v=8">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Slapukų atitikties tikrinimo paslauga",
+      "provider": {
+        "@type": "ProfessionalService",
+        "@id": "https://atakosvektorius.lt/#organization",
+        "name": "MB „Atakos vektorius“"
+      },
+      "serviceType": "Slapukų atitikties tikrinimo paslauga",
+      "description": "Nemokamas slapukų atitikties tikrinimas.",
+      "url": "https://atakosvektorius.lt/slapukai/"
+    }
+    </script>
+    <!-- Pre-consent: dataLayer + gtag stub + consent defaults (Consent Mode v2) -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'wait_for_update': 500
+        });
+        gtag('js', new Date());
+    </script>
+
+    <!-- Užkraunama tik po analytics sutikimo iš PIRMOSIOS ŠALIES domain'o (per Google Tag Gateway) -->
+    <script type="text/plain" data-cookiecategory="analytics" async
+        src="https://atakosvektorius.lt/okp0/gtag/js?id=G-MM3XFZX1JX"></script>
+    <script type="text/plain" data-cookiecategory="analytics">
+        gtag('config', 'G-MM3XFZX1JX', {
+            transport_url: 'https://atakosvektorius.lt/okp0',
+            first_party_collection: true
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos vektorius logotipas"
+                    width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
+            <div class="nav-links">
+                <a href="/#paslaugos">Paslaugos</a>
+                <a href="/#procesas">Procesas</a>
+                <a href="/#apie">Apie mus</a>
+                <a href="/blogas/" class="nav-cta">Blogas</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
+                aria-label="Menu">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M4 8h20M4 14h20M4 20h20" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mob-menu">
+            <a href="/#paslaugos" onclick="document.getElementById('mob-menu').classList.remove('active')">Paslaugos</a>
+            <a href="/#procesas" onclick="document.getElementById('mob-menu').classList.remove('active')">Procesas</a>
+            <a href="/#apie" onclick="document.getElementById('mob-menu').classList.remove('active')">Apie mus</a>
+            <a href="/blogas/" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
+        </div>
+    </nav>
+
+    <!-- COOKIE COMPLIANCE CHECK FORM -->
+    <section class="dast-section">
+        <div class="container">
+            <div class="dast-form-wrapper">
+                <div class="card dast-form-card">
+                    <div class="section-label">BDAR atitiktis</div>
+                    <h1 class="section-title">Nemokamas slapukų tikrinimas</h1>
+                    <p class="form-subtitle">Įveskite savo domeno vardą ir patikrinkite, kokie slapukai naudojami bei jų
+                        atitiktį BDAR reikalavimams.
+                    </p>
+
+                    <form id="dast-form" novalidate>
+                        <div class="form-group">
+                            <label for="dast-fqdn">Domeno vardas (FQDN) <span class="required">*</span></label>
+                            <input type="text" id="dast-fqdn" name="fqdn" placeholder="app.jusuimone.lt" required
+                                autocomplete="off" maxlength="253">
+                            <div class="input-hint">Pilnas domeno vardas, pvz. <strong>app.jusuimone.lt</strong></div>
+                        </div>
+
+                        <div class="form-status" id="form-status"></div>
+
+                        <div class="form-submit-wrapper">
+                            <button type="submit" class="btn-submit" id="dast-submit-btn">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                    <path d="M9 12l2 2 4-4" />
+                                </svg>
+                                Tikrinti domeną
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="cookie-results-wrapper" style="display: none;"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA / BOOKING -->
+    <section class="cta-section" id="kontaktai">
+        <div class="container">
+            <div class="section-label">Pradėkime</div>
+            <h2 class="section-title">Norite sužinoti savo sistemos būklę?</h2>
+            <p>Siūlome nemokamai patikrinti Jūsų interneto svetainę, kurioje galimai yra
+                pažeidžiamumų ar kitų saugumo spragų.
+            </p>
+
+            <a href="/dast/" class="btn btn-primary">Registruotis nemokamam skenavimui</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container" style="text-align:center">Atakos vektorius &copy; <a href="javascript:void(0);"
+                aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a></div>
+    </footer>
+
+    <script>
+        document.getElementById('dast-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            var statusEl = document.getElementById('form-status');
+            var submitBtn = document.getElementById('dast-submit-btn');
+            var fqdnInput = document.getElementById('dast-fqdn');
+            var resultsWrapper = document.getElementById('cookie-results-wrapper');
+
+            var rawFqdn = fqdnInput ? fqdnInput.value.trim() : '';
+            var fqdn = rawFqdn.replace(/^https?:\/\//i, '').split('/')[0].trim();
+
+            if (!fqdn) {
+                statusEl.style.display = 'flex';
+                statusEl.className = 'form-status error';
+                statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Įveskite domeno vardą.';
+                if (resultsWrapper) resultsWrapper.style.display = 'none';
+                return;
+            }
+
+            var fqdnRegex = /^([a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+            if (!fqdnRegex.test(fqdn)) {
+                statusEl.style.display = 'flex';
+                statusEl.className = 'form-status error';
+                statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Neteisingas domeno vardas. Pvz.: delfi.lt arba app.jusuimone.lt';
+                if (resultsWrapper) resultsWrapper.style.display = 'none';
+                return;
+            }
+
+            // Show loading
+            submitBtn.disabled = true;
+            statusEl.style.display = 'flex';
+            statusEl.className = 'form-status loading';
+            statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Tikrinamas domenas ir slapukai...';
+            if (resultsWrapper) resultsWrapper.style.display = 'none';
+
+            if (!document.getElementById('spin-style')) {
+                var styleEl = document.createElement('style');
+                styleEl.id = 'spin-style';
+                styleEl.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+                document.head.appendChild(styleEl);
+            }
+
+            try {
+                var response = await fetch('https://slapukai.atakosvektorius.lt/api/getresults/' + encodeURIComponent(fqdn), {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    var data = await response.json();
+                    statusEl.style.display = 'none';
+                    renderCookieResults(fqdn, data);
+                } else {
+                    var errData;
+                    try { errData = await response.json(); } catch (_) { errData = {}; }
+                    statusEl.style.display = 'flex';
+                    statusEl.className = 'form-status error';
+                    statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> ' + (errData.error || 'Įvyko klaida gaunant rezultatus.');
+                    if (resultsWrapper) resultsWrapper.style.display = 'none';
+                }
+            } catch (err) {
+                statusEl.style.display = 'flex';
+                statusEl.className = 'form-status error';
+                statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Įvyko ryšio klaida. Patikrinkite interneto ryšį ir bandykite dar kartą.';
+                if (resultsWrapper) resultsWrapper.style.display = 'none';
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        function renderCookieResults(domain, data) {
+            var wrapper = document.getElementById('cookie-results-wrapper');
+            if (!wrapper) return;
+
+            wrapper.style.display = 'block';
+
+            var isScanned = data.isscanned === 1;
+            var cookies = data.cookies || [];
+
+            var html = '<div class="cookie-results-card">';
+            html += '  <div class="cookie-results-header">';
+            html += '    <div class="cookie-results-title">';
+            html += '      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>';
+            html += '      Rezultatai domenui: <span style="font-family: monospace; text-decoration: underline;">' + escapeHtml(domain) + '</span>';
+            html += '    </div>';
+            html += '    <div class="cookie-results-meta">';
+            if (isScanned) {
+                html += '      <span class="cookie-badge cookie-badge-green">✓ Nuskenuota</span>';
+                html += '      <span class="cookie-badge cookie-badge-green">Slapukų skaičius: ' + cookies.length + '</span>';
+            } else {
+                html += '      <span class="cookie-badge cookie-badge-gray">⏳ Dar nenuskenuota</span>';
+            }
+            html += '    </div>';
+            html += '  </div>';
+
+            if (!isScanned) {
+                html += '  <div style="padding: 16px; background: #ffffff; border: 2px solid #1a7a34; border-radius: 8px; color: #15803d; font-size: 0.9rem;">';
+                html += '    Šis domenas dar nėra nuskenuotas arba skenavimas dar vykdomas. Prašome patikrinti vėliau.';
+                html += '  </div>';
+            } else if (cookies.length === 0) {
+                html += '  <div style="padding: 16px; background: #ffffff; border: 2px solid #1a7a34; border-radius: 8px; color: #15803d; font-size: 0.9rem;">';
+                html += '    Šiam domenui slapukų nerasta arba jie nebuvo užfiksuoti.';
+                html += '  </div>';
+            } else {
+                html += '  <div class="cookie-table-container">';
+                html += '    <table class="cookie-table">';
+                html += '      <thead>';
+                html += '        <tr>';
+                html += '          <th style="width: 50px; text-align: center;">#</th>';
+                html += '          <th>Slapuko pavadinimas</th>';
+                html += '          <th>Kategorija</th>';
+                html += '          <th>BDAR atitiktis</th>';
+                html += '          <th>Patikrinimo data</th>';
+                html += '        </tr>';
+                html += '      </thead>';
+                html += '      <tbody>';
+
+                for (var i = 0; i < cookies.length; i++) {
+                    var c = cookies[i];
+                    var cName = escapeHtml(c.cookiename || '-');
+                    var cCat = c.category || '?';
+                    var cDate = escapeHtml(c.datechecked || '-');
+                    var isAllowed = c.isallowedbdar === 1;
+
+                    var catClass = 'cat-unknown';
+                    if (cCat.toLowerCase().indexOf('analytic') !== -1) catClass = 'cat-analytics';
+                    else if (cCat.toLowerCase().indexOf('market') !== -1) catClass = 'cat-marketing';
+
+                    var bdarBadge = isAllowed
+                        ? '<span class="bdar-badge bdar-yes">✓ Leidžiama</span>'
+                        : '<span class="bdar-badge bdar-no">✕ Neleidžiama</span>';
+
+                    html += '        <tr>';
+                    html += '          <td style="text-align: center; color: #64748b; font-weight: 600;">' + (i + 1) + '</td>';
+                    html += '          <td class="cookie-name">' + cName + '</td>';
+                    html += '          <td><span class="cat-badge ' + catClass + '">' + escapeHtml(cCat) + '</span></td>';
+                    html += '          <td>' + bdarBadge + '</td>';
+                    html += '          <td style="color: #64748b; font-size: 0.82rem;">' + cDate + '</td>';
+                    html += '        </tr>';
+                }
+
+                html += '      </tbody>';
+                html += '    </table>';
+                html += '  </div>';
+            }
+
+            html += '</div>';
+
+            wrapper.innerHTML = html;
+            wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+
+    <link href="/css/cookieconsent.css" rel="stylesheet" />
+    <script defer src="/js/cookieconsent.js"></script>
+    <script defer src="/js/cookieconsent-config.js"></script>
+</body>
+
+</html>
