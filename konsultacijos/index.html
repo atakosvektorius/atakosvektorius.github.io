@@ -149,7 +149,8 @@
                             <textarea id="consult-message" name="message" maxlength="2000"
                                 placeholder="Nurodykite rūpimus klausimus, DAST rezultatus ar temas, kurias norėtumėte aptarti..."></textarea>
                             <div class="input-hint">Papildoma informacija padės mums geriau pasiruošti susitikimui.
-                                <div class="cf-turnstile" data-sitekey="0x4AAAAAAEQdbnN-6CSBat6ddKwoYFvd2v0" data-theme="dark" style="margin-bottom: 1rem;"></div>
+                                <div class="cf-turnstile" data-sitekey="0x4AAAAAAEQdbkHIbl8cMJQY" data-theme="dark"
+                                    style="margin-bottom: 1rem;"></div>
                             </div>
                         </div>
 
@@ -298,8 +299,8 @@
             }
 
             var turnstileToken = (window.turnstile && typeof turnstile.getResponse === 'function')
-                    ? turnstile.getResponse()
-                    : (document.querySelector('[name="cf-turnstile-response"]') ? document.querySelector('[name="cf-turnstile-response"]').value : '');
+                ? turnstile.getResponse()
+                : (document.querySelector('[name="cf-turnstile-response"]') ? document.querySelector('[name="cf-turnstile-response"]').value : '');
 
             var payload = {
                 email: email,
