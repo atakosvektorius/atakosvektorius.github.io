@@ -527,9 +527,29 @@
                 document.head.appendChild(styleEl);
             }
 
-            var turnstileToken = (window.turnstile && typeof turnstile.getResponse === 'function')
-                ? turnstile.getResponse()
-                : (document.querySelector('[name="cf-turnstile-response"]') ? document.querySelector('[name="cf-turnstile-response"]').value : '');
+            // Asynchronous Turnstile Token retrieval for invisible mode
+            async function fetchTurnstileToken() {
+                if (!window.turnstile) {
+                    var el = document.querySelector('[name="cf-turnstile-response"]');
+                    return el ? el.value : '';
+                }
+                var t = turnstile.getResponse();
+                if (t) return t;
+
+                return new Promise(function(resolve) {
+                    try {
+                        turnstile.execute(undefined, {
+                            callback: function(token) { resolve(token); },
+                            'error-callback': function() { resolve(''); }
+                        });
+                        setTimeout(function() { resolve(turnstile.getResponse() || ''); }, 3000);
+                    } catch(e) {
+                        resolve(turnstile.getResponse() || '');
+                    }
+                });
+            }
+
+            var turnstileToken = await fetchTurnstileToken();
 
             var payload = {
                 email: email,
