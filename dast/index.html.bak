@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAST skenavimo registracija | Atakos vektorius</title>
+    <meta name="description"
+        content="Užsiregistruokite DAST (Dynamic Application Security Testing) skenavimui. Pateikite savo domeno vardą ir pasirinkite datą.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="MB „Atakos vektorius“">
+    <link rel="canonical" href="https://atakosvektorius.lt/dast/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <meta property="og:title" content="DAST skenavimo registracija — Atakos vektorius">
+    <meta property="og:description"
+        content="Užsiregistruokite DAST skenavimui. Pateikite savo domeno vardą ir pasirinkite datą.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://atakosvektorius.lt/dast/">
+    <meta property="og:site_name" content="Atakos vektorius">
+    <meta property="og:locale" content="lt_LT">
+    <meta property="og:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/css/style.css?v=7">
+    <!-- Cloudflare Turnstile Script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "DAST pažeidžiamumų skenavimas",
+      "provider": {
+        "@type": "ProfessionalService",
+        "@id": "https://atakosvektorius.lt/#organization",
+        "name": "MB „Atakos vektorius“"
+      },
+      "serviceType": "Dynamic Application Security Testing",
+      "description": "Nemokamas DAST skenavimas domeno pažeidžiamumams ir saugumo spragoms nustatyti.",
+      "url": "https://atakosvektorius.lt/dast/"
+    }
+
+        // Pagalbinės funkcijos domeno verifikacijai
+        function copyDastField(inputId, btnEl) {
+            var input = document.getElementById(inputId);
+            if (!input) return;
+            navigator.clipboard.writeText(input.value);
+            var origText = btnEl.innerText;
+            btnEl.innerText = 'Nukopijuota! ✓';
+            btnEl.style.color = '#047857';
+            setTimeout(function () {
+                btnEl.innerText = origText;
+                btnEl.style.color = '';
+            }, 1800);
+        }
+
+        async function startCloudflareConnect() {
+            if (!window._dastVerification || !window._dastVerification.domain) return;
+
+            var statusEl = document.getElementById('cf-oauth-status');
+            var btn = document.getElementById('btn-cf-connect');
+            statusEl.style.display = 'block';
+            statusEl.style.color = '#c2410c';
+            statusEl.innerHTML = 'Jungiamasi prie Cloudflare...';
+            btn.disabled = true;
+
+            try {
+                var res = await fetch('/api/auth/cloudflare/authorize-url?domain=' + encodeURIComponent(window._dastVerification.domain));
+                var data = await res.json();
+                if (!res.ok || !data.authUrl) throw new Error(data.error || 'Nepavyko pradėti autorizacijos');
+
+                window._dastVerification.stateToken = data.state;
+                window._dastVerification.codeVerifier = data.codeVerifier;
+
+                var w = 600, h = 720;
+                var left = (window.screenX || window.screenLeft || 0) + (window.outerWidth - w) / 2;
+                var top = (window.screenY || window.screenTop || 0) + (window.outerHeight - h) / 2;
+
+                window.open(data.authUrl, 'cf_oauth_popup', 'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left + ',status=no,menubar=no');
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Klaida: ' + err.message;
+                btn.disabled = false;
+            }
+        }
+
+        window.addEventListener('message', async function (event) {
+            if (!event.data || event.data.type !== 'CLOUDFLARE_OAUTH_RESPONSE') return;
+            var payload = event.data;
+            var statusEl = document.getElementById('cf-oauth-status');
+            var btn = document.getElementById('btn-cf-connect');
+
+            if (payload.error) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Autorizacija atmesta: ' + (payload.errorDescription || payload.error);
+                btn.disabled = false;
+                return;
+            }
+
+            statusEl.style.color = '#2563eb';
+            statusEl.innerHTML = 'Kuriame DNS TXT įrašą Jūsų zonoje...';
+
+            try {
+                var res = await fetch('/api/auth/cloudflare/callback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: payload.code,
+                        state: payload.state || window._dastVerification.stateToken,
+                        codeVerifier: window._dastVerification.codeVerifier,
+                        domain: window._dastVerification.domain,
+                        txtRecordValue: window._dastVerification.txtValue
+                    })
+                });
+
+                var result = await res.json();
+                if (res.ok && result.success) {
+                    statusEl.style.color = '#15803d';
+                    statusEl.innerHTML = '<strong>✓ Domenas sėkmingai patvirtintas per Cloudflare! 🚀</strong>';
+                    btn.style.background = '#15803d';
+                    btn.innerText = '✓ Patvirtinta per Cloudflare';
+                } else {
+                    throw new Error(result.error || 'Nepavyko sukurti DNS įrašo');
+                }
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Klaida: ' + err.message;
+                btn.disabled = false;
+            }
+        });
+
+        async function verifyDastManual() {
+            if (!window._dastVerification || !window._dastVerification.domain) return;
+            var statusEl = document.getElementById('manual-verify-status');
+            var btn = document.getElementById('btn-manual-verify');
+
+            statusEl.style.display = 'block';
+            statusEl.style.color = '#4b5563';
+            statusEl.innerText = 'Tikrinama DNS propagacija...';
+            btn.disabled = true;
+
+            try {
+                var res = await fetch('/api/dast/verify-domain', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        domain: window._dastVerification.domain,
+                        expectedValue: window._dastVerification.txtValue
+                    })
+                });
+                var data = await res.json();
+                if (data.verified) {
+                    statusEl.style.color = '#15803d';
+                    statusEl.innerHTML = '<strong>✓ TXT įrašas rastas ir patvirtintas!</strong>';
+                } else {
+                    statusEl.style.color = '#b91c1c';
+                    statusEl.innerText = 'TXT įrašas dar neaptiktas. Palaukite 1-2 min. ir bandykite vėl.';
+                }
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Tinklo klaida tikrinant DNS.';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+
+    <!-- Pre-consent: dataLayer + gtag stub + consent defaults (Consent Mode v2) -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'wait_for_update': 500
+        });
+        gtag('js', new Date());
+    </script>
+
+    <!-- Užkraunama tik po analytics sutikimo iš PIRMOSIOS ŠALIES domain'o (per Google Tag Gateway) -->
+    <script type="text/plain" data-cookiecategory="analytics" async src="/okp0/gtag/js?id=G-MM3XFZX1JX"></script>
+    <script type="text/plain" data-cookiecategory="analytics">
+        gtag('config', 'G-MM3XFZX1JX', {
+            transport_url: 'https://atakosvektorius.lt/okp0',
+            first_party_collection: true
+        });
+
+        // Pagalbinės funkcijos domeno verifikacijai
+        function copyDastField(inputId, btnEl) {
+            var input = document.getElementById(inputId);
+            if (!input) return;
+            navigator.clipboard.writeText(input.value);
+            var origText = btnEl.innerText;
+            btnEl.innerText = 'Nukopijuota! ✓';
+            btnEl.style.color = '#047857';
+            setTimeout(function () {
+                btnEl.innerText = origText;
+                btnEl.style.color = '';
+            }, 1800);
+        }
+
+        async function startCloudflareConnect() {
+            if (!window._dastVerification || !window._dastVerification.domain) return;
+
+            var statusEl = document.getElementById('cf-oauth-status');
+            var btn = document.getElementById('btn-cf-connect');
+            statusEl.style.display = 'block';
+            statusEl.style.color = '#c2410c';
+            statusEl.innerHTML = 'Jungiamasi prie Cloudflare...';
+            btn.disabled = true;
+
+            try {
+                var res = await fetch('/api/auth/cloudflare/authorize-url?domain=' + encodeURIComponent(window._dastVerification.domain));
+                var data = await res.json();
+                if (!res.ok || !data.authUrl) throw new Error(data.error || 'Nepavyko pradėti autorizacijos');
+
+                window._dastVerification.stateToken = data.state;
+                window._dastVerification.codeVerifier = data.codeVerifier;
+
+                var w = 600, h = 720;
+                var left = (window.screenX || window.screenLeft || 0) + (window.outerWidth - w) / 2;
+                var top = (window.screenY || window.screenTop || 0) + (window.outerHeight - h) / 2;
+
+                window.open(data.authUrl, 'cf_oauth_popup', 'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left + ',status=no,menubar=no');
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Klaida: ' + err.message;
+                btn.disabled = false;
+            }
+        }
+
+        window.addEventListener('message', async function (event) {
+            if (!event.data || event.data.type !== 'CLOUDFLARE_OAUTH_RESPONSE') return;
+            var payload = event.data;
+            var statusEl = document.getElementById('cf-oauth-status');
+            var btn = document.getElementById('btn-cf-connect');
+
+            if (payload.error) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Autorizacija atmesta: ' + (payload.errorDescription || payload.error);
+                btn.disabled = false;
+                return;
+            }
+
+            statusEl.style.color = '#2563eb';
+            statusEl.innerHTML = 'Kuriame DNS TXT įrašą Jūsų zonoje...';
+
+            try {
+                var res = await fetch('/api/auth/cloudflare/callback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: payload.code,
+                        state: payload.state || window._dastVerification.stateToken,
+                        codeVerifier: window._dastVerification.codeVerifier,
+                        domain: window._dastVerification.domain,
+                        txtRecordValue: window._dastVerification.txtValue
+                    })
+                });
+
+                var result = await res.json();
+                if (res.ok && result.success) {
+                    statusEl.style.color = '#15803d';
+                    statusEl.innerHTML = '<strong>✓ Domenas sėkmingai patvirtintas per Cloudflare! 🚀</strong>';
+                    btn.style.background = '#15803d';
+                    btn.innerText = '✓ Patvirtinta per Cloudflare';
+                } else {
+                    throw new Error(result.error || 'Nepavyko sukurti DNS įrašo');
+                }
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Klaida: ' + err.message;
+                btn.disabled = false;
+            }
+        });
+
+        async function verifyDastManual() {
+            if (!window._dastVerification || !window._dastVerification.domain) return;
+            var statusEl = document.getElementById('manual-verify-status');
+            var btn = document.getElementById('btn-manual-verify');
+
+            statusEl.style.display = 'block';
+            statusEl.style.color = '#4b5563';
+            statusEl.innerText = 'Tikrinama DNS propagacija...';
+            btn.disabled = true;
+
+            try {
+                var res = await fetch('/api/dast/verify-domain', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        domain: window._dastVerification.domain,
+                        expectedValue: window._dastVerification.txtValue
+                    })
+                });
+                var data = await res.json();
+                if (data.verified) {
+                    statusEl.style.color = '#15803d';
+                    statusEl.innerHTML = '<strong>✓ TXT įrašas rastas ir patvirtintas!</strong>';
+                } else {
+                    statusEl.style.color = '#b91c1c';
+                    statusEl.innerText = 'TXT įrašas dar neaptiktas. Palaukite 1-2 min. ir bandykite vėl.';
+                }
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Tinklo klaida tikrinant DNS.';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos vektorius logotipas"
+                    width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
+            <div class="nav-links">
+                <a href="/#paslaugos">Paslaugos</a>
+                <a href="/#procesas">Procesas</a>
+                <a href="/#apie">Apie mus</a>
+                <a href="/blogas/" class="nav-cta">Blogas</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
+                aria-label="Menu">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M4 8h20M4 14h20M4 20h20" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mob-menu">
+            <a href="/#paslaugos" onclick="document.getElementById('mob-menu').classList.remove('active')">Paslaugos</a>
+            <a href="/#procesas" onclick="document.getElementById('mob-menu').classList.remove('active')">Procesas</a>
+            <a href="/#apie" onclick="document.getElementById('mob-menu').classList.remove('active')">Apie mus</a>
+            <a href="/blogas/" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
+        </div>
+    </nav>
+
+    <!-- DAST REGISTRATION FORM -->
+    <section class="dast-section">
+        <div class="container">
+            <div class="dast-form-wrapper">
+                <div class="card dast-form-card">
+                    <div class="section-label">Registracijos forma</div>
+                    <h1 class="section-title">Pažeidžiamumų skenavimas</h1>
+                    <p class="form-subtitle">Siūlome nemokamai patikrinti Jūsų interneto svetainę, kurioje galimai yra
+                        pažeidžiamumų ar kitų saugumo spragų. Prašome užpildyti žemiau esančius laukus, o domeno
+                        nuostatybės patvirtinimui bus pateikta reikšmė, kurią reikės įkelti į DNS TXT įrašą. Daugiau
+                        apie duomenų saugojimą - privatumo politikoje.
+                    </p>
+
+                    <form id="dast-form" novalidate>
+                        <div class="form-group">
+                            <label for="dast-email">El. pašto adresas <span class="required">*</span></label>
+                            <input type="email" id="dast-email" name="email" placeholder="jus@jusuimone.lt" required
+                                autocomplete="email" maxlength="254"
+                                pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
+                            <div class="input-hint">Į šį el. pašto adresą bus atsiųsta <strong>ataskaita</strong>.</div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dast-fqdn">Domeno vardas (FQDN) <span class="required">*</span></label>
+                            <input type="text" id="dast-fqdn" name="fqdn" placeholder="app.jusuimone.lt" required
+                                autocomplete="off" maxlength="253"
+                                pattern="^([a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$">
+                            <div class="input-hint">Pilnas domeno vardas, pvz. <strong>app.jusuimone.lt</strong></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dast-date">Pageidaujama data <span class="required">*</span></label>
+                                <input type="date" id="dast-date" name="date" required>
+                                <div class="input-hint">Ne anksčiau nei po 24h.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dast-time">Pageidaujamas laikas <span class="required">*</span></label>
+                                <input type="time" id="dast-time" name="time" required value="22:00">
+                                <div class="input-hint">(24 valandos formato pvz: 22:00).</div>
+                            </div>
+                        </div>
+
+                        <div class="turnstile-wrapper">
+                            <!-- <div class="cf-turnstile" data-sitekey="0x4AAAAAAEQfUwCoJVe_BLvV" data-size="invisible"> -->
+                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-size="invisible">
+
+                            </div>
+                        </div>
+
+                        <div class="form-status" id="form-status"></div>
+
+                        <div class="form-submit-wrapper">
+                            <button type="submit" class="btn-submit" id="dast-submit-btn">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                    <path d="M9 12l2 2 4-4" />
+                                </svg>
+                                Registruotis skenavimui
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- HOW IT WORKS -->
+            <div class="dast-info">
+                <div class="dast-steps">
+                    <div class="card dast-step">
+                        <div class="step-number">1</div>
+                        <h4>Registracija</h4>
+                        <p>Pateikite domeno vardą, el. paštą, bei datą ir laiką.</p>
+                    </div>
+                    <div class="card dast-step">
+                        <div class="step-number">2</div>
+                        <h4>Patvirtinimas</h4>
+                        <p>Interneto svetainės domeno nuosavybę patvirtiname sukuriant DNS TXT įrašą.</p>
+                    </div>
+                    <div class="card dast-step">
+                        <div class="step-number">3</div>
+                        <h4>Ataskaita</h4>
+                        <p>Po skenavimo ataskaita bus išsiųsta el.paštu. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container" style="text-align:center">Atakos vektorius &copy; <a href="javascript:void(0);"
+                aria-label="Peržiūrėti privatumo politiką" data-cc="c-settings">Privatumo politika</a></div>
+    </footer>
+
+    <script>
+        // Formatuoja datą YYYY-MM-DD pagal naudotojo vietinį laiką (+24h nuo dabar)
+        function getMinAllowedDate() {
+            var min24h = new Date(Date.now() + 24 * 60 * 60 * 1000);
+            var year = min24h.getFullYear();
+            var month = String(min24h.getMonth() + 1).padStart(2, '0');
+            var day = String(min24h.getDate()).padStart(2, '0');
+            return year + '-' + month + '-' + day;
+        }
+
+        function updateMinDate() {
+            var dateInput = document.getElementById('dast-date');
+            if (dateInput) {
+                dateInput.setAttribute('min', getMinAllowedDate());
+            }
+        }
+
+        // Nustatoma pradinė minimali data ir atnaujinama sulaukus dėmesio
+        updateMinDate();
+        var dateInputEl = document.getElementById('dast-date');
+        if (dateInputEl) {
+            dateInputEl.addEventListener('focus', updateMinDate);
+        }
+
+        // Form submission
+        document.getElementById('dast-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            var statusEl = document.getElementById('form-status');
+            var submitBtn = document.getElementById('dast-submit-btn');
+            var emailInput = document.getElementById('dast-email');
+            var fqdnInput = document.getElementById('dast-fqdn');
+            var dateInput = document.getElementById('dast-date');
+            var timeInput = document.getElementById('dast-time');
+
+            var email = emailInput ? emailInput.value.trim() : '';
+            var fqdn = fqdnInput ? fqdnInput.value.trim() : '';
+            var date = dateInput ? dateInput.value.trim() : '';
+            var time = timeInput ? timeInput.value.trim() : '';
+
+            // Basic validation
+            if (!email || !fqdn || !date || !time) {
+                statusEl.className = 'form-status error';
+                statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Prašome užpildyti visus privalomus laukus.';
+                return;
+            }
+
+            // Email format check
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                statusEl.className = 'form-status error';
+                statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Neteisingas el. pašto formatas.';
+                return;
+            }
+
+            // FQDN format check
+            var fqdnRegex = /^([a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+            if (!fqdnRegex.test(fqdn)) {
+                statusEl.className = 'form-status error';
+                statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Neteisingas domeno vardas. Pvz.: app.example.com';
+                return;
+            }
+
+            // Date check (+24h)
+            var minDateStr = getMinAllowedDate();
+            if (date < minDateStr) {
+                statusEl.className = 'form-status error';
+                statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Pasirinkta data turi būti ne anksčiau nei po 24 valandų nuo šiandienos (' + minDateStr + ').';
+                return;
+            }
+
+            // Time format check (HH:MM)
+            var timeRegex = /^([01]\d|2[0-3]):[0-5]\d$/;
+            if (!timeRegex.test(time)) {
+                statusEl.className = 'form-status error';
+                statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Neteisingas laiko formatas. Pvz.: 02:00';
+                return;
+            }
+
+            // Show loading
+            submitBtn.disabled = true;
+            statusEl.className = 'form-status loading';
+            statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Siunčiama...';
+
+            // Add spin animation
+            if (!document.getElementById('spin-style')) {
+                var styleEl = document.createElement('style');
+                styleEl.id = 'spin-style';
+                styleEl.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+                document.head.appendChild(styleEl);
+            }
+
+            // Asynchronous Turnstile Token retrieval for invisible mode
+            async function fetchTurnstileToken() {
+                if (!window.turnstile) {
+                    var el = document.querySelector('[name="cf-turnstile-response"]');
+                    return el ? el.value : '';
+                }
+                var t = turnstile.getResponse();
+                if (t) return t;
+
+                return new Promise(function (resolve) {
+                    try {
+                        turnstile.execute(undefined, {
+                            callback: function (token) { resolve(token); },
+                            'error-callback': function () { resolve(''); }
+                        });
+                        setTimeout(function () { resolve(turnstile.getResponse() || ''); }, 3000);
+                    } catch (e) {
+                        resolve(turnstile.getResponse() || '');
+                    }
+                });
+            }
+
+            var turnstileToken = await fetchTurnstileToken();
+
+            var payload = {
+                email: email,
+                fqdn: fqdn,
+                date: date,
+                time: time,
+                cfTurnstileToken: turnstileToken
+            };
+
+            try {
+                var response = await fetch('http://localhost:8787/api/dast', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    var data = await response.json();
+                    statusEl.className = 'form-status success';
+
+                    var hostName = data.txtRecordHost || '_atakos-vektorius';
+                    var txtVal = data.txtRecordValue || data.verificationToken || '';
+                    var fullFqdn = fqdn.trim().toLowerCase();
+
+                    window._dastVerification = {
+                        domain: fullFqdn,
+                        txtValue: txtVal,
+                        stateToken: '',
+                        codeVerifier: ''
+                    };
+
+                    var html = '<div style="width: 100%; text-align: left;">';
+                    html += '<div style="display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 1rem; color: #166534; margin-bottom: 6px;">';
+                    html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+                    html += '<span>Registracija sėkminga!</span>';
+                    html += '</div>';
+                    html += '<div style="font-size: 0.85rem; color: #374151; margin-bottom: 14px;">Instrukcijos taip pat išsiųstos į Jūsų el. paštą. Pasirinkite domeno patvirtinimo būdą:</div>';
+
+                    // 1 METODAS: 1-Click Cloudflare
+                    html += '<div style="background: rgba(255,255,255,0.9); border: 1px solid rgba(246,130,31,0.4); border-radius: 8px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">';
+                    html += '<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">';
+                    html += '<strong style="font-size: 0.88rem; color: #1f2937;">1 Būdas: Greitasis patvirtinimas</strong>';
+                    html += '<span style="font-size: 0.72rem; background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; padding: 2px 6px; border-radius: 4px; font-weight: 600;">Rekomenduojama</span>';
+                    html += '</div>';
+                    html += '<button type="button" id="btn-cf-connect" onclick="startCloudflareConnect()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, #f6821f, #faad3f); border: none; color: #fff; font-weight: 600; font-size: 0.88rem; padding: 10px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s;">';
+                    html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>';
+                    html += '1-Click Connect with Cloudflare';
+                    html += '</button>';
+                    html += '<div id="cf-oauth-status" style="font-size: 0.8rem; margin-top: 8px; font-weight: 500; display: none;"></div>';
+                    html += '</div>';
+
+                    // 2 METODAS: Rankinis DNS TXT įrašas
+                    html += '<div style="background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; padding: 14px;">';
+                    html += '<strong style="font-size: 0.88rem; color: #374151; display: block; margin-bottom: 8px;">2 Būdas: Rankinis DNS įrašas</strong>';
+
+                    html += '<div style="margin-bottom: 8px;">';
+                    html += '<label style="font-size: 0.75rem; color: #6b7280; display: block; margin-bottom: 2px;">Host / Pavadinimas (Name):</label>';
+                    html += '<div style="display: flex; gap: 6px;">';
+                    html += '<input type="text" id="txt-host-field" readonly value="' + hostName + '" style="flex: 1; padding: 6px 8px; font-family: monospace; font-size: 0.82rem; background: #fff; border: 1px solid #d1d5db; border-radius: 4px; color: #111;" />';
+                    html += '<button type="button" onclick="copyDastField(\'txt-host-field\', this)" style="padding: 6px 10px; font-size: 0.78rem; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer;">Kopijuoti</button>';
+                    html += '</div>';
+                    html += '</div>';
+
+                    html += '<div style="margin-bottom: 10px;">';
+                    html += '<label style="font-size: 0.75rem; color: #6b7280; display: block; margin-bottom: 2px;">TXT Reikšmė (Value):</label>';
+                    html += '<div style="display: flex; gap: 6px;">';
+                    html += '<input type="text" id="txt-val-field" readonly value="' + txtVal + '" style="flex: 1; padding: 6px 8px; font-family: monospace; font-size: 0.82rem; background: #fff; border: 1px solid #d1d5db; border-radius: 4px; color: #047857; font-weight: 600;" />';
+                    html += '<button type="button" onclick="copyDastField(\'txt-val-field\', this)" style="padding: 6px 10px; font-size: 0.78rem; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer;">Kopijuoti</button>';
+                    html += '</div>';
+                    html += '</div>';
+
+                    html += '<button type="button" id="btn-manual-verify" onclick="verifyDastManual()" style="width: 100%; font-size: 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; padding: 7px; border-radius: 5px; cursor: pointer; color: #334155;">';
+                    html += 'Patikrinti DNS įrašą dabar';
+                    html += '</button>';
+                    html += '<div id="manual-verify-status" style="font-size: 0.78rem; margin-top: 6px; display: none;"></div>';
+                    html += '</div>';
+
+                    html += '</div>';
+
+                    statusEl.innerHTML = html;
+                    document.getElementById('dast-form').reset();
+                } else {
+                    var errData;
+                    try { errData = await response.json(); } catch (_) { errData = {}; }
+                    statusEl.className = 'form-status error';
+                    statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> ' + (errData.error || 'Įvyko klaida. Bandykite dar kartą.');
+                }
+            } catch (err) {
+                statusEl.className = 'form-status error';
+                statusEl.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Įvyko ryšio klaida. Patikrinkite interneto ryšį ir bandykite dar kartą.';
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+
+    <link href="/css/cookieconsent.css" rel="stylesheet" />
+    <script defer src="/js/cookieconsent.js"></script>
+    <script defer src="/js/cookieconsent-config.js">
+        // Pagalbinės funkcijos domeno verifikacijai
+        function copyDastField(inputId, btnEl) {
+            var input = document.getElementById(inputId);
+            if (!input) return;
+            navigator.clipboard.writeText(input.value);
+            var origText = btnEl.innerText;
+            btnEl.innerText = 'Nukopijuota! ✓';
+            btnEl.style.color = '#047857';
+            setTimeout(function () {
+                btnEl.innerText = origText;
+                btnEl.style.color = '';
+            }, 1800);
+        }
+
+        async function startCloudflareConnect() {
+            if (!window._dastVerification || !window._dastVerification.domain) return;
+
+            var statusEl = document.getElementById('cf-oauth-status');
+            var btn = document.getElementById('btn-cf-connect');
+            statusEl.style.display = 'block';
+            statusEl.style.color = '#c2410c';
+            statusEl.innerHTML = 'Jungiamasi prie Cloudflare...';
+            btn.disabled = true;
+
+            try {
+                var res = await fetch('/api/auth/cloudflare/authorize-url?domain=' + encodeURIComponent(window._dastVerification.domain));
+                var data = await res.json();
+                if (!res.ok || !data.authUrl) throw new Error(data.error || 'Nepavyko pradėti autorizacijos');
+
+                window._dastVerification.stateToken = data.state;
+                window._dastVerification.codeVerifier = data.codeVerifier;
+
+                var w = 600, h = 720;
+                var left = (window.screenX || window.screenLeft || 0) + (window.outerWidth - w) / 2;
+                var top = (window.screenY || window.screenTop || 0) + (window.outerHeight - h) / 2;
+
+                window.open(data.authUrl, 'cf_oauth_popup', 'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left + ',status=no,menubar=no');
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Klaida: ' + err.message;
+                btn.disabled = false;
+            }
+        }
+
+        window.addEventListener('message', async function (event) {
+            if (!event.data || event.data.type !== 'CLOUDFLARE_OAUTH_RESPONSE') return;
+            var payload = event.data;
+            var statusEl = document.getElementById('cf-oauth-status');
+            var btn = document.getElementById('btn-cf-connect');
+
+            if (payload.error) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Autorizacija atmesta: ' + (payload.errorDescription || payload.error);
+                btn.disabled = false;
+                return;
+            }
+
+            statusEl.style.color = '#2563eb';
+            statusEl.innerHTML = 'Kuriame DNS TXT įrašą Jūsų zonoje...';
+
+            try {
+                var res = await fetch('/api/auth/cloudflare/callback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: payload.code,
+                        state: payload.state || window._dastVerification.stateToken,
+                        codeVerifier: window._dastVerification.codeVerifier,
+                        domain: window._dastVerification.domain,
+                        txtRecordValue: window._dastVerification.txtValue
+                    })
+                });
+
+                var result = await res.json();
+                if (res.ok && result.success) {
+                    statusEl.style.color = '#15803d';
+                    statusEl.innerHTML = '<strong>✓ Domenas sėkmingai patvirtintas per Cloudflare! 🚀</strong>';
+                    btn.style.background = '#15803d';
+                    btn.innerText = '✓ Patvirtinta per Cloudflare';
+                } else {
+                    throw new Error(result.error || 'Nepavyko sukurti DNS įrašo');
+                }
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Klaida: ' + err.message;
+                btn.disabled = false;
+            }
+        });
+
+        async function verifyDastManual() {
+            if (!window._dastVerification || !window._dastVerification.domain) return;
+            var statusEl = document.getElementById('manual-verify-status');
+            var btn = document.getElementById('btn-manual-verify');
+
+            statusEl.style.display = 'block';
+            statusEl.style.color = '#4b5563';
+            statusEl.innerText = 'Tikrinama DNS propagacija...';
+            btn.disabled = true;
+
+            try {
+                var res = await fetch('/api/dast/verify-domain', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        domain: window._dastVerification.domain,
+                        expectedValue: window._dastVerification.txtValue
+                    })
+                });
+                var data = await res.json();
+                if (data.verified) {
+                    statusEl.style.color = '#15803d';
+                    statusEl.innerHTML = '<strong>✓ TXT įrašas rastas ir patvirtintas!</strong>';
+                } else {
+                    statusEl.style.color = '#b91c1c';
+                    statusEl.innerText = 'TXT įrašas dar neaptiktas. Palaukite 1-2 min. ir bandykite vėl.';
+                }
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Tinklo klaida tikrinant DNS.';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

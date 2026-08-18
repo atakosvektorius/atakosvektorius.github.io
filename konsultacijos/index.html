@@ -19,9 +19,10 @@
     <meta property="og:site_name" content="Atakos vektorius">
     <meta property="og:locale" content="lt_LT">
     <meta property="og:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="/css/style.css?v=7">
+    <!-- App Configuration & Environment Detection -->
+    <script src="/js/app-config.js"></script>
     <!-- Cloudflare Turnstile Script -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
@@ -56,10 +57,10 @@
 
     <!-- Užkraunama tik po analytics sutikimo iš PIRMOSIOS ŠALIES domain'o (per Google Tag Gateway) -->
     <script type="text/plain" data-cookiecategory="analytics" async
-        src="https://atakosvektorius.lt/okp0/gtag/js?id=G-MM3XFZX1JX"></script>
+        src="/okp0/gtag/js?id=G-MM3XFZX1JX"></script>
     <script type="text/plain" data-cookiecategory="analytics">
         gtag('config', 'G-MM3XFZX1JX', {
-            transport_url: 'https://atakosvektorius.lt/okp0',
+            transport_url: '/okp0',
             first_party_collection: true
         });
     </script>
@@ -314,7 +315,8 @@
             };
 
             try {
-                var response = await fetch('/api/konsultacija', {
+                var apiBase = (window.appConfig && window.appConfig.apiBaseUrl) ? window.appConfig.apiBaseUrl : '';
+                var response = await fetch(apiBase + '/api/konsultacija', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
