@@ -190,7 +190,291 @@
                 btn.disabled = false;
             }
         }
+        function openVerificationModal() {
+            var modal = document.getElementById('dast-modal-overlay');
+            if (!modal) return;
+            modal.style.display = 'flex';
+            void modal.offsetWidth;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVerificationModal(e) {
+            if (e && e.target && !e.target.classList.contains('modal-overlay') && !e.target.closest('.modal-close-btn') && !e.target.closest('.btn-modal-done')) {
+                return;
+            }
+            var modal = document.getElementById('dast-modal-overlay');
+            if (!modal) return;
+            modal.classList.remove('active');
+            setTimeout(function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 250);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeVerificationModal();
+            }
+        });
     </script>
+    <style id="dast-modal-styles">
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            box-sizing: border-box;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-container {
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.96) translateY(10px);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            font-family: inherit;
+            color: #0f172a;
+        }
+        .modal-overlay.active .modal-container {
+            transform: scale(1) translateY(0);
+        }
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 20px 24px 14px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .modal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #059669;
+            background: #ecfdf5;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            margin-bottom: 6px;
+        }
+        .modal-title {
+            margin: 0;
+            font-size: 1.22rem;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+        }
+        .modal-close-btn {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 6px;
+            cursor: pointer;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .modal-close-btn:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+        .modal-body {
+            padding: 20px 24px;
+        }
+        .modal-intro {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: #475569;
+            margin: 0 0 16px;
+        }
+        .cf-oneclick-card {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+        .cf-oneclick-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #c2410c;
+            margin-bottom: 6px;
+        }
+        .cf-oneclick-text {
+            font-size: 0.84rem;
+            color: #9a3412;
+            margin: 0 0 10px;
+        }
+        .btn-cf-connect {
+            width: 100%;
+            font-weight: 600;
+            font-size: 0.88rem;
+            background: #f6821f;
+            color: #ffffff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px -1px rgba(246, 130, 31, 0.2);
+            transition: background 0.2s;
+        }
+        .btn-cf-connect:hover {
+            background: #ea580c;
+        }
+        .cf-oauth-status {
+            font-size: 0.82rem;
+            margin-top: 8px;
+            text-align: center;
+        }
+        .cf-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin-top: 14px;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .cf-divider::before, .cf-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #fed7aa;
+        }
+        .cf-divider span {
+            padding: 0 10px;
+        }
+        .dns-details-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .dns-details-header {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #334155;
+            margin-bottom: 12px;
+        }
+        .dns-field-group {
+            margin-bottom: 10px;
+        }
+        .dns-field-label {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        .dns-copy-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+        .dns-input {
+            flex: 1;
+            padding: 7px 10px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.82rem;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            color: #0f172a;
+        }
+        .btn-copy {
+            padding: 7px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #334155;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .btn-copy:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        .btn-verify-now {
+            margin-top: 12px;
+            width: 100%;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 9px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #1e293b;
+            transition: all 0.2s;
+        }
+        .btn-verify-now:hover {
+            background: #f1f5f9;
+        }
+        .manual-verify-status {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            text-align: center;
+        }
+        .modal-footer-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            color: #64748b;
+            margin-top: 14px;
+        }
+        .modal-footer {
+            padding: 12px 24px 18px;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .btn-modal-done {
+            background: #0f172a;
+            color: #ffffff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-modal-done:hover {
+            background: #334155;
+        }
+    </style>
 </head>
 
 <body>
@@ -450,7 +734,6 @@
 
                 if (response.ok) {
                     var data = await response.json();
-                    statusEl.className = 'form-status success';
                     
                     window._dastVerification = {
                         domain: payload.fqdn,
@@ -458,50 +741,23 @@
                         txtValue: data.verificationToken || data.txtRecordValue || ''
                     };
 
-                    var html = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> <div style="flex:1;">';
-                    html += '<div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 6px;">' + (data.message || 'Registracija sėkminga! Instrukcijos ir domeno patvirtinimo įrašas išsiųsti į Jūsų el. paštą.') + '</div>';
+                    // Populate modal fields
+                    var modalDomainEl = document.getElementById('modal-domain-name');
+                    if (modalDomainEl) modalDomainEl.textContent = window._dastVerification.domain;
+                    
+                    var hostField = document.getElementById('txt-host-field');
+                    if (hostField) hostField.value = window._dastVerification.txtHost;
+                    
+                    var valField = document.getElementById('txt-val-field');
+                    if (valField) valField.value = window._dastVerification.txtValue;
 
-                    if (window._dastVerification.txtValue) {
-                        html += '<div style="margin-top: 12px; padding: 14px; background: rgba(255,255,255,0.9); border: 1px solid var(--border); border-radius: 8px;">';
-                        
-                        // 1. Dynamic 1-Click Cloudflare Container (Hidden by default, shown ONLY if Cloudflare DNS is detected)
-                        html += '<div id="cf-oneclick-container" style="display: none; margin-bottom: 14px; padding: 12px; background: rgba(246, 130, 31, 0.08); border: 1px solid rgba(246, 130, 31, 0.3); border-radius: 8px;">';
-                        html += '<div style="font-size: 0.82rem; color: #c2410c; margin-bottom: 10px; text-align: left;"><strong>⚡ Aptiktas Cloudflare DNS!</strong> Domeną <strong>' + window._dastVerification.domain + '</strong> galite patvirtinti automatiniu 1-spustelėjimu:</div>';
-                        html += '<button type="button" id="btn-cf-connect" onclick="startCloudflareConnect()" style="width: 100%; font-weight: 600; font-size: 0.88rem; background: #f6821f; color: #ffffff; border: none; padding: 10px 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.2s;">';
-                        html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>';
-                        html += '<span>Patvirtinti per Cloudflare (1-Click)</span>';
-                        html += '</button>';
-                        html += '<div id="cf-oauth-status" style="font-size: 0.8rem; margin-top: 6px; display: none;"></div>';
-                        html += '</div>';
+                    // Clean, compact status on the form card (no shifting or page deformation!)
+                    statusEl.className = 'form-status success';
+                    statusEl.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; width: 100%;"><span><strong>Registracija priimta!</strong> Instrukcijos išsiųstos į el. paštą.</span> <button type="button" onclick="openVerificationModal()" style="background: none; border: none; color: #047857; font-weight: 700; cursor: pointer; text-decoration: underline; padding: 2px 4px; font-size: 0.85rem;">Peržiūrėti DNS instrukcijas</button></div>';
 
-                        // 2. Standard Manual TXT Record Info (Always shown for all domains)
-                        html += '<div style="font-weight: 600; font-size: 0.85rem; color: #1e293b; margin-bottom: 8px;">Domeno teisių patvirtinimo įrašas:</div>';
-                        html += '<div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem;">';
-                        html += '<div><span style="color: #475569; font-weight: 500;">Įrašo tipas:</span> <strong>TXT</strong></div>';
-                        
-                        html += '<div>';
-                        html += '<span style="color: #475569; font-weight: 500;">Host / Pavadinimas:</span>';
-                        html += '<div style="display: flex; gap: 6px; margin-top: 4px;">';
-                        html += '<input type="text" id="txt-host-field" readonly value="' + window._dastVerification.txtHost + '" style="flex:1; padding: 6px 10px; font-family: monospace; font-size: 0.82rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; color: #0f172a;">';
-                        html += '<button type="button" onclick="copyDastField(\'txt-host-field\', this)" style="padding: 6px 10px; font-size: 0.78rem; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; color: #334155;">Kopijuoti</button>';
-                        html += '</div></div>';
+                    // Automatically pop up the modal overlay
+                    openVerificationModal();
 
-                        html += '<div>';
-                        html += '<span style="color: #475569; font-weight: 500;">TXT Reikšmė (MD5):</span>';
-                        html += '<div style="display: flex; gap: 6px; margin-top: 4px;">';
-                        html += '<input type="text" id="txt-val-field" readonly value="' + window._dastVerification.txtValue + '" style="flex:1; padding: 6px 10px; font-family: monospace; font-size: 0.82rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; color: #0f172a;">';
-                        html += '<button type="button" onclick="copyDastField(\'txt-val-field\', this)" style="padding: 6px 10px; font-size: 0.78rem; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; color: #334155;">Kopijuoti</button>';
-                        html += '</div></div>';
-
-                        html += '<button type="button" id="btn-manual-verify" onclick="verifyDastManual()" style="margin-top: 8px; width: 100%; font-size: 0.82rem; font-weight: 500; background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px; border-radius: 6px; cursor: pointer; color: #334155; transition: background 0.2s;">';
-                        html += 'Patikrinti DNS įrašą dabar';
-                        html += '</button>';
-                        html += '<div id="manual-verify-status" style="font-size: 0.78rem; margin-top: 6px; display: none;"></div>';
-                        html += '</div></div>';
-                    }
-
-                    html += '</div>';
-                    statusEl.innerHTML = html;
                     document.getElementById('dast-form').reset();
 
                     // Asynchronously check if domain uses Cloudflare DNS (Unhide 1-Click ONLY if true)
@@ -533,6 +789,97 @@
             }
         });
     </script>
+
+    <!-- DAST DOMAIN VERIFICATION MODAL OVERLAY -->
+    <div id="dast-modal-overlay" class="modal-overlay" style="display: none;" onclick="closeVerificationModal(event)">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-wrapper">
+                    <div class="modal-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>Registracija priimta</span>
+                    </div>
+                    <h3 class="modal-title">Domeno teisių patvirtinimas</h3>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeVerificationModal()" aria-label="Uždaryti">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-intro">
+                    Kad galėtume atlikti DAST saugumo skenavimą domenui <strong id="modal-domain-name"></strong>, patvirtinkite, kad esate jo valdytojas:
+                </p>
+
+                <!-- 1. Cloudflare 1-Click Container (Hidden by default, shown ONLY if Cloudflare DNS is detected) -->
+                <div id="cf-oneclick-container" style="display: none;" class="cf-oneclick-card">
+                    <div class="cf-oneclick-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#f6821f">
+                            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+                        </svg>
+                        <span>⚡ Aptiktas Cloudflare DNS!</span>
+                    </div>
+                    <p class="cf-oneclick-text">Šį domeną galite patvirtinti automatiniu 1-spustelėjimu:</p>
+                    <button type="button" id="btn-cf-connect" onclick="startCloudflareConnect()" class="btn-cf-connect">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+                        </svg>
+                        <span>Patvirtinti per Cloudflare (1-Click)</span>
+                    </button>
+                    <div id="cf-oauth-status" class="cf-oauth-status" style="display: none;"></div>
+                    <div class="cf-divider"><span>arba rankiniu būdu per DNS</span></div>
+                </div>
+
+                <!-- 2. Standard DNS TXT Record Details -->
+                <div class="dns-details-box">
+                    <div class="dns-details-header">DNS TXT įrašo nustatymai:</div>
+                    
+                    <div class="dns-field-group">
+                        <div class="dns-field-label">Įrašo tipas: <strong>TXT</strong></div>
+                    </div>
+
+                    <div class="dns-field-group">
+                        <label class="dns-field-label">Host / Pavadinimas:</label>
+                        <div class="dns-copy-wrapper">
+                            <input type="text" id="txt-host-field" readonly value="_atakos-vektorius" class="dns-input">
+                            <button type="button" onclick="copyDastField('txt-host-field', this)" class="btn-copy">Kopijuoti</button>
+                        </div>
+                    </div>
+
+                    <div class="dns-field-group">
+                        <label class="dns-field-label">TXT Reikšmė (MD5):</label>
+                        <div class="dns-copy-wrapper">
+                            <input type="text" id="txt-val-field" readonly value="" class="dns-input">
+                            <button type="button" onclick="copyDastField('txt-val-field', this)" class="btn-copy">Kopijuoti</button>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btn-manual-verify" onclick="verifyDastManual()" class="btn-verify-now">
+                        Patikrinti DNS įrašą dabar
+                    </button>
+                    <div id="manual-verify-status" class="manual-verify-status" style="display: none;"></div>
+                </div>
+
+                <div class="modal-footer-note">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    <span>Šios instrukcijos taip pat išsiųstos į Jūsų el. paštą.</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-modal-done" onclick="closeVerificationModal()">Supratau, atliksiu vėliau</button>
+            </div>
+        </div>
+    </div>
 
     <link href="/css/cookieconsent.css" rel="stylesheet" />
     <script defer src="/js/cookieconsent.js"></script>
