@@ -952,10 +952,11 @@ footer a:hover {
 }
 
 .turnstile-wrapper {
-    margin: 20px 0 10px;
-    display: flex;
-    justify-content: center;
-    min-height: 65px;
+    margin: 0;
+    padding: 0;
+    min-height: 0;
+    height: 0;
+    overflow: hidden;
 }
 
 .form-submit-wrapper {

@@ -39,130 +39,6 @@
       "description": "Nemokamas DAST skenavimas domeno pažeidžiamumams ir saugumo spragoms nustatyti.",
       "url": "https://atakosvektorius.lt/dast/"
     }
-
-        // Pagalbinės funkcijos domeno verifikacijai
-        function copyDastField(inputId, btnEl) {
-            var input = document.getElementById(inputId);
-            if (!input) return;
-            navigator.clipboard.writeText(input.value);
-            var origText = btnEl.innerText;
-            btnEl.innerText = 'Nukopijuota! ✓';
-            btnEl.style.color = '#047857';
-            setTimeout(function () {
-                btnEl.innerText = origText;
-                btnEl.style.color = '';
-            }, 1800);
-        }
-
-        async function startCloudflareConnect() {
-            if (!window._dastVerification || !window._dastVerification.domain) return;
-
-            var statusEl = document.getElementById('cf-oauth-status');
-            var btn = document.getElementById('btn-cf-connect');
-            statusEl.style.display = 'block';
-            statusEl.style.color = '#c2410c';
-            statusEl.innerHTML = 'Jungiamasi prie Cloudflare...';
-            btn.disabled = true;
-
-            try {
-                var res = await fetch('/api/auth/cloudflare/authorize-url?domain=' + encodeURIComponent(window._dastVerification.domain));
-                var data = await res.json();
-                if (!res.ok || !data.authUrl) throw new Error(data.error || 'Nepavyko pradėti autorizacijos');
-
-                window._dastVerification.stateToken = data.state;
-                window._dastVerification.codeVerifier = data.codeVerifier;
-
-                var w = 600, h = 720;
-                var left = (window.screenX || window.screenLeft || 0) + (window.outerWidth - w) / 2;
-                var top = (window.screenY || window.screenTop || 0) + (window.outerHeight - h) / 2;
-
-                window.open(data.authUrl, 'cf_oauth_popup', 'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left + ',status=no,menubar=no');
-            } catch (err) {
-                statusEl.style.color = '#b91c1c';
-                statusEl.innerText = 'Klaida: ' + err.message;
-                btn.disabled = false;
-            }
-        }
-
-        window.addEventListener('message', async function (event) {
-            if (!event.data || event.data.type !== 'CLOUDFLARE_OAUTH_RESPONSE') return;
-            var payload = event.data;
-            var statusEl = document.getElementById('cf-oauth-status');
-            var btn = document.getElementById('btn-cf-connect');
-
-            if (payload.error) {
-                statusEl.style.color = '#b91c1c';
-                statusEl.innerText = 'Autorizacija atmesta: ' + (payload.errorDescription || payload.error);
-                btn.disabled = false;
-                return;
-            }
-
-            statusEl.style.color = '#2563eb';
-            statusEl.innerHTML = 'Kuriame DNS TXT įrašą Jūsų zonoje...';
-
-            try {
-                var res = await fetch('/api/auth/cloudflare/callback', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        code: payload.code,
-                        state: payload.state || window._dastVerification.stateToken,
-                        codeVerifier: window._dastVerification.codeVerifier,
-                        domain: window._dastVerification.domain,
-                        txtRecordValue: window._dastVerification.txtValue
-                    })
-                });
-
-                var result = await res.json();
-                if (res.ok && result.success) {
-                    statusEl.style.color = '#15803d';
-                    statusEl.innerHTML = '<strong>✓ Domenas sėkmingai patvirtintas per Cloudflare! 🚀</strong>';
-                    btn.style.background = '#15803d';
-                    btn.innerText = '✓ Patvirtinta per Cloudflare';
-                } else {
-                    throw new Error(result.error || 'Nepavyko sukurti DNS įrašo');
-                }
-            } catch (err) {
-                statusEl.style.color = '#b91c1c';
-                statusEl.innerText = 'Klaida: ' + err.message;
-                btn.disabled = false;
-            }
-        });
-
-        async function verifyDastManual() {
-            if (!window._dastVerification || !window._dastVerification.domain) return;
-            var statusEl = document.getElementById('manual-verify-status');
-            var btn = document.getElementById('btn-manual-verify');
-
-            statusEl.style.display = 'block';
-            statusEl.style.color = '#4b5563';
-            statusEl.innerText = 'Tikrinama DNS propagacija...';
-            btn.disabled = true;
-
-            try {
-                var res = await fetch('/api/dast/verify-domain', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        domain: window._dastVerification.domain,
-                        expectedValue: window._dastVerification.txtValue
-                    })
-                });
-                var data = await res.json();
-                if (data.verified) {
-                    statusEl.style.color = '#15803d';
-                    statusEl.innerHTML = '<strong>✓ TXT įrašas rastas ir patvirtintas!</strong>';
-                } else {
-                    statusEl.style.color = '#b91c1c';
-                    statusEl.innerText = 'TXT įrašas dar neaptiktas. Palaukite 1-2 min. ir bandykite vėl.';
-                }
-            } catch (err) {
-                statusEl.style.color = '#b91c1c';
-                statusEl.innerText = 'Tinklo klaida tikrinant DNS.';
-            } finally {
-                btn.disabled = false;
-            }
-        }
     </script>
 
     <!-- Pre-consent: dataLayer + gtag stub + consent defaults (Consent Mode v2) -->
@@ -188,7 +64,9 @@
         });
     </script>
 
-    <script>
+        <script>
+        var apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787' : '';
+
         // Pagalbinės funkcijos domeno verifikacijai
         function copyDastField(inputId, btnEl) {
             var input = document.getElementById(inputId);
@@ -214,7 +92,7 @@
             btn.disabled = true;
 
             try {
-                var res = await fetch('/api/auth/cloudflare/authorize-url?domain=' + encodeURIComponent(window._dastVerification.domain));
+                var res = await fetch(apiBase + '/api/auth/cloudflare/authorize-url?domain=' + encodeURIComponent(window._dastVerification.domain));
                 var data = await res.json();
                 if (!res.ok || !data.authUrl) throw new Error(data.error || 'Nepavyko pradėti autorizacijos');
 
@@ -250,7 +128,7 @@
             statusEl.innerHTML = 'Kuriame DNS TXT įrašą Jūsų zonoje...';
 
             try {
-                var res = await fetch('/api/auth/cloudflare/callback', {
+                var res = await fetch(apiBase + '/api/auth/cloudflare/callback', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -289,7 +167,7 @@
             btn.disabled = true;
 
             try {
-                var res = await fetch('/api/dast/verify-domain', {
+                var res = await fetch(apiBase + '/api/dast/verify-domain', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -357,6 +235,10 @@
                     </p>
 
                     <form id="dast-form" novalidate>
+                        <div class="turnstile-wrapper" style="margin: 0; padding: 0; min-height: 0; height: 0; overflow: hidden;">
+                            <div class="cf-turnstile" data-sitekey="0x4AAAAAAETBE__x1lWtXIPj"></div>
+                        </div>
+
                         <div class="form-group">
                             <label for="dast-email">El. pašto adresas <span class="required">*</span></label>
                             <input type="email" id="dast-email" name="email" placeholder="jus@jusuimone.lt" required
@@ -384,13 +266,6 @@
                                 <label for="dast-time">Pageidaujamas laikas <span class="required">*</span></label>
                                 <input type="time" id="dast-time" name="time" required value="22:00">
                                 <div class="input-hint">(24 valandos formato pvz: 22:00).</div>
-                            </div>
-                        </div>
-
-                        <div class="turnstile-wrapper">
-                            <!-- <div class="cf-turnstile" data-sitekey="0x4AAAAAAEQfUwCoJVe_BLvV" > -->
-                            <div class="cf-turnstile" data-sitekey="0x4AAAAAAETBE__x1lWtXIPj" >
-
                             </div>
                         </div>
 
@@ -564,7 +439,8 @@
             };
 
             try {
-                var response = await fetch('http://localhost:8787/api/dast', {
+                var apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787' : '';
+            var response = await fetch(apiBase + '/api/dast', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -630,7 +506,7 @@
 
                     // Asynchronously check if domain uses Cloudflare DNS (Unhide 1-Click ONLY if true)
                     if (window._dastVerification.domain) {
-                        var apiBase = (window.appConfig && window.appConfig.apiBaseUrl) ? window.appConfig.apiBaseUrl : '';
+                        var apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787' : '';
                         fetch(apiBase + '/api/dast/check-cloudflare?domain=' + encodeURIComponent(window._dastVerification.domain))
                             .then(function(r) { return r.json(); })
                             .then(function(cfData) {
@@ -660,132 +536,7 @@
 
     <link href="/css/cookieconsent.css" rel="stylesheet" />
     <script defer src="/js/cookieconsent.js"></script>
-    <script defer src="/js/cookieconsent-config.js">
-        // Pagalbinės funkcijos domeno verifikacijai
-        function copyDastField(inputId, btnEl) {
-            var input = document.getElementById(inputId);
-            if (!input) return;
-            navigator.clipboard.writeText(input.value);
-            var origText = btnEl.innerText;
-            btnEl.innerText = 'Nukopijuota! ✓';
-            btnEl.style.color = '#047857';
-            setTimeout(function () {
-                btnEl.innerText = origText;
-                btnEl.style.color = '';
-            }, 1800);
-        }
-
-        async function startCloudflareConnect() {
-            if (!window._dastVerification || !window._dastVerification.domain) return;
-
-            var statusEl = document.getElementById('cf-oauth-status');
-            var btn = document.getElementById('btn-cf-connect');
-            statusEl.style.display = 'block';
-            statusEl.style.color = '#c2410c';
-            statusEl.innerHTML = 'Jungiamasi prie Cloudflare...';
-            btn.disabled = true;
-
-            try {
-                var res = await fetch('/api/auth/cloudflare/authorize-url?domain=' + encodeURIComponent(window._dastVerification.domain));
-                var data = await res.json();
-                if (!res.ok || !data.authUrl) throw new Error(data.error || 'Nepavyko pradėti autorizacijos');
-
-                window._dastVerification.stateToken = data.state;
-                window._dastVerification.codeVerifier = data.codeVerifier;
-
-                var w = 600, h = 720;
-                var left = (window.screenX || window.screenLeft || 0) + (window.outerWidth - w) / 2;
-                var top = (window.screenY || window.screenTop || 0) + (window.outerHeight - h) / 2;
-
-                window.open(data.authUrl, 'cf_oauth_popup', 'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left + ',status=no,menubar=no');
-            } catch (err) {
-                statusEl.style.color = '#b91c1c';
-                statusEl.innerText = 'Klaida: ' + err.message;
-                btn.disabled = false;
-            }
-        }
-
-        window.addEventListener('message', async function (event) {
-            if (!event.data || event.data.type !== 'CLOUDFLARE_OAUTH_RESPONSE') return;
-            var payload = event.data;
-            var statusEl = document.getElementById('cf-oauth-status');
-            var btn = document.getElementById('btn-cf-connect');
-
-            if (payload.error) {
-                statusEl.style.color = '#b91c1c';
-                statusEl.innerText = 'Autorizacija atmesta: ' + (payload.errorDescription || payload.error);
-                btn.disabled = false;
-                return;
-            }
-
-            statusEl.style.color = '#2563eb';
-            statusEl.innerHTML = 'Kuriame DNS TXT įrašą Jūsų zonoje...';
-
-            try {
-                var res = await fetch('/api/auth/cloudflare/callback', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        code: payload.code,
-                        state: payload.state || window._dastVerification.stateToken,
-                        codeVerifier: window._dastVerification.codeVerifier,
-                        domain: window._dastVerification.domain,
-                        txtRecordValue: window._dastVerification.txtValue
-                    })
-                });
-
-                var result = await res.json();
-                if (res.ok && result.success) {
-                    statusEl.style.color = '#15803d';
-                    statusEl.innerHTML = '<strong>✓ Domenas sėkmingai patvirtintas per Cloudflare! 🚀</strong>';
-                    btn.style.background = '#15803d';
-                    btn.innerText = '✓ Patvirtinta per Cloudflare';
-                } else {
-                    throw new Error(result.error || 'Nepavyko sukurti DNS įrašo');
-                }
-            } catch (err) {
-                statusEl.style.color = '#b91c1c';
-                statusEl.innerText = 'Klaida: ' + err.message;
-                btn.disabled = false;
-            }
-        });
-
-        async function verifyDastManual() {
-            if (!window._dastVerification || !window._dastVerification.domain) return;
-            var statusEl = document.getElementById('manual-verify-status');
-            var btn = document.getElementById('btn-manual-verify');
-
-            statusEl.style.display = 'block';
-            statusEl.style.color = '#4b5563';
-            statusEl.innerText = 'Tikrinama DNS propagacija...';
-            btn.disabled = true;
-
-            try {
-                var res = await fetch('/api/dast/verify-domain', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        domain: window._dastVerification.domain,
-                        expectedValue: window._dastVerification.txtValue
-                    })
-                });
-                var data = await res.json();
-                if (data.verified) {
-                    statusEl.style.color = '#15803d';
-                    statusEl.innerHTML = '<strong>✓ TXT įrašas rastas ir patvirtintas!</strong>';
-                } else {
-                    statusEl.style.color = '#b91c1c';
-                    statusEl.innerText = 'TXT įrašas dar neaptiktas. Palaukite 1-2 min. ir bandykite vėl.';
-                }
-            } catch (err) {
-                statusEl.style.color = '#b91c1c';
-                statusEl.innerText = 'Tinklo klaida tikrinant DNS.';
-            } finally {
-                btn.disabled = false;
-            }
-        }
-
-    </script>
+    <script defer src="/js/cookieconsent-config.js"></script>
 </body>
 
 </html>
