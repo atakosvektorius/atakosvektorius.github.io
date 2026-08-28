@@ -586,13 +586,11 @@
                     html += '<div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 6px;">' + (data.message || 'Registracija sėkminga! Instrukcijos ir domeno patvirtinimo įrašas išsiųsti į Jūsų el. paštą.') + '</div>';
 
                     if (window._dastVerification.txtValue) {
-                        html += '<div id="cf-check-badge" style="margin-top: 12px; display: none;"></div>';
-
                         html += '<div style="margin-top: 12px; padding: 14px; background: rgba(255,255,255,0.9); border: 1px solid var(--border); border-radius: 8px;">';
-                        html += '<div style="font-weight: 600; font-size: 0.85rem; color: #1e293b; margin-bottom: 10px;">Pasirinkite domeno patvirtinimo būdą:</div>';
-
-                        // 1-Click Cloudflare Button
-                        html += '<div style="margin-bottom: 14px;">';
+                        
+                        // 1. Dynamic 1-Click Cloudflare Container (Hidden by default, shown ONLY if Cloudflare DNS is detected)
+                        html += '<div id="cf-oneclick-container" style="display: none; margin-bottom: 14px; padding: 12px; background: rgba(246, 130, 31, 0.08); border: 1px solid rgba(246, 130, 31, 0.3); border-radius: 8px;">';
+                        html += '<div style="font-size: 0.82rem; color: #c2410c; margin-bottom: 10px; text-align: left;"><strong>⚡ Aptiktas Cloudflare DNS!</strong> Domeną <strong>' + window._dastVerification.domain + '</strong> galite patvirtinti automatiniu 1-spustelėjimu:</div>';
                         html += '<button type="button" id="btn-cf-connect" onclick="startCloudflareConnect()" style="width: 100%; font-weight: 600; font-size: 0.88rem; background: #f6821f; color: #ffffff; border: none; padding: 10px 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.2s;">';
                         html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>';
                         html += '<span>Patvirtinti per Cloudflare (1-Click)</span>';
@@ -600,9 +598,8 @@
                         html += '<div id="cf-oauth-status" style="font-size: 0.8rem; margin-top: 6px; display: none;"></div>';
                         html += '</div>';
 
-                        html += '<div style="text-align: center; margin: 10px 0; font-size: 0.78rem; color: #64748b; font-weight: 500;">ARBA RANKINIU BŪDU</div>';
-
-                        // Manual TXT Record Info
+                        // 2. Standard Manual TXT Record Info (Always shown for all domains)
+                        html += '<div style="font-weight: 600; font-size: 0.85rem; color: #1e293b; margin-bottom: 8px;">Domeno teisių patvirtinimo įrašas:</div>';
                         html += '<div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem;">';
                         html += '<div><span style="color: #475569; font-weight: 500;">Įrašo tipas:</span> <strong>TXT</strong></div>';
                         
@@ -631,17 +628,16 @@
                     statusEl.innerHTML = html;
                     document.getElementById('dast-form').reset();
 
-                    // Asynchronously check if domain uses Cloudflare DNS
+                    // Asynchronously check if domain uses Cloudflare DNS (Unhide 1-Click ONLY if true)
                     if (window._dastVerification.domain) {
                         var apiBase = (window.appConfig && window.appConfig.apiBaseUrl) ? window.appConfig.apiBaseUrl : '';
                         fetch(apiBase + '/api/dast/check-cloudflare?domain=' + encodeURIComponent(window._dastVerification.domain))
                             .then(function(r) { return r.json(); })
                             .then(function(cfData) {
                                 if (cfData && cfData.isCloudflare) {
-                                    var badgeEl = document.getElementById('cf-check-badge');
-                                    if (badgeEl) {
-                                        badgeEl.style.display = 'block';
-                                        badgeEl.innerHTML = '<div style="padding: 10px 12px; background: rgba(246, 130, 31, 0.12); border: 1px solid rgba(246, 130, 31, 0.35); border-radius: 6px; font-size: 0.82rem; color: #c2410c; text-align: left;"><strong>⚡ Cloudflare DNS aptiktas!</strong> Domeną <strong>' + window._dastVerification.domain + '</strong> galite patvirtinti automatiniu 1-spustelėjimu.</div>';
+                                    var oneClickContainer = document.getElementById('cf-oneclick-container');
+                                    if (oneClickContainer) {
+                                        oneClickContainer.style.display = 'block';
                                     }
                                 }
                             })
