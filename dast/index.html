@@ -66,7 +66,7 @@
     </script>
 
     <script>
-        var apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787' : '';
+        var apiBase = (window.location.port === '8787' || (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')) ? '' : 'http://localhost:8787';
 
         // Pagalbinės funkcijos domeno verifikacijai
         function copyDastField(inputId, btnEl) {
@@ -822,7 +822,6 @@
             };
 
             try {
-                var apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787' : '';
                 var response = await fetch(apiBase + '/api/dast', {
                     method: 'POST',
                     headers: {
@@ -874,7 +873,6 @@
 
                         // Asynchronously check if domain uses Cloudflare DNS (Unhide 1-Click ONLY if true)
                         if (window._dastVerification.domain) {
-                            var apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787' : '';
                             fetch(apiBase + '/api/dast/check-cloudflare?domain=' + encodeURIComponent(window._dastVerification.domain))
                                 .then(function (r) { return r.json(); })
                                 .then(function (cfData) {

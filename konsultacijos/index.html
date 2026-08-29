@@ -314,7 +314,7 @@
             };
 
             try {
-                var apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787' : '';
+                var apiBase = (window.location.port === '8787' || (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')) ? '' : 'http://localhost:8787';
                 var response = await fetch(apiBase + '/api/konsultacija', {
                     method: 'POST',
                     headers: {
