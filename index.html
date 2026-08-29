@@ -95,8 +95,7 @@
     </script>
 
     <!-- Užkraunama tik po analytics sutikimo iš PIRMOSIOS ŠALIES domain'o (per Google Tag Gateway) -->
-    <script type="text/plain" data-cookiecategory="analytics" async
-        src="/okp0/gtag/js?id=G-MM3XFZX1JX"></script>
+    <script type="text/plain" data-cookiecategory="analytics" async src="/okp0/gtag/js?id=G-MM3XFZX1JX"></script>
     <script type="text/plain" data-cookiecategory="analytics">
         gtag('config', 'G-MM3XFZX1JX', {
             transport_url: '/okp0',
@@ -114,8 +113,8 @@
                     width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
             <div class="nav-links">
                 <a href="#paslaugos">Paslaugos</a>
-                <a href="#procesas">Procesas</a>
-                <a href="#apie">Apie mus</a>
+                <a href="/dast/">DAST skenavimas</a>
+                <a href="#apie">Rekvizitai</a>
                 <a href="/blogas/" class="nav-cta">Blogas</a>
             </div>
             <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
@@ -139,10 +138,10 @@
     <!-- HERO -->
     <section class="hero">
         <div class="container">
-            <h1>Sužinokite apie savo sistemos <span class="accent">pažeidžiamumus</span> pirmiau nei piktavaliai</h1>
-            <p>Patikrinsime Jūsų sistemas pagal OWASP metodologiją ir pateiksime aiškias rekomendacijas saugumo
-                spragoms šalinti. Taip pat siūlome profesionalų WAF sprendimų diegimą, priežiūrą bei praktinius saugumo
-                mokymus Jūsų komandai.</p>
+            <h1>Sužinokite apie savo informacinės sistemos <span class="accent">pažeidžiamumus</span> pirmiau nei
+                piktavaliai</h1>
+            <p>Patikrinsime Jūsų informacines sistemas pagal OWASP metodologiją ir pateiksime aiškias gaires bei
+                konkrečius žingsnius saugumo spragoms šalinti.</p>
             <div class="hero-buttons">
                 <a href="/konsultacijos/" class="btn btn-primary">Registruotis konsultacijai</a>
                 <a href="#paslaugos" class="btn btn-secondary">Sužinoti daugiau</a>
@@ -154,21 +153,24 @@
     <section class="services-section" id="paslaugos">
         <div class="container">
             <div class="section-label">Paslaugos</div>
-            <h2 class="section-title">Trys sritys</h2>
-            <p class="section-subtitle">Padedame organizacijoms stiprinti interneto aplikacijų saugumą – nuo saugumo
-                testavimo
-                ir WAF apsaugos iki praktinių mokymų komandoms.
+            <h2 class="section-title">Trys žingsniai į atsparią organizaciją</h2>
+            <p class="section-subtitle">Kibernetinis saugumas nėra vienkartinis veiksmas – tai nuolatinis spragų
+                identifikavimas, aktyvi informacinių sistemų perimetro gynyba ir komandos kompetencijų auginimas pagal
+                <strong>NIS2,
+                    DORA bei
+                    BDAR</strong> reikalavimus.
             </p>
             <div class="services-grid">
                 <!-- Service 1 -->
                 <a href="/paslaugos/pentest/" style="text-decoration: none; color: inherit;">
                     <div class="card service-card">
 
-                        <h3 class="section-label">Puolamasis saugumas</h3>
-                        <p>Identifikuojame ir vertiname saugumo spragas IT infrastruktūroje ir aplikacijose.</p>
+                        <h3 class="section-label">1. Ar esate pažeidžiami?</h3>
+                        <p>Identifikuojame silpnąsias vietas aplikacijose ir IT infrastruktūroje pagal OWASP
+                            metodologiją, anksčiau nei tai padaro piktavaliai.</p>
                         <ul>
-                            <li>Pažeidžiamumų įvertinimas</li>
-                            <li>Įsibrovimo testavimas (Pentest)</li>
+                            <li>Pažeidžiamumų vertinimas</li>
+                            <li>Įsilaužimo testavimas (Pentest)</li>
                         </ul>
                         <div class="hero-badge">Ataskaita</div>
                     </div>
@@ -177,11 +179,13 @@
                 <a href="/paslaugos/waf/" style="text-decoration: none; color: inherit;">
                     <div class="card service-card">
 
-                        <h3 class="section-label">Gynybinis saugumas</h3>
-                        <p>Projektuojame, diegiame ir optimizuojame „Cloudflare“ ir „F5“ apsaugos sprendimus.</p>
+                        <h3 class="section-label">2. Kaip atremti atakas?</h3>
+                        <p>Projektuojame, diegiame ir stipriname „Cloudflare“ bei „F5“ WAF sprendimus, atremiančius
+                            atakas realiu laiku.</p>
                         <ul>
                             <li>Apsauga nuo botų ir DDoS</li>
-                            <li>WAF auditas ir migracija</li>
+                            <li>WAF taisyklių auditas ir stiprinimas</li>
+                            <li>Incidentų analizė ir reagavimas</li>
                         </ul>
                         <div class="hero-badge">Dokumentacija</div>
                     </div>
@@ -190,142 +194,57 @@
                 <a href="/paslaugos/mokymai/" style="text-decoration: none; color: inherit;">
                     <div class="card service-card">
 
-                        <h3 class="section-label">Mokymai</h3>
-                        <p>Praktiniai mokymai Jūsų komandai.</p>
+                        <h3 class="section-label">3. Kaip nekartoti klaidų?</h3>
+                        <p>Apmokome programuotojus saugaus programavimo (DevSecOps) principų, o IT administratorius –
+                            valdyti WAF sprendimus.</p>
                         <ul>
-                            <li>Interneto aplikacijų pažeidžiamumai (programuotojams)</li>
-                            <li>F5 / Cloudflare WAF (IT administratoriams)</li>
+                            <li>Interneto aplikacijų pažeidžiamumai (OWASP)</li>
+                            <li>F5 ir Cloudflare WAF valdymas</li>
                         </ul>
                         <div class="hero-badge">Pažymėjimas</div>
                     </div>
                 </a>
             </div>
-        </div>
-    </section>
-
-    <!-- WHY US -->
-    <!-- 
-    <section id="kodel-mes">
-        <div class="container">
-            <div class="section-label" style="text-align:center;">Kodėl mes</div>
-            <h2 class="section-title" style="text-align:center;">Specialistai turintys patirties</h2>
-            <div class="trust-grid">
-                <div class="card trust-item">
-                    <div class="trust-icon">
-                        <svg width="40" height="40" fill="none" stroke="#FF3B30" stroke-width="2" viewBox="0 0 24 24">
+            <div class="services-cert-wrapper">
+                <div class="cert-badges">
+                    <span class="cert-badge">
+                        <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                            <path d="M9 12l2 2 4-4" />
                         </svg>
-                    </div>
-                    <h3>Kvalifikacija</h3>
-                    <p>BSCP, OSCP, Pentest+, F5-CTS sertifikatus turintys ekspertai</p>
-                </div>
-                <div class="card trust-item">
-                    <div class="trust-icon">
-                        <svg width="40" height="40" fill="none" stroke="#007AFF" stroke-width="2" viewBox="0 0 24 24">
-                            <rect x="2" y="3" width="20" height="14" rx="2" />
-                            <path d="M8 21h8M12 17v4" />
+                        OSCP
+                    </span>
+                    <span class="cert-badge">
+                        <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
-                    </div>
-                    <h3>Tyrimai</h3>
-                    <p>Proaktyviai atliekame saugumo tyrimus atviro kodo aplikacijose ir dalijamės žiniomis ir patirtimi
-                        su
-                        bendruomene. Mokomės ir tobulėjame kartu su bendruomene.</p>
-                </div>
-                <div class="card trust-item">
-                    <div class="trust-icon">
-                        <svg width="40" height="40" fill="none" stroke="#34C759" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-                            <polyline points="14 2 14 8 20 8" />
-                            <line x1="16" y1="13" x2="8" y2="13" />
-                            <line x1="16" y1="17" x2="8" y2="17" />
+                        BSCP
+                    </span>
+                    <span class="cert-badge">
+                        <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
-                    </div>
-                    <h3>Ataskaitos</h3>
-                    <p>Ataskaitos lietuvių ir anglų kalbomis su konkrečiais veiksmų planais. Turime įvarių ataskaitų
-                        pavyzdžių.</p>
+                        PRINCE2
+                    </span>
+                    <span class="cert-badge">
+                        <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                        F5‑Solution expert
+                    </span>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <section id="procesas"
-        style="background: var(--bg-warm); border-top: 3px solid var(--border); border-bottom: 3px solid var(--border);">
-        <div class="container">
-            <div class="section-label" style="text-align:center;">Kaip tai veikia</div>
-            <h2 class="section-title" style="text-align:center;">Saugumo įvertinimo procesas</h2>
-            <div class="process-steps">
-                <div class="card step">
-                    <div class="step-number">1</div>
-                    <h3>Konsultavimas</h3>
-                    <p>Aptariame Jūsų poreikius, apimtį ir tikslus. 30 min. pokalbis be įsipareigojimų.</p>
-                </div>
-                <div class="card step">
-                    <div class="step-number">2</div>
-                    <h3>Planavimas</h3>
-                    <p>Parengiame individualų testavimo planą su aiškia apimtimi ir terminais.</p>
-                </div>
-                <div class="card step">
-                    <div class="step-number">3</div>
-                    <h3>Testavimas</h3>
-                    <p>Atliekame testavimą pagal suderintą planą ir OWASP metodologiją.</p>
-                </div>
-                <div class="card step">
-                    <div class="step-number">4</div>
-                    <h3>Pristatymas</h3>
-                    <p>Pristatome testavimo rezultatus ir ataskaitą su rekomendacijomis.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    -->
 
     <!-- ABOUT -->
     <section id="apie">
         <div class="container">
-            <div class="section-label">Apie mus</div>
+            <div class="section-label">Rekvizitai</div>
             <h2 class="section-title">Atakos vektorius</h2>
             <div class="about-grid">
-                <div class="about-info">
-                    <p>Esame kibernetinio saugumo įmonė, teikianti profesionalias įsilaužimo testavimo, saugumo audito
-                        ir mokymų paslaugas Lietuvos verslui.</p>
-                    <p>Mūsų komanda turi tarptautiniu mastu pripažintus sertifikatus ir praktinę patirtį dirbant su
-                        įvairaus dydžio organizacijomis.</p>
-                    <h3>Sertifikatai</h3>
-                    <div class="cert-badges">
-                        <span class="cert-badge">
-                            <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                            </svg>
-                            OSCP
-                        </span>
-                        <span class="cert-badge">
-                            <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                            </svg>
-                            BSCP
-                        </span>
-                        <span class="cert-badge">
-                            <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                            </svg>
-                            Pentest+
-                        </span>
-                        <span class="cert-badge">
-                            <svg width="16" height="16" fill="none" stroke="#FF3B30" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                            </svg>
-                            F5‑CTS
-                        </span>
-                    </div>
-                </div>
+
                 <div class="contact-details">
-                    <h3>Kontaktinė informacija</h3>
                     <div class="contact-row">
                         <span class="label">Įmonės pav.</span>
                         <span>MB "Atakos vektorius"</span>
