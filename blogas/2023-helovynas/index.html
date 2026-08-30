@@ -111,10 +111,13 @@
             <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos vektorius logotipas"
                     width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
             <div class="nav-links">
-                <a href="/#paslaugos">Paslaugos</a>
-                <a href="/#procesas">Procesas</a>
-                <a href="/#apie">Apie mus</a>
-                <a href="/blogas" class="nav-cta">Blogas</a>
+                <a href="/paslaugos/pentest/">Pentest</a>
+                <a href="/paslaugos/waf/">WAF</a>
+                <a href="/paslaugos/mokymai/">Mokymai</a>
+                <a href="/blogas/">Blogas</a>
+                <a href="/dast/">DAST</a>
+                <a href="/privatumo-politika/">Privatumo politika</a>
+                <a href="/konsultacijos/" class="nav-cta">Konsultacija</a>
             </div>
             <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
                 aria-label="Menu">
@@ -124,10 +127,17 @@
             </button>
         </div>
         <div class="mobile-menu" id="mob-menu">
-            <a href="/#paslaugos">Paslaugos</a>
-            <a href="/#procesas">Procesas</a>
-            <a href="/#apie">Apie mus</a>
-            <a href="/blogas">Blogas</a>
+            <a href="/paslaugos/pentest/"
+                onclick="document.getElementById('mob-menu').classList.remove('active')">Pentest</a>
+            <a href="/paslaugos/waf/" onclick="document.getElementById('mob-menu').classList.remove('active')">WAF</a>
+            <a href="/paslaugos/mokymai/"
+                onclick="document.getElementById('mob-menu').classList.remove('active')">Mokymai</a>
+            <a href="/blogas/" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
+            <a href="/dast/" onclick="document.getElementById('mob-menu').classList.remove('active')">DAST</a>
+            <a href="/privatumo-politika/"
+                onclick="document.getElementById('mob-menu').classList.remove('active')">Privatumo politika</a>
+            <a href="/konsultacijos/"
+                onclick="document.getElementById('mob-menu').classList.remove('active')">Konsultacija</a>
         </div>
     </nav>
 
