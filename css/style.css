@@ -1686,9 +1686,33 @@ footer a:hover {
 }
 
 .services-cert-wrapper {
-    margin-top: 40px;
+    margin-top: 48px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+}
+
+.services-cert-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.services-cert-title::before,
+.services-cert-title::after {
+    content: '';
+    display: inline-block;
+    width: 36px;
+    height: 2px;
+    background: var(--border);
+    opacity: 0.25;
 }
 
 .services-cert-wrapper .cert-badges {
