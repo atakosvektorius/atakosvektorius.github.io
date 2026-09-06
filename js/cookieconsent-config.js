@@ -45,7 +45,7 @@ window.addEventListener('load', function () {
     if (typeof initCookieConsent !== 'function') return;
     var cookieconsent = initCookieConsent();
     cookieconsent.run({
-        delay: 3500,
+        delay: 500,
         autorun: true,
         current_lang: 'en',
         theme_css: '/css/cookieconsent.css',
