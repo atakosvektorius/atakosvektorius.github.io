@@ -106,7 +106,7 @@
 
             try {
                 var promptQuery = forceLogin ? '&prompt=login' : '';
-                var res = await fetch(apiBase + '/api/auth/cloudflare/authorize-url?domain=' + encodeURIComponent(window._dastVerification.domain) + promptQuery);
+                var res = await fetch(apiBase + '/auth/cloudflare/authorize-url?domain=' + encodeURIComponent(window._dastVerification.domain) + promptQuery);
                 var data = await res.json();
                 if (!res.ok || !data.authUrl) throw new Error(data.error || 'Nepavyko pradėti autorizacijos');
 
@@ -143,7 +143,7 @@
             statusEl.innerHTML = 'Kuriame DNS TXT įrašą Jūsų zonoje...';
 
             try {
-                var res = await fetch(apiBase + '/api/auth/cloudflare/callback', {
+                var res = await fetch(apiBase + '/auth/cloudflare/callback', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
