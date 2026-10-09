@@ -41,11 +41,11 @@ function consentDenied() {
     }
 }
 
-window.addEventListener('load', function () {
+function startCookieConsent() {
     if (typeof initCookieConsent !== 'function') return;
     var cookieconsent = initCookieConsent();
     cookieconsent.run({
-        delay: 500,
+        delay: 0,
         autorun: true,
         current_lang: 'en',
         theme_css: '/css/cookieconsent.css',
@@ -164,4 +164,10 @@ window.addEventListener('load', function () {
             location.reload();
         }, 200);
     });
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    startCookieConsent();
+} else {
+    window.addEventListener('load', startCookieConsent);
+}
