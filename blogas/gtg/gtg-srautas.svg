@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 480" width="100%" height="100%" style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #FAFAFA;">
+  <defs>
+    <!-- Arrow Marker Standard -->
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#FF3B30" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34C759" />
+    </marker>
+    <marker id="arrow-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#111111" />
+    </marker>
+    <!-- Shadow filter -->
+    <filter id="box-shadow" x="0" y="0" width="150%" height="150%">
+      <feDropShadow dx="3" dy="3" stdDeviation="0" flood-color="#111111" flood-opacity="1" />
+    </filter>
+  </defs>
+
+  <!-- ==================== 1. STANDARTINIS SRAUTAS ==================== -->
+  <g transform="translate(20, 20)">
+    <!-- Container Box -->
+    <rect x="0" y="0" width="780" height="190" rx="10" fill="#FFF0EF" stroke="#FF3B30" stroke-width="2" stroke-dasharray="6 4" />
+    <text x="24" y="32" font-size="13" font-weight="800" fill="#E0342B" letter-spacing="0.05em">1. STANDARTINIS SRAUTAS (TREČIOJI ŠALIS)</text>
+
+    <!-- Naršyklė -->
+    <g transform="translate(30, 60)">
+      <rect width="180" height="90" rx="8" fill="#FFFFFF" stroke="#111111" stroke-width="2" filter="url(#box-shadow)" />
+      <text x="90" y="42" font-size="14" font-weight="700" fill="#111111" text-anchor="middle">Naršyklė</text>
+      <text x="90" y="62" font-size="12" fill="#555555" text-anchor="middle">(Lankytojas)</text>
+    </g>
+
+    <!-- Rodyklė 1: į GTM -->
+    <path d="M 215 85 L 480 85" fill="none" stroke="#FF3B30" stroke-width="2" marker-end="url(#arrow-red)" />
+    <rect x="250" y="68" width="185" height="18" rx="4" fill="#FFFFFF" stroke="#E5E5E5" />
+    <text x="342" y="81" font-size="10.5" font-weight="600" fill="#E0342B" text-anchor="middle">3-ioji šalis (blokuoja ad-blockeriai)</text>
+
+    <!-- Rodyklė 2: į GA -->
+    <path d="M 215 125 L 480 125" fill="none" stroke="#FF3B30" stroke-width="2" marker-end="url(#arrow-red)" />
+    <rect x="250" y="108" width="185" height="18" rx="4" fill="#FFFFFF" stroke="#E5E5E5" />
+    <text x="342" y="121" font-size="10.5" font-weight="600" fill="#E0342B" text-anchor="middle">3-ioji šalis (Safari ITP 7 d. riba)</text>
+
+    <!-- Serveriai (GTM & GA) -->
+    <g transform="translate(490, 55)">
+      <rect width="260" height="42" rx="8" fill="#FFFFFF" stroke="#111111" stroke-width="1.5" filter="url(#box-shadow)" />
+      <text x="130" y="22" font-size="12" font-weight="600" fill="#111111" text-anchor="middle">www.googletagmanager.com</text>
+      <text x="130" y="35" font-size="10" fill="#555555" text-anchor="middle">(gtag.js parsisiuntimas)</text>
+    </g>
+    <g transform="translate(490, 110)">
+      <rect width="260" height="42" rx="8" fill="#FFFFFF" stroke="#111111" stroke-width="1.5" filter="url(#box-shadow)" />
+      <text x="130" y="22" font-size="12" font-weight="600" fill="#111111" text-anchor="middle">www.google-analytics.com</text>
+      <text x="130" y="35" font-size="10" fill="#555555" text-anchor="middle">(/g/collect duomenų rinkimas)</text>
+    </g>
+  </g>
+
+  <!-- ==================== 2. SU GOOGLE TAG GATEWAY ==================== -->
+  <g transform="translate(20, 235)">
+    <!-- Container Box -->
+    <rect x="0" y="0" width="780" height="225" rx="10" fill="#E8F9ED" stroke="#34C759" stroke-width="2" />
+    <text x="24" y="32" font-size="13" font-weight="800" fill="#1a7a34" letter-spacing="0.05em">2. SU GOOGLE TAG GATEWAY (1-OSIOS ŠALIES DOMENAS)</text>
+
+    <!-- Naršyklė -->
+    <g transform="translate(30, 70)">
+      <rect width="180" height="110" rx="8" fill="#FFFFFF" stroke="#111111" stroke-width="2" filter="url(#box-shadow)" />
+      <text x="90" y="52" font-size="14" font-weight="700" fill="#111111" text-anchor="middle">Naršyklė</text>
+      <text x="90" y="72" font-size="12" fill="#555555" text-anchor="middle">(Lankytojas)</text>
+      <text x="90" y="92" font-size="10.5" font-weight="600" fill="#34C759" text-anchor="middle">✓ apeina ad-blockerius</text>
+    </g>
+
+    <!-- Rodyklė: Naršyklė į Cloudflare -->
+    <path d="M 215 125 L 305 125" fill="none" stroke="#34C759" stroke-width="2.5" marker-end="url(#arrow-green)" />
+
+    <!-- Užklausos aprašas virš rodyklės -->
+    <g transform="translate(200, 68)">
+      <rect width="120" height="38" rx="4" fill="#FFFFFF" stroke="#E5E5E5" />
+      <text x="60" y="16" font-size="10" font-weight="700" fill="#1a7a34" text-anchor="middle">1-osios šalies kelias</text>
+      <text x="60" y="30" font-size="9.5" fill="#555555" text-anchor="middle">jusuimone.lt/okp0/...</text>
+    </g>
+
+    <!-- Cloudflare Edge Proxy -->
+    <g transform="translate(315, 60)">
+      <rect width="210" height="130" rx="8" fill="#FFF8F0" stroke="#FF3B30" stroke-width="2" filter="url(#box-shadow)" />
+      <rect x="15" y="12" width="180" height="22" rx="4" fill="#FF3B30" />
+      <text x="105" y="27" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">Cloudflare Edge</text>
+      <text x="105" y="56" font-size="13" font-weight="800" fill="#111111" text-anchor="middle">Google Tag Gateway</text>
+      <text x="105" y="78" font-size="11" fill="#555555" text-anchor="middle">Atvirkštinis proxy</text>
+      <line x1="20" y1="92" x2="190" y2="92" stroke="#E5E5E5" stroke-width="1" />
+      <text x="105" y="108" font-size="10" fill="#777777" text-anchor="middle">Nulinė kaina / 11% signalų</text>
+      <text x="105" y="121" font-size="9.5" font-weight="600" fill="#E0342B" text-anchor="middle">⚠️ Neprailgina Safari slapukų</text>
+    </g>
+
+    <!-- Rodyklė: Cloudflare į Google -->
+    <path d="M 530 125 L 595 125" fill="none" stroke="#111111" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrow-dark)" />
+    <text x="562" y="115" font-size="9" font-weight="600" fill="#555555" text-anchor="middle">Server-to-Server</text>
+
+    <!-- Google Galutinis Taškas -->
+    <g transform="translate(605, 75)">
+      <rect width="150" height="100" rx="8" fill="#FFFFFF" stroke="#111111" stroke-width="1.5" filter="url(#box-shadow)" />
+      <text x="75" y="38" font-size="13" font-weight="700" fill="#111111" text-anchor="middle">Google Serveriai</text>
+      <text x="75" y="58" font-size="11" fill="#555555" text-anchor="middle">Google Tag Manager</text>
+      <text x="75" y="75" font-size="11" fill="#555555" text-anchor="middle">Google Analytics</text>
+    </g>
+  </g>
+</svg>

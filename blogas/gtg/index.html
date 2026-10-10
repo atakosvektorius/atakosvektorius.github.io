@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>„Google Tag Gateway“ per Cloudflare: kaip įdiegti ir ką duoda „Safari“ lankytojams</title>
+    <meta name="description"
+        content="Kodėl „Safari“ ITP iškraipo „Google Analytics“ duomenis, kam reikalingas „Cloudflare“ „Google Tag Gateway“, kaip jį įdiegti per 10 minučių ir kada prireikia server-side sprendimo su Set-Cookie. BDAR sutikimas išlieka privalomas.">
+    <meta name="keywords"
+        content="Safari ITP, Google Analytics Safari, slapukai 7 dienos, Cloudflare Google Tag Gateway, first party cookies, server side tagging, BDAR slapukai, Consent Mode v2, ga4 safari, cookie lifetime, atvirkštinis tarpinis serveris">
+    <meta name="robots" content="index, follow, max-snippet:160, max-image-preview:large">
+    <meta name="author" content="Atakos vektorius">
+    <link rel="canonical" href="https://atakosvektorius.lt/blogas/gtg/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <meta property="og:title" content="Google Tag Gateway per Cloudflare: kam to reikia ir kaip įdiegti per 10 minučių">
+    <meta property="og:description"
+        content="Safari ITP iškraipo GA4 duomenis. Paaiškiname, ką duoda Cloudflare Google Tag Gateway, kaip jį įdiegti ir kaip patikrinti rezultatą.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://atakosvektorius.lt/blogas/gtg/">
+    <meta property="og:site_name" content="Atakos vektorius">
+    <meta property="og:locale" content="lt_LT">
+    <meta property="og:image" content="https://atakosvektorius.lt/atakos_vektorius_logo.png">
+    <meta property="article:published_time" content="2026-10-10">
+    <meta property="article:author" content="Atakos vektorius">
+    <meta property="article:section" content="Techninė analizė">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Google Tag Gateway per Cloudflare: kam to reikia ir kaip įdiegti per 10 minučių",
+      "description": "Techninė analizė: kaip „Apple Safari“ ITP sutrumpina „Google Analytics“ slapukų galiojimą iki 7 dienų ar 24 valandų, ką duoda „Cloudflare“ „Google Tag Gateway“, kaip jį įdiegti ir kada reikia server-side sprendimo, nepažeidžiant BDAR.",
+      "image": "https://atakosvektorius.lt/atakos_vektorius_logo.png",
+      "datePublished": "2026-10-10",
+      "dateModified": "2026-10-10",
+      "inLanguage": "lt-LT",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://atakosvektorius.lt/blogas/gtg/"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "MB „Atakos vektorius“",
+        "url": "https://atakosvektorius.lt/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MB „Atakos vektorius“",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://atakosvektorius.lt/atakos_vektorius_logo.png"
+        }
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "Safari ITP, Google Analytics slapukų apribojimai, Google Tag Gateway ir server-side sprendimai"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Pradžia", "item": "https://atakosvektorius.lt/"},
+        {"@type": "ListItem", "position": 2, "name": "Blogas", "item": "https://atakosvektorius.lt/blogas/"},
+        {"@type": "ListItem", "position": 3, "name": "Safari ITP ir Google Analytics"}
+      ]
+    }
+    </script>
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="/css/style.css">
+    </noscript>
+    <style>
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400 900;
+            font-display: swap;
+            src: url('/fonts/inter-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400 900;
+            font-display: swap;
+            src: url('/fonts/inter-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #FAFAFA;
+            --bg-warm: #FFF8F0;
+            --card-bg: #FFFFFF;
+            --text: #111111;
+            --text-muted: #555555;
+            --accent: #FF3B30;
+            --accent-hover: #E0342B;
+            --accent-light: #FFF0EF;
+            --green: #34C759;
+            --green-light: #E8F9ED;
+            --blue: #007AFF;
+            --border: #111111;
+            --border-light: #E5E5E5;
+            --shadow: #111111;
+            --grid-color: rgba(0, 0, 0, 0.04);
+            --radius: 12px
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background-color: var(--bg);
+            background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250, 250, 250, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--border)
+        }
+
+        .nav-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em
+        }
+
+        .nav-logo img {
+            height: 32px;
+            width: auto
+        }
+
+        .nav-logo span {
+            color: var(--accent)
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 6px 14px;
+            border-radius: 8px
+        }
+
+        .nav-cta {
+            background: var(--accent) !important;
+            color: #fff !important;
+            font-weight: 600 !important;
+            border: 2px solid var(--border) !important;
+            padding: 8px 20px !important;
+            border-radius: 8px !important;
+            box-shadow: 3px 3px 0 var(--shadow)
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            padding: 16px 24px;
+            background: var(--bg);
+            border-bottom: 2px solid var(--border)
+        }
+
+        .mobile-menu.active {
+            display: flex
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 14px 28px;
+            border-radius: 10px;
+            border: 3px solid var(--border);
+            cursor: pointer;
+            text-decoration: none
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 4px 4px 0 var(--shadow)
+        }
+
+        .blog-content .btn,
+        .blog-content .btn:hover {
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+
+        @media(max-width:768px) {
+            .nav-links {
+                display: none
+            }
+
+            .mobile-menu-btn {
+                display: block
+            }
+        }
+    </style>
+    <!-- Pre-consent: dataLayer + gtag stub + consent defaults (Consent Mode v2) -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'wait_for_update': 500
+        });
+        gtag('js', new Date());
+    </script>
+
+    <!-- Užkraunama tik po analytics sutikimo iš pirmosios šalies domeno (per Google Tag Gateway) -->
+    <script type="text/plain" data-cookiecategory="analytics" async src="/okp0/gtag/js?id=G-MM3XFZX1JX"></script>
+    <script type="text/plain" data-cookiecategory="analytics">
+        gtag('config', 'G-MM3XFZX1JX', {
+            transport_url: window.location.origin + '/okp0',
+            first_party_collection: true
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><img src="/atakos_vektorius_logo.png" alt="Atakos vektorius logotipas"
+                    width="32" height="32" loading="eager" decoding="async">atakos<span>vektorius</span></a>
+            <div class="nav-links">
+                <a href="/paslaugos/pentest/">Pentest</a>
+                <a href="/paslaugos/waf/">WAF</a>
+                <a href="/paslaugos/mokymai/">Mokymai</a>
+                <a href="/blogas/">Blogas</a>
+                <a href="/dast/">DAST</a>
+                <a href="/privatumo-politika/">Privatumo politika</a>
+                <a href="/konsultacijos/" class="nav-cta">Konsultacija</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mob-menu').classList.toggle('active')"
+                aria-label="Menu">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M4 8h20M4 14h20M4 20h20" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mob-menu">
+            <a href="/paslaugos/pentest/"
+                onclick="document.getElementById('mob-menu').classList.remove('active')">Pentest</a>
+            <a href="/paslaugos/waf/" onclick="document.getElementById('mob-menu').classList.remove('active')">WAF</a>
+            <a href="/paslaugos/mokymai/"
+                onclick="document.getElementById('mob-menu').classList.remove('active')">Mokymai</a>
+            <a href="/blogas/" onclick="document.getElementById('mob-menu').classList.remove('active')">Blogas</a>
+            <a href="/dast/" onclick="document.getElementById('mob-menu').classList.remove('active')">DAST</a>
+            <a href="/privatumo-politika/"
+                onclick="document.getElementById('mob-menu').classList.remove('active')">Privatumo politika</a>
+            <a href="/konsultacijos/"
+                onclick="document.getElementById('mob-menu').classList.remove('active')">Konsultacija</a>
+        </div>
+    </nav>
+
+    <!-- BLOG POST -->
+    <section>
+        <div class="container blog-content">
+            <a href="/blogas/"
+                style="color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.9rem;">&larr; Grįžti
+                į blogą</a>
+
+            <h1 style="margin-top: 24px;">„Google Tag Gateway“ per „Cloudflare“: kam to reikia ir kaip įdiegti per 10 minučių</h1>
+            <div class="blog-meta">2026-10-10 &middot; Techninė analizė</div>
+
+            <p style="font-size: 1.1em; line-height: 1.6; margin: 24px 0; color: inherit;">
+                Pirkėjas su iPhone peržiūri jūsų parduotuvę sekmadienį, o nusprendžia pirkti po aštuonių dienų.
+                „Google Analytics“ ataskaitoje jis jau naujas žmogus, o jo pirkimas įrašytas kaip „Direct“. Reklama,
+                kuri jį atvedė, atrodo nieko neuždirbusi.
+            </p>
+
+            <p>Taip nutinka dėl „Safari“. Pagal <a href="https://radar.cloudflare.com/reports/browser-market-share-2025-q4"
+                    target="_blank" rel="noopener">„Cloudflare Radar“ ataskaitą</a> [1] tai <strong>antra pagal dydį
+                    naršyklė pasaulyje</strong>, todėl jos lankytojai nėra nišinė auditorija. Kiek jų turite jūs, matysite
+                GA4 ataskaitoje <em>Tech &rarr; Browsers</em>. Būtent „Safari“ „Apple“ jau kelerius metus riboja sekimą per
+                <strong>ITP (Intelligent Tracking Prevention)</strong> [2].</p>
+
+            <p>Vienas iš būdų tai sumažinti yra <strong>„Google Tag Gateway“</strong>: nemokama „Cloudflare“ funkcija, kuri
+                „Google“ žymą ir matavimo užklausas perkelia į jūsų pačių domeną. Žemiau paaiškinu, kam to reikia, ką
+                gaunate, kaip tai įdiegti ir kaip patikrinti rezultatą „Safari“ naršyklėje.</p>
+
+            <!-- ===== 1. POREIKIS ===== -->
+
+            <h2>1. Kodėl „Safari“ pamiršta jūsų lankytojus</h2>
+
+            <p>„Google Analytics“ slapukui nustatytas 2 metų galiojimas [12], todėl tikimasi, kad grįžtantis klientas bus
+                atpažintas. „Safari“ šios taisyklės nepaiso:</p>
+
+            <ul>
+                <li><strong>JavaScript sukurti slapukai gyvena 7 dienas.</strong> Standartinis „Google“ kodas
+                    <code>_ga</code> sukuria per <code>document.cookie</code>. „Safari“ jį ištrina po 7 dienų be sąveikos su
+                    svetaine [3].</li>
+                <li><strong>Po reklamos paspaudimo, vos 24 valandos.</strong> Jei lankytojas atėjo su <code>gclid</code> ar
+                    <code>fbclid</code> parametru, slapukas tame apsilankyme gyvena tik parą [4].</li>
+                <li><strong>Saugyklos apeiti nepavyksta.</strong> <code>localStorage</code> ir <code>IndexedDB</code> taip pat
+                    išvalomi po 7 dienų [5].</li>
+            </ul>
+
+            <p>Ataskaitose tai matosi taip: išpūstas „Naujų naudotojų“ skaičius (lojalus pirkėjas per metus gali tapti iki
+                26 „naujų“ žmonių), pirkimai, priskirti „Direct“ vietoj tikro šaltinio, ir silpnesni signalai „Google Ads“
+                „Smart Bidding“ algoritmui.</p>
+
+            <p>Seniau analitikos įmonės siūlė apėjimą su CNAME subdomenu (<code>analytics.jusuimone.lt</code>). „Apple“ tą
+                spragą uždarė: „Safari“ aptinka CNAME maskavimą ir nesutampančius IP adresus, o tokių atsakymų slapukus vėl
+                apriboja iki 7 dienų [6]. Todėl liko vienas kelias, kad žymos ir užklausos iš tiesų taptų jūsų domeno dalimi.</p>
+
+            <!-- ===== 2. KĄ DUODA GATEWAY ===== -->
+
+            <h2>2. Ką duoda „Google Tag Gateway“</h2>
+
+            <p>Įprastai naršyklė kreipiasi tiesiai į „Google“ domenus, ir būtent juos blokuoja reklamos blokatoriai bei
+                privatumo naršyklės. Su Gateway „Google“ žyma (<code>gtag.js</code>, GTM) kraunama iš jūsų domeno, o
+                matavimo užklausos keliauja per jūsų domeną, o „Cloudflare“ jas persiunčia „Google“ [7]. Jums nereikia nei
+                atskiro serverio, nei subdomeno. „Cloudflare“ klientams tai įjungiama keliais paspaudimais, paslauga
+                nemokama, o jos užklausos neįskaičiuojamos į kitų „Cloudflare“ produktų naudojimą [8].</p>
+
+            <figure style="margin: 32px 0;">
+                <img src="gtg-srautas.svg" alt="Standartinis Google Analytics srautas vs Google Tag Gateway" width="820"
+                    height="480"
+                    style="width: 100%; height: auto; border: 2px solid var(--border); border-radius: 12px; box-shadow: 4px 4px 0 var(--shadow); display: block;"
+                    loading="lazy">
+                <figcaption style="margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+                    Standartinis GA srautas (3-ioji šalis) ir srautas su Google Tag Gateway (1-oji šalis)</figcaption>
+            </figure>
+
+            <p>Ką tai duoda praktiškai:</p>
+
+            <ul>
+                <li><strong>Mažiau prarastų duomenų dėl blokatorių.</strong> Užklausos eina į jūsų domeną, o ne į gerai
+                    žinomus „Google“ adresus.</li>
+                <li><strong>Daugiau signalų.</strong> „Cloudflare“ nurodo, kad ankstyvieji testuotojai vidutiniškai matė apie
+                    11&nbsp;% daugiau duomenų signalų [8] (tai gamintojo duomenys, ne nepriklausomas matavimas).</li>
+                <li><strong>Pirmosios šalies kontekstas.</strong> Skriptas ir matavimas atkeliauja iš jūsų domeno, o slapukas
+                    sukuriamas jūsų domeno vardu [8].</li>
+                <li><strong>Nulis papildomų kaštų ir infrastruktūros.</strong></li>
+            </ul>
+
+            <blockquote>
+                <strong>Didžioji „Safari Web Inspector“ iliuzija:</strong> jei atsidarysite „Safari“ kūrėjo įrankius (<em>Web Inspector &rarr; Storage &rarr; Cookies</em>), pamatysite, kad <code>_ga</code> slapuko stulpelyje <em>Expires</em> rodoma data po metų ar dvejų (pvz., 2027 m.). <strong>Neapsigaukite:</strong> „Web Inspector“ rodo tik tai, kokio termino paprašė pats „Google“ skriptas, o ne kada naršyklė jį ištrins. „WebKit ITP“ variklis nekeičia rodomos datos lentelėje – jis slapuką tyliai išvalo savo vidiniu mechanizmu po <strong>7 dienų</strong> be sąveikos su svetaine (arba po 24 valandų, jei atvykta per reklamą) [3].
+            </blockquote>
+
+            <!-- ===== 3. KAIP ĮDIEGTI ===== -->
+
+            <h2>3. Kaip įdiegti per 10 minučių</h2>
+
+            <p>Reikia „Cloudflare“ zonos, per kurią eina jūsų svetainė, ir „Google“ žymos ID (<code>G-…</code>,
+                <code>GT-…</code> arba <code>GTM-…</code>).</p>
+
+            <ol>
+                <li><strong>„Cloudflare“ skydelis.</strong> Pasirinkite domeną ir eikite į <strong>Delivery &amp;
+                        Performance</strong> &rarr; <strong>Web tag management</strong> &rarr; <strong>Google Tag
+                        Gateway</strong>.
+                </li>
+                <li><strong>Nustatymai.</strong> Įjunkite <strong>„Turn on and configure Google tag gateway“</strong>,
+                    įveskite žymos ID ir pasirinkite <strong>Measurement path</strong>: nenaudojamą kelią savo svetainėje
+                    (pvz., <code>/okp0</code>, <code>/metrics</code> ar <code>/gtg</code>). Atskiro subdomeno ar DNS įrašo
+                    kurti nereikia, tai tiesiog vidinis URL kelias jūsų domene. Paspauskite <strong>Save</strong>.
+                </li>
+                <li><strong>Svetainės kodas.</strong> HTML žymoje nurodykite savo kelią:
+
+                    <pre><code>&lt;!-- 1. Skripto šaltinis per jūsų domeno kelią --&gt;
+&lt;script async src="/okp0/gtag/js?id=G-MM3XFZX1JX"&gt;&lt;/script&gt;
+
+&lt;!-- 2. Matavimo užklausos į tą patį kelią --&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MM3XFZX1JX', {
+    transport_url: window.location.origin + '/okp0',
+    first_party_collection: true
+  });
+&lt;/script&gt;</code></pre>
+
+                    <p>Naudojate „Google Tag Manager“? Skripto adresas analogiškas:
+                        <code>src="/okp0/gtm.js?id=GTM-XXXXXX"</code>.
+                    </p>
+                </li>
+                <li><strong>Sutikimas ir „Consent Mode v2“.</strong> Gateway nėra būdas apeiti sutikimą (žr. žemiau), todėl
+                    prieš sutikimą visos kategorijos turi būti <code>denied</code>:
+
+                    <pre><code>gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'wait_for_update': 500
+});</code></pre>
+
+                    <p>Žymą kraukite tik po sutikimo. Su slapukų valdymo įrankiu tai atrodo taip:</p>
+
+                    <pre><code>&lt;script type="text/plain" data-cookiecategory="analytics" async
+    src="/okp0/gtag/js?id=G-MM3XFZX1JX"&gt;&lt;/script&gt;
+&lt;script type="text/plain" data-cookiecategory="analytics"&gt;
+    gtag('config', 'G-MM3XFZX1JX', {
+        transport_url: window.location.origin + '/okp0',
+        first_party_collection: true
+    });
+&lt;/script&gt;</code></pre>
+
+                    <p>Kai lankytojas paspaudžia „Sutinku“, įrankis iškviečia
+                        <code>gtag('consent', 'update', { 'analytics_storage': 'granted' })</code>. Jei sutikimas
+                        atšaukiamas, <code>_ga</code> ir <code>_ga_*</code> slapukai turi būti ištrinami, o
+                        <code>analytics_storage</code> grąžinamas į <code>denied</code> [13].</p>
+                </li>
+                <li><strong>Kaip įsitikinti, kad užklausos sėkmingai eina per tarpinį serverį:</strong>
+                    <ul>
+                        <li>Atidarykite naršyklės kūrėjo įrankius (<em>Web Inspector / DevTools</em>) ir pereikite į skiltį <strong>Network</strong>.</li>
+                        <li>Filtre įrašykite savo parinktą kelią (pvz., <code>/okp0</code>).</li>
+                        <li>Turite matyti, kad skriptas (<code>/okp0/gtag/js</code>) ir matavimo duomenys (<code>/okp0/g/collect</code>) grąžina statusą <strong>200 OK</strong> ir keliauja tiesiai į jūsų domeną.</li>
+                        <li>Atsidarykite „Google Analytics 4“: skiltyje <em>Reports &rarr; Realtime</em> iš karto turite matyti savo apsilankymą.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <p>Pastabos, kurios sutaupo valandų: Gateway konfigūruojamas visai „Cloudflare“ zonai ir pakeičia esamą GTM
+                skriptą, todėl būtina teisingai sukonfigūruoti „Consent Mode“ [10]. Per jūsų domeną keliauja tik
+                <em>dalis</em> matavimo užklausų [11], todėl neatsisakykite „Google“ domenų CSP taisyklėse nepasitikrinę
+                realių užklausų DevTools skiltyje <em>Network</em>.</p>
+
+            <p><strong>Kur klientai dažniausiai suklysta:</strong></p>
+            <ul>
+                <li>WAF taisyklė užblokuoja matavimo kelią, ir duomenys tyliai nustoja keliauti;</li>
+                <li>pasirenkamas kelias, kuris jau naudojamas svetainėje;</li>
+                <li>žyma pakraunama dar prieš sutikimą;</li>
+                <li>nepakeista CSP arba GTM ir <code>gtag.js</code> sumaišyti viename puslapyje.</li>
+            </ul>
+
+            <h3>Gateway nėra sutikimo apėjimas</h3>
+
+            <p>Dažnas klausimas: „jei viskas eina per mano domeną, ar galiu rinkti duomenis be slapukų pranešimo?“
+                <strong>Ne.</strong> Pagal BDAR ir Elektroninių ryšių įstatymo 61 straipsnį nebūtinų slapukų ar kitų
+                identifikatorių saugojimui įrenginyje reikia ankstesnio, informuoto ir aktyvaus sutikimo, nesvarbu, ar tai
+                pirmosios ar trečiosios šalies slapukas. Gateway padeda atkurti duomenų kokybę tų lankytojų, kurie
+                <strong>sutiko</strong>, o ne apeiti jų valią.</p>
+
+            <!-- ===== CTA INLINE ===== -->
+
+            <div
+                style="border: 2px solid var(--border); border-radius: 12px; box-shadow: 4px 4px 0 var(--shadow); padding: 20px 24px; margin: 32px 0; background: var(--bg-warm);">
+                <p style="margin: 0 0 12px; font-weight: 600; font-size: 1.15rem;">Ar norite deleguoti užduotį mums?</p>
+                <p style="margin: 0 0 16px;">Sukonfigūruosime „Cloudflare“ Gateway, „Consent Mode“ ir patikrinsime rezultatą
+                    „Safari“ naršyklėje už jus.</p>
+                <a href="/konsultacijos/" class="btn btn-primary" style="color: #ffffff !important; text-decoration: none;">Registruotis</a>
+            </div>
+
+            <!-- ===== 4. KADA UŽTENKA ===== -->
+
+            <h2>4. Kada užtenka Gateway, o kada reikia daugiau</h2>
+
+            <p>Slapukas, kuris „Safari“ gyvena ilgai, turi būti nustatytas <strong>HTTP atsakymo antraštėje
+                    (<code>Set-Cookie</code>)</strong> serverio, kuris naršyklei atrodo kaip tikra pirmoji šalis: tas pats
+                domenas ir ta pati IP adresų aplinka. Praktiškai tai reiškia <strong>server-side GTM</strong>, pasiekiamą
+                jūsų pagrindiniame domene, arba <strong>savo „Cloudflare Worker“</strong>, kuris atsakyme nustato
+                pirmosios šalies identifikatorių. „Cloudflare“ priima užklausas tais pačiais IP adresais kaip ir jūsų
+                svetainė, todėl tokia schema nesukelia IP maskavimo įtarimų.</p>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 0.9em;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--border); text-align: left; background: var(--bg-warm);">
+                        <th style="padding: 10px;">Sprendimas</th>
+                        <th style="padding: 10px;">Blokatoriai</th>
+                        <th style="padding: 10px;">Kaina ir sudėtingumas</th>
+                        <th style="padding: 10px;">Kam tinka</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid var(--border-light);">
+                        <td style="padding: 10px;"><strong>Klasikinis gtag.js</strong></td>
+                        <td style="padding: 10px;">Lengvai blokuojamas</td>
+                        <td style="padding: 10px;">Nemokamas, paprasčiausias</td>
+                        <td style="padding: 10px;">Kai tikslumas nėra prioritetas</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-light);">
+                        <td style="padding: 10px;"><strong>Google Tag Gateway (Cloudflare)</strong></td>
+                        <td style="padding: 10px; font-weight: bold; color: #1a7a34;">Atsparesnis</td>
+                        <td style="padding: 10px;">Nemokamas, keli paspaudimai</td>
+                        <td style="padding: 10px;">Pirmas žingsnis beveik visiems</td>
+                    </tr>
+                    <tr style="background: var(--green-light);">
+                        <td style="padding: 10px;"><strong>Gateway + server-side GTM / Worker su
+                                <code>Set-Cookie</code></strong></td>
+                        <td style="padding: 10px; font-weight: bold; color: #1a7a34;">Atsparesnis</td>
+                        <td style="padding: 10px;">Mokama infrastruktūra, daugiau darbo</td>
+                        <td style="padding: 10px;">Didelė „Safari“ dalis, svarbi atribucija</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Viena pastaba: Gateway nėra saugumo priemonė ir neapsaugo nuo XSS, o IP adresų nuasmeninimą galima
+                kontroliuoti tik server-side sprendimuose. Atliekant poveikio duomenų apsaugai vertinimą (DPIA) tai reikia
+                nurodyti atskirai.</p>
+
+            <h2>Ką daryti dabar</h2>
+
+            <ol>
+                <li><strong>Pažiūrėkite savo „Safari“ dalį</strong> GA4 <em>Tech &rarr; Browsers</em>. Kuo ji didesnė, tuo
+                    daugiau duomenų prarandate.</li>
+                <li><strong>Įjunkite Gateway</strong> pagal 3 skyrių. Tai nemokama ir užtrunka kelias minutes.</li>
+                <li><strong>Patikrinkite tarpinį serverį:</strong> naršyklės <em>Network</em> skiltyje įsitikinkite, kad užklausos sėkmingai siunčiamos per jūsų nurodytą kelią (statusas 200 OK) ir duomenys pasiekia GA4 <em>Realtime</em> ataskaitą.</li>
+                <li><strong>Jei „Safari“ vis tiek ribojama,</strong> pereikite prie <code>Set-Cookie</code> sprendimo
+                    (server-side GTM ar Worker).</li>
+            </ol>
+
+            <!-- ===== ŠALTINIAI ===== -->
+
+            <h2>Šaltiniai</h2>
+            <ol>
+                <li><a href="https://radar.cloudflare.com/reports/browser-market-share-2025-q4" target="_blank"
+                        rel="noopener">Cloudflare Radar — Browser Market Share 2025 Q4</a></li>
+                <li><a href="https://webkit.org/blog/8613/intelligent-tracking-prevention-2-1/" target="_blank"
+                        rel="noopener">WebKit.org — Intelligent Tracking Prevention 2.1 (7 dienų slapukų riba)</a></li>
+                <li><a href="https://webkit.org/tracking-prevention/" target="_blank" rel="noopener">WebKit.org —
+                        Tracking Prevention in WebKit</a></li>
+                <li><a href="https://webkit.org/blog/8828/intelligent-tracking-prevention-2-2/" target="_blank"
+                        rel="noopener">WebKit.org — Intelligent Tracking Prevention 2.2 (24 valandų riba nuorodų
+                        dekoravimui)</a></li>
+                <li><a href="https://webkit.org/blog/10218/full-third-party-cookie-blocking-and-more/" target="_blank"
+                        rel="noopener">WebKit.org — Full Third-Party Cookie Blocking and More</a></li>
+                <li><a href="https://webkit.org/blog/11338/cname-cloaking-and-bounce-tracking-defense/" target="_blank"
+                        rel="noopener">WebKit.org — CNAME Cloaking and Bounce Tracking Defense</a></li>
+                <li><a href="https://developers.cloudflare.com/google-tag-gateway/" target="_blank"
+                        rel="noopener">Cloudflare Docs — Google tag gateway for advertisers</a></li>
+                <li><a href="https://blog.cloudflare.com/google-tag-gateway-for-advertisers/" target="_blank"
+                        rel="noopener">Cloudflare Blog — First-party tags in seconds: Cloudflare integrates Google tag
+                        gateway for advertisers</a></li>
+                <li><a href="https://developers.google.com/tag-platform/tag-manager/gateway" target="_blank"
+                        rel="noopener">Google for Developers — Google tag gateway for advertisers</a></li>
+                <li><a href="https://support.google.com/tagmanager/answer/16061406" target="_blank"
+                        rel="noopener">Google Tag Manager Help — Set up Google tag gateway for advertisers with
+                        Cloudflare</a></li>
+                <li><a href="https://developers.google.com/tag-platform/tag-manager/gateway/setup-guide" target="_blank"
+                        rel="noopener">Google for Developers — Set up Google tag gateway for advertisers</a></li>
+                <li><a href="https://support.google.com/analytics/answer/11397207" target="_blank" rel="noopener">Google
+                        Analytics Help — Cookie usage on websites</a></li>
+                <li><a href="https://developers.google.com/tag-platform/security/guides/consent" target="_blank"
+                        rel="noopener">Google for Developers — Consent Mode</a></li>
+            </ol>
+
+        </div>
+    </section>
+
+    <!-- CTA / BOOKING -->
+    <section class="cta-section" id="kontaktai">
+        <div class="container">
+            <div class="section-label">Pradėkime</div>
+            <h2 class="section-title">Reikia pagalbos su „Cloudflare“ ir analitikos konfigūracija?</h2>
+            <p>Peržiūrėsime Jūsų „Cloudflare“ zoną, „Google Tag Gateway“, „Consent Mode“ ir „Safari“ slapukų
+                galiojimą. Pasakysime, ką galite pasitaisyti patys, o kur verta pasitelkti pagalbą.
+            </p>
+
+            <a href="/konsultacijos/" class="btn btn-primary">Registruotis konsultacijai</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container" style="text-align:center">Atakos vektorius</div>
+    </footer>
+
+    <script defer src="/js/cookieconsent-loader.js"></script>
+
+</body>
+
+</html>

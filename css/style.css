@@ -800,6 +800,12 @@ footer a:hover {
     text-decoration: underline;
 }
 
+.blog-content .btn,
+.blog-content .btn:hover {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
 .blog-content ol a {
     color: var(--text-muted);
     font-weight: 400;

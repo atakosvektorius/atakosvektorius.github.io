@@ -331,14 +331,13 @@
         gtag('js', new Date());
     </script>
 
-    <!-- Pagrindinis puslapis: standartinis Google gtag (be Google Tag Gateway), analytics sutikimas būtinas -->
-    <!-- <script type="text/plain" data-cookiecategory="analytics" async src="/okp0/gtag/js?id=G-MM3XFZX1JX"></script> -->
-
-    <script type="text/plain" data-cookiecategory="analytics" async
-        src="https://googletagmanager.com/gtag/js?id=G-MM3XFZX1JX"></script>
-
+    <!-- Užkraunama tik po analytics sutikimo iš PIRMOSIOS ŠALIES domain'o (per Google Tag Gateway) -->
+    <script type="text/plain" data-cookiecategory="analytics" async src="/okp0/gtag/js?id=G-MM3XFZX1JX"></script>
     <script type="text/plain" data-cookiecategory="analytics">
-        gtag('config', 'G-MM3XFZX1JX');
+        gtag('config', 'G-MM3XFZX1JX', {
+            transport_url: window.location.origin + '/okp0',
+            first_party_collection: true
+        });
     </script>
 </head>
 
